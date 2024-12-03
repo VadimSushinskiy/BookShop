@@ -1,5 +1,4 @@
-﻿
-namespace BookShop.DAL.Models;
+﻿namespace BookShop.DAL.Models;
 
 public partial class Book
 {

@@ -1,5 +1,4 @@
-﻿
-namespace BookShop.DAL.Models;
+﻿namespace BookShop.DAL.Models;
 
 public partial class User
 {
@@ -18,4 +17,6 @@ public partial class User
     public virtual Cart Cart { get; set; } = null!;
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+
+    public virtual ICollection<OrderStatus> Orders { get; set; } = new List<OrderStatus>();
 }

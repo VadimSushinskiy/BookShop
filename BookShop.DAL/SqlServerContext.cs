@@ -12,6 +12,7 @@ namespace BookShop.DAL
         }
 
         private readonly IConfiguration _configuration;
+
         public virtual DbSet<Author> Authors { get; set; }
 
         public virtual DbSet<Book> Books { get; set; }
@@ -19,6 +20,8 @@ namespace BookShop.DAL
         public virtual DbSet<Cart> Carts { get; set; }
 
         public virtual DbSet<Order> Orders { get; set; }
+
+        public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
 
         public virtual DbSet<Publishing> Publishings { get; set; }
 
@@ -44,6 +47,11 @@ namespace BookShop.DAL
                 entity.HasOne(d => d.Book).WithMany(p => p.Orders).HasForeignKey(d => d.BookId);
 
                 entity.HasOne(d => d.Cart).WithMany(p => p.Orders).HasForeignKey(d => d.CartId);
+            });
+
+            modelBuilder.Entity<OrderStatus>(entity =>
+            {
+                entity.HasOne(d => d.User).WithMany(p => p.Orders).HasForeignKey(d => d.UserId);
             });
 
             modelBuilder.Entity<Review>(entity =>
