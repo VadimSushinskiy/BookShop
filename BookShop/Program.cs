@@ -1,8 +1,4 @@
-using BookShop.DAL;
-
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<SqlServerContext>();
 
 builder.Services.AddControllers();
 

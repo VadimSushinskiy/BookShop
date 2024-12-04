@@ -4,10 +4,14 @@ namespace BookShop.DAL.Interfaces
 {
     public interface IBookDAL
     {
-        BookDTO? GetById(int id);
+        Task<BookDTO?> GetById(int id);
 
-        BookDTO? GetByName(string name);
+        Task<IEnumerable<BookDTO>> GetWithFilterAndPagination(FilterDTO filter, int pageNumber, int pageSize);
 
-        IEnumerable<BookDTO> GetWithFilterAndPagination(FilterDTO filter, int pageNumber, int pageSize);
+        Task Create(BookDTO dto);
+
+        Task Update(BookDTO dto);
+
+        Task Delete(int id);
     }
 }

@@ -65,7 +65,8 @@ namespace BookShop.DAL
             {
                 entity.HasOne(d => d.Cart).WithOne(p => p.User).HasForeignKey<User>(d => d.CartId);
             });
-
         }
+
+
     }
 }
