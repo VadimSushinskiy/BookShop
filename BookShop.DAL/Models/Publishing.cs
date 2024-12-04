@@ -1,6 +1,6 @@
 ﻿namespace BookShop.DAL.Models;
 
-public partial class Publishing
+public class Publishing
 {
     public int Id { get; set; }
 

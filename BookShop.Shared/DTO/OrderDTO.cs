@@ -6,6 +6,6 @@
 
         public int Count { get; set; }
 
-        public BookDTO Book { get; set; } = null!;
+        public BookDTO Book { get; set; }
     }
 }

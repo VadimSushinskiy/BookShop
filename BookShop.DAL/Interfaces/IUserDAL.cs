@@ -6,6 +6,8 @@ namespace BookShop.DAL.Interfaces
     {
         Task<UserDTO?> Get(string email, string password);
 
-        
+        Task Create(UserDTO user);
+
+
     }
 }

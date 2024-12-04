@@ -4,6 +4,8 @@ namespace BookShop.DAL.Interfaces
 {
     public interface ICartDAL
     {
-        CartDTO GetById(int id);
+        Task<CartDTO> GetById(int id);
+
+        Task<int> Create();
     }
 }

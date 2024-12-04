@@ -34,5 +34,102 @@ namespace BookShop.DAL.Tools
             book.Volume = bootDto.Volume;
             book.Language = bootDto.Language;
         }
+
+        public static UserDTO? MapToDTO(this User? user)
+        {
+            if (user == null) return null;
+
+            return new UserDTO
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Password = user.Password,
+                Role = user.Role
+            };
+        }
+
+        public static void MapFromDTO(this User user, UserDTO? userDto)
+        {
+            if (userDto == null) return;
+
+            user.Name = userDto.Name;
+            user.Email = userDto.Email;
+            user.Password = userDto.Password;
+            user.Role = userDto.Role;
+        }
+
+        public static ReviewDTO? MapToDTO(this Review? review)
+        {
+            if (review == null) return null;
+
+            return new ReviewDTO
+            {
+                Text = review.Text,
+                Rating = review.Rating,
+                UserName = review.User.Name
+            };
+        }
+
+        public static void MapFromDTO(this Review review, ReviewDTO? reviewDto)
+        {
+            if (reviewDto == null) return;
+
+            review.Text = reviewDto.Text;
+            review.Rating = reviewDto.Rating;
+        }
+
+        public static OrderStatusDTO? MapToDTO(this OrderStatus? orderStatus)
+        {
+            if (orderStatus == null) return null;
+
+            return new OrderStatusDTO
+            {
+                Id = orderStatus.Id,
+                TotalPrice = orderStatus.TotalPrice,
+                Status = orderStatus.Status,
+                CreatedDate = orderStatus.CreatedDate,
+            };
+        }
+
+        public static void MapFromDTO(this OrderStatus orderStatus, OrderStatusDTO orderStatusDto)
+        {
+            if (orderStatus == null) return;
+
+            orderStatus.TotalPrice = orderStatusDto.TotalPrice;
+            orderStatus.Status = orderStatusDto.Status;
+            orderStatus.CreatedDate = orderStatusDto.CreatedDate;
+        }
+
+        public static OrderDTO? MapToDTO(this Order? order)
+        {
+            if (order == null) return null;
+
+            return new OrderDTO
+            {
+                Id = order.Id,
+                Count = order.Count,
+                Book = order.Book.MapToDTO()
+            };
+        }
+
+        public static void MapFromDTO(this Order order, OrderDTO? orderDto)
+        {
+            if (order == null) return;
+
+            order.Count = orderDto.Count;
+            order.BookId = orderDto.Book.Id;
+        }
+
+        public static CartDTO? MapToDTO(this Cart? cart)
+        {
+            if (cart == null) return null;
+
+            return new CartDTO
+            {
+                Id = cart.Id,
+                TotalPrice = cart.TotalPrice,
+                Orders = cart.Orders.Select(order => order.MapToDTO()).ToList()
+            };
+        }
     }
 }

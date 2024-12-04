@@ -1,6 +1,6 @@
 ﻿namespace BookShop.DAL.Models;
 
-public partial class Author
+public class Author
 {
     public int Id { get; set; }
 

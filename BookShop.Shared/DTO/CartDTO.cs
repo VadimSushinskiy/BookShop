@@ -6,6 +6,6 @@
 
         public decimal TotalPrice { get; set; }
 
-        public IEnumerable<OrderDTO> Orders { get; set; } = null!;
+        public IEnumerable<OrderDTO> Orders { get; set; }
     }
 }

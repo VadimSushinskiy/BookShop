@@ -6,7 +6,7 @@
 
         public decimal TotalPrice { get; set; }
 
-        public string Status { get; set; } = null!;
+        public string Status { get; set; }
 
         public DateTime CreatedDate { get; set; }
     }

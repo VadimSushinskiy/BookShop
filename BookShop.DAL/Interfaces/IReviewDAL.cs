@@ -4,6 +4,8 @@ namespace BookShop.DAL.Interfaces
 {
     public interface IReviewDAL
     {
-        IEnumerable<ReviewDTO> GetWithPagination(int pageNumber, int pageSize);
+        Task<IEnumerable<ReviewDTO>> GetWithPagination(int bookId, int pageNumber, int pageSize);
+
+        Task Create(ReviewDTO review, int userId, int bookId);
     }
 }

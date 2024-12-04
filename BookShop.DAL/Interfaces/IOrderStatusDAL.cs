@@ -1,7 +1,11 @@
-﻿namespace BookShop.DAL.Interfaces
+﻿using BookShop.Shared.DTO;
+
+namespace BookShop.DAL.Interfaces
 {
     public interface IOrderStatusDAL
     {
-        IEnumerable<IOrderStatusDAL> GetByUserId(int userId);
+        Task<IEnumerable<OrderStatusDTO>> GetByUserId(int userId);
+
+        Task Create(OrderStatusDTO orderStatus, int userId);
     }
 }
