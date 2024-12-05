@@ -8,18 +8,22 @@ namespace BookShop.DAL.Implementations
 {
     public class ReviewDAL : IReviewDAL
     {
+        public ReviewDAL(SqlServerContext context)
+        {
+            _context = context;
+        }
+
+        private readonly SqlServerContext _context;
+
         public async Task<IEnumerable<ReviewDTO>> GetWithPagination(int bookId, int pageNumber, int pageSize)
         {
-            using (SqlServerContext context = new SqlServerContext())
-            {
-                return await context.Reviews.Include(review => review.User)
-                    .AsNoTracking()
-                    .Where(review => review.BookId == bookId)
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .Select(review => review.MapToDTO())
-                    .ToListAsync();
-            }
+            return await _context.Reviews.Include(review => review.User)
+                .AsNoTracking()
+                .Where(review => review.BookId == bookId)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(review => review.MapToDTO())
+                .ToListAsync();
         }
 
         public async Task Create(ReviewDTO reviewDto, int userId, int bookId)
@@ -29,11 +33,8 @@ namespace BookShop.DAL.Implementations
             review.UserId = userId;
             review.BookId = bookId;
 
-            using (SqlServerContext context = new SqlServerContext())
-            {
-                context.Attach(review);
-                await context.SaveChangesAsync();
-            }
+            _context.Attach(review);
+            await _context.SaveChangesAsync();
         }
     }
 }

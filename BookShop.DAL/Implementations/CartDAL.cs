@@ -8,16 +8,20 @@ namespace BookShop.DAL.Implementations
 {
     public class CartDAL : ICartDAL
     {
+        public CartDAL(SqlServerContext context)
+        {
+            _context = context;
+        }
+
+        private readonly SqlServerContext _context;
+
         public async Task<CartDTO> GetById(int id)
         {
-            using (SqlServerContext context = new SqlServerContext())
-            {
-                return await context.Carts
-                    .AsNoTracking()
-                    .Where(cart => cart.Id == id)
-                    .Select(cart => cart.MapToDTO())
-                    .SingleAsync();
-            }
+            return await _context.Carts
+                .AsNoTracking()
+                .Where(cart => cart.Id == id)
+                .Select(cart => cart.MapToDTO())
+                .SingleAsync();
         }
 
         public async Task<int> Create()
@@ -27,12 +31,9 @@ namespace BookShop.DAL.Implementations
                 TotalPrice = 0
             };
 
-            using (SqlServerContext context = new SqlServerContext())
-            {
-                context.Carts.Attach(cart);
-                await context.SaveChangesAsync();
-                return cart.Id;
-            }
+            _context.Carts.Attach(cart);
+            await _context.SaveChangesAsync();
+            return cart.Id;
         }
     }
 }

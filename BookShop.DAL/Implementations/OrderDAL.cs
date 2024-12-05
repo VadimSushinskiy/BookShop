@@ -8,62 +8,58 @@ namespace BookShop.DAL.Implementations
 {
     public class OrderDAL : IOrderDAL
     {
+        public OrderDAL(SqlServerContext context)
+        {
+            _context = context;
+        }
+
+        private readonly SqlServerContext _context;
+
         public async Task Create(OrderDTO orderDTO, int cartId)
         {
-            using (SqlServerContext context = new SqlServerContext())
+            Order? checkOrder = await _context.Orders
+                .Where(order => order.CartId == cartId && order.BookId == orderDTO.Book.Id)
+                .FirstOrDefaultAsync();
+            if (checkOrder != null)
             {
-                Order? checkOrder = await context.Orders
-                    .Where(order => order.CartId == cartId && order.BookId == orderDTO.Book.Id)
-                    .FirstOrDefaultAsync();
-                if (checkOrder != null)
-                {
-                    checkOrder.Count++;
-                    await context.SaveChangesAsync();
-                }
-                else
-                {
-                    Order order = new Order();
-                    order.MapFromDTO(orderDTO);
-                    order.CartId = cartId;
-                    context.Orders.Attach(order);
+                checkOrder.Count++;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                Order order = new Order();
+                order.MapFromDTO(orderDTO);
+                order.CartId = cartId;
+                _context.Orders.Attach(order);
 
-                    await context.SaveChangesAsync();
-                }
+                await _context.SaveChangesAsync();
             }
         }
 
         public async Task Delete(int orderId)
         {
-            using (SqlServerContext context = new SqlServerContext())
-            {
-                await context.Orders
-                    .Where(order => order.Id == orderId)
-                    .ExecuteDeleteAsync();
-            }
+            await _context.Orders
+                .Where(order => order.Id == orderId)
+                .ExecuteDeleteAsync();
         }
 
         public async Task ChangeCount(int orderId, int change)
         {
-            using (SqlServerContext context = new SqlServerContext())
+            Order? order = await _context.Orders.
+                Where(order => order.Id == orderId)
+                .FirstOrDefaultAsync();
+            if (order != null)
             {
-                Order? order = await context.Orders.
-                    Where(order => order.Id == orderId)
-                    .FirstOrDefaultAsync();
-                if (order != null)
+                if (change > 0 || order.Count > 1)
                 {
-                    if (change > 0 || order.Count > 1)
-                    {
-                        order.Count += change;
-                    }
-                    else
-                    {
-                        context.Orders.Remove(order);
-                    }
-                    await context.SaveChangesAsync();
+                    order.Count += change;
                 }
+                else
+                {
+                    _context.Orders.Remove(order);
+                }
+                await _context.SaveChangesAsync();
             }
-
-
         }
     }
 }

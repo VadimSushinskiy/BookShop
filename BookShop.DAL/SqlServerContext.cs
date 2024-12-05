@@ -6,9 +6,9 @@ namespace BookShop.DAL
 {
     public class SqlServerContext : DbContext
     {
-        public SqlServerContext()
+        public SqlServerContext(IConfiguration configuration)
         {
-            
+            _configuration = configuration;
         }
 
         private readonly IConfiguration _configuration;
@@ -31,7 +31,7 @@ namespace BookShop.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=bookshopdb;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("SqlServer"));
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

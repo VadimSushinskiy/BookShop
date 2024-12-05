@@ -8,16 +8,20 @@ namespace BookShop.DAL.Implementations
 {
     public class OrderStatusDAL : IOrderStatusDAL
     {
+        public OrderStatusDAL(SqlServerContext context)
+        {
+            _context = context;
+        }
+
+        private readonly SqlServerContext _context;
+
         public async Task<IEnumerable<OrderStatusDTO>> GetByUserId(int userId)
         {
-            using (SqlServerContext context = new SqlServerContext())
-            {
-                return await context.OrderStatuses
-                    .AsNoTracking()
-                    .Where(status => status.UserId == userId)
-                    .Select(status => status.MapToDTO())
-                    .ToListAsync();
-            }
+            return await _context.OrderStatuses
+                .AsNoTracking()
+                .Where(status => status.UserId == userId)
+                .Select(status => status.MapToDTO())
+                .ToListAsync();
         }
 
         public async Task Create(OrderStatusDTO orderStatusDto, int userId)
@@ -26,12 +30,9 @@ namespace BookShop.DAL.Implementations
             orderStatus.MapFromDTO(orderStatusDto);
             orderStatus.UserId = userId;
 
-            using (SqlServerContext context = new SqlServerContext())
-            {
-                context.OrderStatuses.Attach(orderStatus);
+            _context.OrderStatuses.Attach(orderStatus);
 
-                await context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
         }
     }
 }
