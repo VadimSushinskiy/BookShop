@@ -15,7 +15,7 @@ namespace BookShop.DAL.Implementations
 
         private readonly SqlServerContext _context;
 
-        public async Task Create(OrderDTO orderDTO, int cartId)
+        public async Task Create(OrderDTO orderDTO, string cartId)
         {
             Order? checkOrder = await _context.Orders
                 .Where(order => order.CartId == cartId && order.BookId == orderDTO.Book.Id)

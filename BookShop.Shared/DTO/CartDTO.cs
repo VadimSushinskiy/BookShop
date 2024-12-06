@@ -2,7 +2,7 @@
 {
     public class CartDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public decimal TotalPrice { get; set; }
 

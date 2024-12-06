@@ -41,6 +41,7 @@ namespace BookShop.DAL.Implementations
 
             Cart cart = new Cart
             {
+                Id = Guid.NewGuid().ToString(),
                 TotalPrice = 0,
                 User = newUser
             };

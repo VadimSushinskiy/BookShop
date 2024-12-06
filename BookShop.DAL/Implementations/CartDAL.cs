@@ -15,7 +15,7 @@ namespace BookShop.DAL.Implementations
 
         private readonly SqlServerContext _context;
 
-        public async Task<CartDTO> GetById(int id)
+        public async Task<CartDTO?> GetById(string id)
         {
             return await _context.Carts
                 .AsNoTracking()
@@ -24,16 +24,17 @@ namespace BookShop.DAL.Implementations
                 .SingleAsync();
         }
 
-        public async Task<int> Create()
+        public async Task<CartDTO> Create()
         {
             Cart cart = new Cart
             {
+                Id = Guid.NewGuid().ToString(),
                 TotalPrice = 0
             };
 
             await _context.Carts.AddAsync(cart);
             await _context.SaveChangesAsync();
-            return cart.Id;
+            return cart.MapToDTO()!;
         }
     }
 }

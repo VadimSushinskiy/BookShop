@@ -12,7 +12,7 @@ public class User
 
     public string Role { get; set; } = null!;
 
-    public int CartId { get; set; }
+    public string CartId { get; set; }
 
     public virtual Cart Cart { get; set; } = null!;
 

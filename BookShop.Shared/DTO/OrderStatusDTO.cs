@@ -2,7 +2,7 @@
 {
     public class OrderStatusDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public decimal TotalPrice { get; set; }
 

@@ -4,7 +4,7 @@ namespace BookShop.DAL.Interfaces
 {
     public interface IOrderDAL
     {
-        Task Create(OrderDTO orderDTO, int cartId);
+        Task Create(OrderDTO orderDTO, string cartId);
 
         Task Delete(int orderId);
 

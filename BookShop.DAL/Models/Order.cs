@@ -8,7 +8,7 @@ public class Order
 
     public int BookId { get; set; }
 
-    public int CartId { get; set; }
+    public string CartId { get; set; }
 
     public virtual Book Book { get; set; } = null!;
 
