@@ -47,8 +47,8 @@ namespace BookShop.DAL.Implementations
 
             newUser.Cart = cart;
 
-            _context.Users.Attach(newUser);
-            _context.Carts.Attach(cart);
+            await _context.Users.AddAsync(newUser);
+            await _context.Carts.AddAsync(cart);
                 
             await _context.SaveChangesAsync();
         }

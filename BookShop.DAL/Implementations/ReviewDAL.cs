@@ -33,7 +33,7 @@ namespace BookShop.DAL.Implementations
             review.UserId = userId;
             review.BookId = bookId;
 
-            _context.Attach(review);
+            await _context.AddAsync(review);
             await _context.SaveChangesAsync();
         }
     }

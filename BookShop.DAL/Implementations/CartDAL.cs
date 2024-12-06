@@ -31,7 +31,7 @@ namespace BookShop.DAL.Implementations
                 TotalPrice = 0
             };
 
-            _context.Carts.Attach(cart);
+            await _context.Carts.AddAsync(cart);
             await _context.SaveChangesAsync();
             return cart.Id;
         }

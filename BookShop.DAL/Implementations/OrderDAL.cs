@@ -30,7 +30,7 @@ namespace BookShop.DAL.Implementations
                 Order order = new Order();
                 order.MapFromDTO(orderDTO);
                 order.CartId = cartId;
-                _context.Orders.Attach(order);
+                await _context.Orders.AddAsync(order);
 
                 await _context.SaveChangesAsync();
             }

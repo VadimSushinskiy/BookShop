@@ -60,7 +60,7 @@ namespace BookShop.DAL.Implementations
             book.MapFromDTO(BookDto);
             book.Author = author;
             book.Publishing = publishing;
-            _context.Books.Attach(book);
+            await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
         }
 

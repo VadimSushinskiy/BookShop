@@ -1,5 +1,6 @@
 using BookShop.DAL.Interfaces;
 using BookShop.Shared.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShop.BLL.Controllers
@@ -37,6 +38,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(BookDTO bookDto)
         {
             try
@@ -52,6 +54,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update(BookDTO bookDto)
         {
             try
@@ -67,6 +70,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _bookDal.Delete(id);

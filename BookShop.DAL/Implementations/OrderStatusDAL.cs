@@ -30,7 +30,7 @@ namespace BookShop.DAL.Implementations
             orderStatus.MapFromDTO(orderStatusDto);
             orderStatus.UserId = userId;
 
-            _context.OrderStatuses.Attach(orderStatus);
+            await _context.OrderStatuses.AddAsync(orderStatus);
 
             await _context.SaveChangesAsync();
         }
