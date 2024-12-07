@@ -20,6 +20,12 @@ namespace BookShop.DAL.Implementations
             return await _context.Carts
                 .AsNoTracking()
                 .Where(cart => cart.Id == id)
+                .Include(cart => cart.Orders)
+                    .ThenInclude(order => order.Book)
+                        .ThenInclude(book => book.Author)
+                .Include(cart => cart.Orders)
+                    .ThenInclude(order => order.Book)
+                        .ThenInclude(book => book.Publishing)
                 .Select(cart => cart.MapToDTO())
                 .SingleAsync();
         }

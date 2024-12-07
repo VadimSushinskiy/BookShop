@@ -23,7 +23,6 @@ namespace BookShop.DAL.Implementations
             if (checkOrder != null)
             {
                 checkOrder.Count++;
-                await _context.SaveChangesAsync();
             }
             else
             {
@@ -31,9 +30,12 @@ namespace BookShop.DAL.Implementations
                 order.MapFromDTO(orderDTO);
                 order.CartId = cartId;
                 await _context.Orders.AddAsync(order);
-
-                await _context.SaveChangesAsync();
             }
+            await _context.SaveChangesAsync();
+
+            await _context.Carts
+                .Where(cart => cart.Id == cartId)
+                .ExecuteUpdateAsync(cart => cart.SetProperty(c => c.TotalPrice, c => c.TotalPrice + orderDTO.Book.Price));
         }
 
         public async Task Delete(int orderId)
@@ -47,6 +49,7 @@ namespace BookShop.DAL.Implementations
         {
             Order? order = await _context.Orders.
                 Where(order => order.Id == orderId)
+                .Include(order => order.Book)
                 .FirstOrDefaultAsync();
             if (order != null)
             {
@@ -59,6 +62,10 @@ namespace BookShop.DAL.Implementations
                     _context.Orders.Remove(order);
                 }
                 await _context.SaveChangesAsync();
+
+                await _context.Carts
+                .Where(cart => cart.Id == order.CartId)
+                .ExecuteUpdateAsync(cart => cart.SetProperty(c => c.TotalPrice, c => c.TotalPrice + order.Book.Price * change));
             }
         }
     }

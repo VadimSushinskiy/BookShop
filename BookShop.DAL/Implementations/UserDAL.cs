@@ -15,11 +15,11 @@ namespace BookShop.DAL.Implementations
 
         private readonly SqlServerContext _context;
 
-        public async Task<UserDTO?> Get(string email, string password)
+        public async Task<UserDTO?> Get(string email)
         {
             return await _context.Users
                 .AsNoTracking()
-                .Where(user => user.Email == email && user.Password == password)
+                .Where(user => user.Email == email)
                 .Select(user => user.MapToDTO())
                 .FirstOrDefaultAsync();
         }
@@ -42,8 +42,7 @@ namespace BookShop.DAL.Implementations
             Cart cart = new Cart
             {
                 Id = Guid.NewGuid().ToString(),
-                TotalPrice = 0,
-                User = newUser
+                TotalPrice = 0
             };
 
             newUser.Cart = cart;
@@ -51,6 +50,14 @@ namespace BookShop.DAL.Implementations
             await _context.Users.AddAsync(newUser);
             await _context.Carts.AddAsync(cart);
                 
+            await _context.SaveChangesAsync();
+
+            Cart newCart = await _context.Carts
+                .Where(cart => cart.Id == newUser.CartId)
+                .FirstAsync();
+
+            newCart.UserId = newUser.Id;
+
             await _context.SaveChangesAsync();
         }
     }

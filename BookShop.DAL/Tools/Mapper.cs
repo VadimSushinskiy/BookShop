@@ -44,7 +44,8 @@ namespace BookShop.DAL.Tools
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                Role = user.Role
+                Role = user.Role,
+                CartId = user.CartId,
             };
         }
 

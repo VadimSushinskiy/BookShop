@@ -1,4 +1,5 @@
-using BookShop.BLL.Tools;
+using BookShop.BLL.Tools.Implementations;
+using BookShop.BLL.Tools.Interfaces;
 using BookShop.DAL;
 using BookShop.DAL.Implementations;
 using BookShop.DAL.Interfaces;
@@ -42,7 +43,8 @@ builder.Services.AddTransient<IOrderStatusDAL, OrderStatusDAL>();
 builder.Services.AddTransient<IReviewDAL, ReviewDAL>();
 builder.Services.AddTransient<IUserDAL, UserDAL>();
 
-builder.Services.AddTransient<JwtProvider>();
+builder.Services.AddTransient<IJwtProvider, JwtProvider>();
+builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 
 builder.Services.AddControllers();
 

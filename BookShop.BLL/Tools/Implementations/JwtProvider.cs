@@ -1,12 +1,13 @@
-﻿using BookShop.Shared.DTO;
+﻿using BookShop.BLL.Tools.Interfaces;
+using BookShop.Shared.DTO;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace BookShop.BLL.Tools
+namespace BookShop.BLL.Tools.Implementations
 {
-    public class JwtProvider
+    public class JwtProvider : IJwtProvider
     {
         public JwtProvider(IConfiguration configuration)
         {
@@ -18,7 +19,7 @@ namespace BookShop.BLL.Tools
         public string GenerateToken(UserDTO user)
         {
             var options = _configuration.GetSection("JwtOptions");
-            Claim[] claims = [new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name), new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)];
+            Claim[] claims = [new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name), new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role), new Claim("cartId", user.CartId)];
 
             JwtSecurityToken token = new JwtSecurityToken(
                 claims: claims,
