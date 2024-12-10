@@ -20,6 +20,7 @@ namespace BookShop.DAL.Implementations
             return await _context.Reviews.Include(review => review.User)
                 .AsNoTracking()
                 .Where(review => review.BookId == bookId)
+                .OrderByDescending(review => review.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .Select(review => review.MapToDTO())

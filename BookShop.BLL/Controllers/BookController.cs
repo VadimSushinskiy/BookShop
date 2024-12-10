@@ -28,7 +28,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookDTO>>> Get(FilterDTO filter, int pageNumber, int pageSize)
+        public async Task<ActionResult<IEnumerable<BookDTO>>> Get([FromQuery]FilterDTO filter,  int pageNumber, int pageSize)
         {
             if (pageNumber <= 0 || pageSize <= 0)
             {

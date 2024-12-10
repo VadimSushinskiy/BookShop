@@ -46,9 +46,21 @@ builder.Services.AddTransient<IUserDAL, UserDAL>();
 builder.Services.AddTransient<IJwtProvider, JwtProvider>();
 builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 
+builder.Services.AddCors(option =>
+{
+    option.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:3000");
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 
@@ -63,6 +75,8 @@ app.UseCookiePolicy(new CookiePolicyOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+
 
 app.MapControllers();
 

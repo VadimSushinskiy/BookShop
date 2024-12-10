@@ -19,7 +19,7 @@ namespace BookShop.BLL.Tools.Implementations
         public string GenerateToken(UserDTO user)
         {
             var options = _configuration.GetSection("JwtOptions");
-            Claim[] claims = [new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name), new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role), new Claim("cartId", user.CartId)];
+            Claim[] claims = [new Claim("userId", user.Id.ToString()), new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name), new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role), new Claim("cartId", user.CartId)];
 
             JwtSecurityToken token = new JwtSecurityToken(
                 claims: claims,

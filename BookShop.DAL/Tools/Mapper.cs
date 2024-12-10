@@ -41,6 +41,7 @@ namespace BookShop.DAL.Tools
 
             return new UserDTO
             {
+                Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
@@ -65,6 +66,7 @@ namespace BookShop.DAL.Tools
 
             return new ReviewDTO
             {
+                Id = review.Id,
                 Text = review.Text,
                 Rating = review.Rating,
                 UserName = review.User.Name

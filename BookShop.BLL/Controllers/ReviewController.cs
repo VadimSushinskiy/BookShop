@@ -1,7 +1,9 @@
 ﻿using BookShop.DAL.Interfaces;
 using BookShop.Shared.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BookShop.BLL.Controllers
 {
@@ -28,10 +30,24 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPost("{bookId}")]
-        public async Task<IActionResult> Create(ReviewDTO reviewDto, int userId, int bookId)
+        [Authorize]
+        public async Task<IActionResult> Create(ReviewDTO reviewDto, int bookId)
         {
+            int userId;
+            string userName;
+            try
+            {
+                userId = int.Parse(HttpContext.User.FindFirst(claim => claim.Type == "userId")?.Value);
+                userName = HttpContext.User.FindFirst(claim => claim.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            }
+            catch
+            {
+                return BadRequest();
+            }
             await _reviewDal.Create(reviewDto, userId, bookId);
-            return Created();
+
+            reviewDto.UserName = userName;
+            return Ok(reviewDto);
         }
     }
 }

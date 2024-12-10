@@ -4,6 +4,8 @@ namespace BookShop.Shared.DTO
 {
     public class ReviewDTO
     {
+        public int? Id { get; set; }
+
         [Required]
         public string Text { get; set; }
 
