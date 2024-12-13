@@ -53,6 +53,7 @@ builder.Services.AddCors(option =>
         policy.WithOrigins("http://localhost:3000");
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
+        policy.AllowCredentials();
     });
 });
 
@@ -68,8 +69,7 @@ app.UseHttpsRedirection();
 
 app.UseCookiePolicy(new CookiePolicyOptions
 {
-    MinimumSameSitePolicy = SameSiteMode.Strict,
-    HttpOnly = HttpOnlyPolicy.Always,
+    MinimumSameSitePolicy = SameSiteMode.None,
     Secure = CookieSecurePolicy.Always
 });
 

@@ -1,5 +1,6 @@
 import {useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 const SingleBook = () => {
     const params = useParams();
@@ -8,36 +9,37 @@ const SingleBook = () => {
     const [book, setBook] = useState(undefined);
     const [review, setReview] = useState([]);
     const [pageNum, setPageNum] = useState(1);
+    const [text, setText] = useState("")
+    const [rating, setRating] = useState("")
 
     const LoadReview = async () => {
-        const res = await fetch(`https://localhost:7259/api/review/${params.id}?pageNumber=${pageNum}&pageSize=1`);
-        if (res.ok) {
-            const json = await res.json();
-            setReview([...review, ...json]);
+        const response = await axios.get(`https://localhost:7259/api/review/${params.id}`, {
+            params: {
+                pageNumber: pageNum,
+                pageSize: 1
+            }
+        });
+        if (response.status === 200) {
+            setReview([...review, ...response.data]);
             setPageNum(pageNum + 1);
         }
     }
 
     const SubmitHandler = async () => {
-        const res = await fetch(`https://localhost:7259/api/review/${params.id}`, {
-            method: "POST",
-            body: {
-                text: "",
-                rating: 1
-            }
+        const response = await axios.post(`https://localhost:7259/api/review/${params.id}`, {
+            text: text,
+            rating: Number(rating)
         });
-        if (res.ok) {
-            const json = await res.json();
-            setReview([json, ...review])
+        if (response.status === 200) {
+            setReview([response.data, ...review])
         }
     }
 
     useEffect(() => {
         (async () => {
-            const resBook = await fetch(`https://localhost:7259/api/book/${params.id}`);
-            if (resBook.ok) {
-                const jsonBook = await resBook.json();
-                setBook(jsonBook);
+            const response = await axios.get(`https://localhost:7259/api/book/${params.id}`);
+            if (response.status === 200) {
+                setBook(response.data);
                 await LoadReview();
             }
             else {
@@ -72,9 +74,14 @@ const SingleBook = () => {
                     SubmitHandler();
                 }}>
                     <span>Оцінка: </span>
-                    <input type="number" min="1" max="5"/>
+                    <input type="number" required min="1" max="5" value={rating} onChange={(e) => {
+                        const val = e.target.value;
+                        if (val.length < 2 && "12345".includes(val)) {
+                            setRating(val);
+                        }
+                    }}/>
                     <p>Ваш відгук: </p>
-                    <textarea></textarea>
+                    <textarea value={text} onChange={(e) => setText(e.target.value)}></textarea>
                     <div>
                         <button type="Submit">Додати</button>
                     </div>

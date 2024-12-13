@@ -9,8 +9,6 @@ const Home = () => {
         setFilter({...prop});
     }
 
-
-
     return (
         <>
             <Filter onSubmit={onSubmitHandler}/>

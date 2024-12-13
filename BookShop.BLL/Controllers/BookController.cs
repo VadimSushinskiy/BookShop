@@ -33,7 +33,7 @@ namespace BookShop.BLL.Controllers
             if (pageNumber <= 0 || pageSize <= 0)
             {
                 return BadRequest();
-            } 
+            }
             return Ok(await _bookDal.GetWithFilterAndPagination(filter, pageNumber, pageSize));
         }
 

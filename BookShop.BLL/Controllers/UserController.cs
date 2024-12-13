@@ -1,10 +1,12 @@
 ﻿using BookShop.BLL.Models;
 using BookShop.DAL.Interfaces;
 using BookShop.Shared.DTO;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using BookShop.BLL.Tools.Interfaces;
+using System.Text.Json;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BookShop.BLL.Controllers
 {
@@ -12,11 +14,12 @@ namespace BookShop.BLL.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        public UserController(IUserDAL userDal, IJwtProvider jwtProvider, IPasswordHasher passwordHasher)
+        public UserController(IUserDAL userDal, IJwtProvider jwtProvider, IPasswordHasher passwordHasher, IConfiguration configuration)
         {
             _userDal = userDal;
             _jwtProvider = jwtProvider;
             _passwordHasher = passwordHasher;
+            _configuration = configuration;
         }
 
         private readonly IUserDAL _userDal;
@@ -24,6 +27,8 @@ namespace BookShop.BLL.Controllers
         private readonly IJwtProvider _jwtProvider;
 
         private readonly IPasswordHasher _passwordHasher;
+
+        private readonly IConfiguration _configuration;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserDTO userDto)
@@ -53,10 +58,20 @@ namespace BookShop.BLL.Controllers
             }
 
             string token = _jwtProvider.GenerateToken(user);
+            var options = _configuration.GetSection("JwtOptions");
 
-            HttpContext.Response.Cookies.Append("token", token);
+            HttpContext.Response.Cookies.Append("token", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddHours(double.Parse(options["ExpiresHours"]!))
+            });
+            HttpContext.Response.Cookies.Append("userInfo", JsonSerializer.Serialize(new { name = user.Name, role = user.Role, cartId = user.CartId }), new CookieOptions
+            {
+                HttpOnly = false,
+                Expires = DateTime.UtcNow.AddHours(double.Parse(options["ExpiresHours"]!))
+            });
 
-            return Ok(new { name = user.Name, role = user.Role, cartId = user.CartId });
+            return Ok();
         }
 
         [HttpGet("logout")]
@@ -66,6 +81,10 @@ namespace BookShop.BLL.Controllers
             if (HttpContext.Request.Cookies["token"] != null)
             {
                 HttpContext.Response.Cookies.Delete("token");
+            }
+            if (HttpContext.Request.Cookies["userInfo"] != null)
+            {
+                HttpContext.Response.Cookies.Delete("userInfo");
             }
             return Ok();
         }

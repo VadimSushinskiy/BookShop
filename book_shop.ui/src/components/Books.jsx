@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import Book from "./Book";
+import axios from "axios";
 
 const Books = (prop) => {
     const {name, minPrice, maxPrice, genre, language, authorName} = prop;
@@ -7,12 +8,21 @@ const Books = (prop) => {
     const [pageNum, setPageNum] = useState(1)
 
     const DownloadBooks = async (page) => {
-        const res = await fetch(`https://localhost:7259/api/book?pageNumber=${page}&pageSize=1
-        &Name=${name}&minPrice=${minPrice}&maxPrice=${maxPrice}&Genre=${genre}&Language=${language}&AuthorName=${authorName}`);
-        const json = await res.json();
-        setBooks(prev => [...prev, ...json])
+        const response = await axios.get(`https://localhost:7259/api/book`,
+            {
+                params: {
+                    pageNumber: page,
+                    pageSize: 1,
+                    Name: name,
+                    minPrice,
+                    maxPrice,
+                    Genre: genre,
+                    Language: language,
+                    AuthorName: authorName
+                }
+            });
+        setBooks(prev => [...prev, ...response.data])
         setPageNum(prev => prev + 1)
-        console.log(1)
     }
 
     useEffect(() => {
