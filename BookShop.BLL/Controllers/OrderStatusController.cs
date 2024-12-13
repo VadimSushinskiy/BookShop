@@ -17,19 +17,20 @@ namespace BookShop.BLL.Controllers
 
         private readonly IOrderStatusDAL _orderStatusDal;
 
-        [HttpGet("{userId}")]
+        [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<OrderStatusDTO>>> Get(int userId)
+        public async Task<ActionResult<IEnumerable<OrderStatusDTO>>> Get()
         {
+            int userId = int.Parse(HttpContext.User.FindFirst(claim => claim.Type == "userId").Value);
             return Ok(await _orderStatusDal.GetByUserId(userId));
         }
 
-        [HttpPost("{userId}")]
-        [Authorize]
-        public async Task<IActionResult> Create(OrderStatusDTO orderStatus, int userId)
+        [HttpPost("{cartId}")]
+        public async Task<IActionResult> Create(OrderStatusDTO orderStatus, string cartId)
         {
-            await _orderStatusDal.Create(orderStatus, userId);
-
+            var claim = HttpContext.User.FindFirst(claim => claim.Type == "userId");
+            int? userId = claim != null ? int.Parse(claim.Value) : null;
+            await _orderStatusDal.Create(orderStatus, userId, cartId);
             return Created();
         }
     }

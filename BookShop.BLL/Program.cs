@@ -63,8 +63,6 @@ var app = builder.Build();
 
 app.UseCors();
 
-// Configure the HTTP request pipeline.
-
 app.UseHttpsRedirection();
 
 app.UseCookiePolicy(new CookiePolicyOptions

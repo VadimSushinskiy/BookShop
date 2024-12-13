@@ -24,13 +24,24 @@ namespace BookShop.DAL.Implementations
                 .ToListAsync();
         }
 
-        public async Task Create(OrderStatusDTO orderStatusDto, int userId)
+        public async Task Create(OrderStatusDTO orderStatusDto, int? userId, string cartId)
         {
             OrderStatus orderStatus = new OrderStatus();
             orderStatus.MapFromDTO(orderStatusDto);
-            orderStatus.UserId = userId;
+            if (userId != null)
+            {
+                orderStatus.UserId = userId;
+            }
 
             await _context.OrderStatuses.AddAsync(orderStatus);
+
+            await _context.Carts
+                .Where(cart => cart.Id == cartId)
+                .ExecuteUpdateAsync(cart => cart.SetProperty(c => c.TotalPrice, 0));
+
+            await _context.Orders
+                .Where(order => order.CartId == cartId)
+                .ExecuteDeleteAsync();
 
             await _context.SaveChangesAsync();
         }

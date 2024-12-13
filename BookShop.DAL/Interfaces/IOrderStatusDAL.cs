@@ -6,6 +6,6 @@ namespace BookShop.DAL.Interfaces
     {
         Task<IEnumerable<OrderStatusDTO>> GetByUserId(int userId);
 
-        Task Create(OrderStatusDTO orderStatus, int userId);
+        Task Create(OrderStatusDTO orderStatus, int? userId, string cartId);
     }
 }

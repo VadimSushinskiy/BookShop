@@ -40,15 +40,25 @@ namespace BookShop.DAL.Implementations
 
         public async Task Delete(int orderId)
         {
-            await _context.Orders
+            Order? order = await _context.Orders
                 .Where(order => order.Id == orderId)
-                .ExecuteDeleteAsync();
+                .Include(order => order.Book)
+                .FirstOrDefaultAsync();
+            if (order != null)
+            {
+                await _context.Carts
+                .Where(cart => cart.Id == order.CartId)
+                .ExecuteUpdateAsync(cart => cart.SetProperty(c => c.TotalPrice, c => c.TotalPrice - order.Book.Price * order.Count));
+
+                _context.Orders.Remove(order);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task ChangeCount(int orderId, int change)
         {
-            Order? order = await _context.Orders.
-                Where(order => order.Id == orderId)
+            Order? order = await _context.Orders
+                .Where(order => order.Id == orderId)
                 .Include(order => order.Book)
                 .FirstOrDefaultAsync();
             if (order != null)

@@ -1,12 +1,16 @@
-import {useState} from "react";
+import {useState, useContext} from "react";
 import {useNavigate} from "react-router-dom"
 import axios from "axios";
+import UserContext from "../context/UserContext";
+import GetUser from "../tools/GetUser";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [disabled, setDisabled] = useState(false);
+
+    const {setUser} = useContext(UserContext);
 
     const navigator = useNavigate();
 
@@ -21,15 +25,18 @@ const Login = () => {
             setError("Помилка! Введіть пошту у правильному форматі!")
         }
         else {
-            const res = await axios.post("https://localhost:7259/api/user/login", {
-                email,
-                password
-            }, {withCredentials: true});
+            try {
+                const res = await axios.post("https://localhost:7259/api/user/login", {
+                    email,
+                    password
+                }, {withCredentials: true});
 
-            if (res.status === 200) {
-                navigator("..", {relative: "path"});
+                if (res.status === 200) {
+                    setUser(GetUser());
+                    navigator("..", {relative: "path"});
+                }
             }
-            else {
+            catch {
                 setError("Помилка! Неправильна пошта або пароль!");
             }
         }
