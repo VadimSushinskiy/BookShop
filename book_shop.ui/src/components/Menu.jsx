@@ -21,6 +21,7 @@ const Menu = () => {
             {!user && <Link to="login">Login</Link>}
             {!user && <Link to="register">Register</Link>}
             {user && <Link to="statuses">Orders</Link>}
+            {user?.role === "Admin" && <Link to="admin">Admin</Link>}
             <Link to="cart">Cart</Link>
             {user && <span onClick={exitHandler}>Вийти</span>}
         </nav>

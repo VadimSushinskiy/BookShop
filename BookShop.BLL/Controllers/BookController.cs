@@ -38,7 +38,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(BookDTO bookDto)
         {
             try
@@ -54,7 +54,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(BookDTO bookDto)
         {
             try
@@ -70,7 +70,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _bookDal.Delete(id);

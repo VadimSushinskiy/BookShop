@@ -1,17 +1,25 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import {useState} from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
 import GetUser from "./tools/GetUser";
 import UserContext from "./context/UserContext";
 import MainLayout from "./layouts/MainLayout";
 import Home from "./components/Home";
-import SingleBook from "./components/SingleBook"
-import Login from "./components/Login"
-import Register from "./components/Register";
-import Cart from "./components/Cart";
+import SingleBook from "./components/Books/SingleBook"
+import Login from "./components/Auth/Login"
+import Register from "./components/Auth/Register";
+import Cart from "./components/Cart/Cart";
+import OrderStatuses from "./components/OrderStatus/OrderStatuses";
+import AdminPanel from "./components/Admin/AdminPanel";
+import AddBook from "./components/Admin/Book/AddBook";
+import ChangeBook from "./components/Admin/Book/ChangeBook";
+import DeleteBook from "./components/Admin/Book/DeleteBook";
 import './App.css';
-import Cookies from "js-cookie";
-import axios from "axios";
-import OrderStatuses from "./components/OrderStatuses";
+import AddAuthor from "./components/Admin/Author/AddAuthor";
+import AddPublishing from "./components/Admin/Publishing/AddPublishing";
+import ChangeAuthor from "./components/Admin/Author/ChangeAuthor";
+import ChangePublishing from "./components/Admin/Publishing/ChangePublishing";
 
 
 function App() {
@@ -38,6 +46,14 @@ function App() {
                           <Route path="register" element={<Register/>}/>
                           <Route path="cart" element={<Cart/>}/>
                           <Route path="statuses" element={<OrderStatuses/>}/>
+                          <Route path="admin" element={<AdminPanel/>}/>
+                          <Route path="admin/book/add" element={<AddBook/>}/>
+                          <Route path="admin/book/change" element={<ChangeBook/>}/>
+                          <Route path="admin/book/delete" element={<DeleteBook/>}/>
+                          <Route path="admin/author/add" element={<AddAuthor/>}/>
+                          <Route path="admin/author/change" element={<ChangeAuthor/>}/>
+                          <Route path="admin/publishing/add" element={<AddPublishing/>}/>
+                          <Route path="admin/publishing/change" element={<ChangePublishing/>}/>
                       </Route>
                   </Routes>
               </div>

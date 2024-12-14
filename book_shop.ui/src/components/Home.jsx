@@ -1,6 +1,6 @@
-import Books from "./Books";
+import Books from "./Books/Books";
 import {useState} from "react";
-import Filter from "./Filter";
+import Filter from "./Books/Filter";
 
 const Home = () => {
     const [filter, setFilter] = useState({name: "", minPrice: 0, maxPrice: 10000, genre: "", language: "", authorName: ""});

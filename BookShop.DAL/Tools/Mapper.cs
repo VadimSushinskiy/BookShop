@@ -138,5 +138,43 @@ namespace BookShop.DAL.Tools
                 Orders = cart.Orders.Select(order => order.MapToDTO()).ToList()
             };
         }
+
+        public static void MapFromDTO(this Author author, AuthorDTO? authorDto)
+        {
+            if (author == null) return;
+
+            author.Fullname = authorDto.Fullname;
+            author.Country = authorDto.Country;
+        }
+
+        public static AuthorDTO? MapToDTO(this Author? author)
+        {
+            if (author == null) return null;
+
+            return new AuthorDTO
+            {
+                Fullname = author.Fullname,
+                Country = author.Country
+            };
+        }
+
+        public static void MapFromDTO(this Publishing publishing, PublishingDTO? publishingDto)
+        {
+            if (publishing == null) return;
+
+            publishing.Name = publishingDto.Name;
+            publishing.Country = publishingDto.Country;
+        }
+
+        public static PublishingDTO? MapToDTO(this Publishing? publishing)
+        {
+            if (publishing == null) return null;
+
+            return new PublishingDTO
+            {
+                Name = publishing.Name,
+                Country = publishing.Country
+            };
+        }
     }
 }

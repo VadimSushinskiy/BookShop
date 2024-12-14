@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import UserContext from "../context/UserContext";
+import UserContext from "../../context/UserContext";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Order from "./Order";

@@ -39,7 +39,7 @@ const Books = (prop) => {
                 })}
             </div>
             <button onClick={() => DownloadBooks(pageNum)}>
-                Click me!
+                Показати ще
             </button>
         </>
     )

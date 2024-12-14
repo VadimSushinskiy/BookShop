@@ -42,6 +42,8 @@ builder.Services.AddTransient<IOrderDAL, OrderDAL>();
 builder.Services.AddTransient<IOrderStatusDAL, OrderStatusDAL>();
 builder.Services.AddTransient<IReviewDAL, ReviewDAL>();
 builder.Services.AddTransient<IUserDAL, UserDAL>();
+builder.Services.AddTransient<IAuthorDAL, AuthorDAL>();
+builder.Services.AddTransient<IPublishingDAL, PublishingDAL>();
 
 builder.Services.AddTransient<IJwtProvider, JwtProvider>();
 builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
@@ -73,8 +75,6 @@ app.UseCookiePolicy(new CookiePolicyOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 
 app.MapControllers();
 

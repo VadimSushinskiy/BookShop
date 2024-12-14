@@ -20,7 +20,7 @@ namespace BookShop.DAL.Implementations
             return await _context.Books.Include(book => book.Author).Include(book => book.Publishing)
                 .AsNoTracking()
                 .Where(book => book.Id == id)
-                .Select(x => x.MapToDTO())
+                .Select(book => book.MapToDTO())
                 .SingleOrDefaultAsync();
         }
 
@@ -58,8 +58,8 @@ namespace BookShop.DAL.Implementations
 
             Book book = new Book();
             book.MapFromDTO(BookDto);
-            book.Author = author;
-            book.Publishing = publishing;
+            book.AuthorId = author.Id;
+            book.PublishingId = publishing.Id;
             await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
         }

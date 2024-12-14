@@ -1,7 +1,7 @@
 import {useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState, useContext} from "react";
 import axios from "axios";
-import UserContext from "../context/UserContext";
+import UserContext from "../../context/UserContext";
 import Cookies from "js-cookie";
 
 const SingleBook = () => {
@@ -77,12 +77,14 @@ const SingleBook = () => {
 
     useEffect(() => {
         (async () => {
-            const response = await axios.get(`https://localhost:7259/api/book/${params.id}`);
-            if (response.status === 200) {
-                setBook(response.data);
-                await LoadReview();
+            try {
+                const response = await axios.get(`https://localhost:7259/api/book/${params.id}`);
+                if (response.status === 200) {
+                    setBook(response.data);
+                    await LoadReview();
+                }
             }
-            else {
+            catch {
                 navigate("..", {relative: "path"});
             }
         })();
