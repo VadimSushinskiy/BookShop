@@ -20,11 +20,13 @@ public class Book
 
     public int PublishingId { get; set; }
 
-    public virtual Author Author { get; set; } = null!;
+    public Author Author { get; set; } = null!;
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public Publishing Publishing { get; set; } = null!;
 
-    public virtual Publishing Publishing { get; set; } = null!;
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+    public ICollection<Review> Reviews { get; set; } = new List<Review>();
+
+    public ICollection<Image> Images { get; set; } = new List<Image>();
 }

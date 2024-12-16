@@ -15,12 +15,19 @@ const AddBook = () => {
         authorName: "",
         publishingName: "",
         volume: 0,
-        price: 0
+        price: 0,
+        imgFile: null
     });
     const [error, setError] = useState("");
 
     const handleChange = (event, name) => {
-        setData({...data, [name]: event.target.value});
+        if (name !== "imgFile") {
+            setData({...data, [name]: event.target.value});
+        }
+        else {
+            console.log(event.target.files[0]);
+            setData({...data, [name]: event.target.files[0]});
+        }
     }
 
     const AddHandler = async () => {
@@ -58,25 +65,33 @@ const AddBook = () => {
                 <input type="text" placeholder="Назва" value={data.name} onChange={(e) => handleChange(e, "name")}/>
             </div>
             <div>
-                <textarea placeholder="Опис" value={data.description} onChange={(e) => handleChange(e, "description")}></textarea>
+                <textarea placeholder="Опис" value={data.description}
+                          onChange={(e) => handleChange(e, "description")}></textarea>
             </div>
             <div>
                 <input type="text" placeholder="Жанр" value={data.genre} onChange={(e) => handleChange(e, "genre")}/>
             </div>
             <div>
-                <input type="text" placeholder="Мова" value={data.language} onChange={(e) => handleChange(e, "language")}/>
+                <input type="text" placeholder="Мова" value={data.language}
+                       onChange={(e) => handleChange(e, "language")}/>
             </div>
             <div>
-                <input type="text" placeholder="Ім'я автора" value={data.authorName} onChange={(e) => handleChange(e, "authorName")}/>
+                <input type="text" placeholder="Ім'я автора" value={data.authorName}
+                       onChange={(e) => handleChange(e, "authorName")}/>
             </div>
             <div>
-                <input type="text" placeholder="Назва видавництва" value={data.publishingName} onChange={(e) => handleChange(e, "publishingName")}/>
+                <input type="text" placeholder="Назва видавництва" value={data.publishingName}
+                       onChange={(e) => handleChange(e, "publishingName")}/>
             </div>
             <div>
-                <input type="number" placeholder="Кількість сторінок" value={data.volume} onChange={(e) => handleChange(e, "volume")}/>
+                <input type="number" placeholder="Кількість сторінок" value={data.volume}
+                       onChange={(e) => handleChange(e, "volume")}/>
             </div>
             <div>
                 <input type="number" placeholder="Ціна" value={data.price} onChange={(e) => handleChange(e, "price")}/>
+            </div>
+            <div>
+                <input type="file" onChange={(e) => handleChange(e, "imgFile")}/>
             </div>
             <button onClick={AddHandler}>Додати</button>
         </div>

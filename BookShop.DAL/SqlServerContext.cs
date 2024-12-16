@@ -29,6 +29,8 @@ namespace BookShop.DAL
 
         public virtual DbSet<User> Users { get; set; }
 
+        public virtual DbSet<Image> Images { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_configuration.GetConnectionString("SqlServer"));
@@ -64,6 +66,11 @@ namespace BookShop.DAL
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasOne(d => d.Cart).WithOne(p => p.User).HasForeignKey<User>(d => d.CartId);
+            });
+
+            modelBuilder.Entity<Image>(entity =>
+            {
+                entity.HasOne(d => d.Book).WithMany(p => p.Images).HasForeignKey(d => d.BookId);
             });
         }
 

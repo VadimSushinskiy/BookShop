@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookShop.Shared.DTO
+namespace BookShop.BLL.Models
 {
-    public class BookDTO
+    public class ResponseBook
     {
         public int Id { get; set; }
 
@@ -31,6 +30,8 @@ namespace BookShop.Shared.DTO
         [Required]
         public string PublishingName { get; set; }
 
-        public List<ImageDTO> Images { get; set; }
+        public string MainImageSrc { get; set; }
+
+        public List<string> ImgFilesSrc { get; set; } = new List<string>();
     }
 }

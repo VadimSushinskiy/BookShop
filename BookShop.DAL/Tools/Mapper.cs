@@ -19,7 +19,8 @@ namespace BookShop.DAL.Tools
                 Volume = book.Volume,
                 Language = book.Language,
                 AuthorName = book.Author.Fullname,
-                PublishingName = book.Publishing.Name
+                PublishingName = book.Publishing.Name,
+                Images = book.Images.Select(image => image.MapToDTO()).ToList()
             };
         }
 
@@ -174,6 +175,20 @@ namespace BookShop.DAL.Tools
             {
                 Name = publishing.Name,
                 Country = publishing.Country
+            };
+        }
+
+        public static Image MapFromDTO(this ImageDTO imageDto, int bookId)
+        {
+            return new Image { IsMain = imageDto.IsMain, BookId = bookId };
+        }
+
+        public static ImageDTO MapToDTO(this Image image)
+        {
+            return new ImageDTO
+            {
+                Id = image.Id,
+                IsMain = image.IsMain
             };
         }
     }

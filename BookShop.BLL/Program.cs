@@ -47,6 +47,7 @@ builder.Services.AddTransient<IPublishingDAL, PublishingDAL>();
 
 builder.Services.AddTransient<IJwtProvider, JwtProvider>();
 builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
+builder.Services.AddTransient<IFileHelper, FileHelper>();
 
 builder.Services.AddCors(option =>
 {
@@ -62,6 +63,8 @@ builder.Services.AddCors(option =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseStaticFiles();
 
 app.UseCors();
 

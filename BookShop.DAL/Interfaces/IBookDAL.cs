@@ -6,12 +6,12 @@ namespace BookShop.DAL.Interfaces
     {
         Task<BookDTO?> GetById(int id);
 
-        Task<IEnumerable<BookDTO>> GetWithFilterAndPagination(FilterDTO filter, int pageNumber, int pageSize);
+        Task<List<BookDTO>> GetWithFilterAndPagination(FilterDTO filter, int pageNumber, int pageSize);
 
-        Task Create(BookDTO dto);
+        Task<List<int>> Create(BookDTO dto);
 
-        Task Update(BookDTO dto);
+        Task<(List<int>, List<int>)> Update(BookDTO dto);
 
-        Task Delete(int id);
+        Task<List<int>> Delete(int id);
     }
 }
