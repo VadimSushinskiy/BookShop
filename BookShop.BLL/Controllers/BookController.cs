@@ -38,7 +38,7 @@ namespace BookShop.BLL.Controllers
 
             foreach (ImageDTO image in book.Images)
             {
-                result.ImgFilesSrc.Add(await _fileHelper.GetPathById(image.Id));
+                result.ImgFilesSrc.Add(await _fileHelper.GetPathByIdClient(image.Id));
             }
 
             return Ok(result);
@@ -63,7 +63,7 @@ namespace BookShop.BLL.Controllers
 
             for (int i = 0; i < result.Count(); i++)
             {
-                result[i].MainImageSrc = await _fileHelper.GetPathById(books[i].Images[0].Id);
+                result[i].MainImageSrc = await _fileHelper.GetPathByIdClient(books[i].Images[0].Id);
             }
 
             return Ok(result);

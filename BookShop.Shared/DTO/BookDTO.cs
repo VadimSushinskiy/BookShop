@@ -31,6 +31,6 @@ namespace BookShop.Shared.DTO
         [Required]
         public string PublishingName { get; set; }
 
-        public List<ImageDTO> Images { get; set; }
+        public List<ImageDTO> Images { get; set; } = new List<ImageDTO>();
     }
 }

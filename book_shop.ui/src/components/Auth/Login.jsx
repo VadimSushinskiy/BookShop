@@ -1,8 +1,9 @@
 import {useState, useContext} from "react";
-import {useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../context/UserContext";
 import GetUser from "../../tools/GetUser";
+import config from "../../../config.json";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -26,7 +27,7 @@ const Login = () => {
         }
         else {
             try {
-                const res = await axios.post("https://localhost:7259/api/user/login", {
+                const res = await axios.post(`${config.SERVER_URL}/user/login`, {
                     email,
                     password
                 }, {withCredentials: true});

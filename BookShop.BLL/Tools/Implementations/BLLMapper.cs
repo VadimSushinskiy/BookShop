@@ -4,7 +4,7 @@ using BookShop.Shared.DTO;
 
 namespace BookShop.BLL.Tools.Implementations
 {
-    public static class BookMapper
+    public static class BLLMapper
     {
         public static BookDTO MapToDto(this FormBook book)
         {
@@ -33,6 +33,7 @@ namespace BookShop.BLL.Tools.Implementations
 
         public static void MapFromDto(this ResponseBook book, BookDTO bookDto)
         {
+            book.Id = bookDto.Id;
             book.Name = bookDto.Name;
             book.Description = bookDto.Description;
             book.Genre = bookDto.Genre;
@@ -41,6 +42,18 @@ namespace BookShop.BLL.Tools.Implementations
             book.PublishingName = bookDto.PublishingName;
             book.Volume = bookDto.Volume;
             book.Price = bookDto.Price;
+        }
+
+        public static ResponseCart MapFromDto(this CartDTO cart)
+        {
+            ResponseCart response = new ResponseCart();
+
+            response.Id = cart.Id;
+            response.TotalPrice = cart.TotalPrice;
+
+            response.Orders = cart.Orders.Select(order => new ResponseOrder { Id = order.Id, Count = order.Count, Book = order.Book }).ToList();
+
+            return response;
         }
     }
 }

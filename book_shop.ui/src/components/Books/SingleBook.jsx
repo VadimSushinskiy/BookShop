@@ -1,8 +1,9 @@
 import {useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState, useContext} from "react";
 import axios from "axios";
-import UserContext from "../../context/UserContext";
 import Cookies from "js-cookie";
+import UserContext from "../../context/UserContext";
+import config from "../../../config.json"
 
 const SingleBook = () => {
     const params = useParams();
@@ -20,7 +21,7 @@ const SingleBook = () => {
     const {user} = useContext(UserContext);
 
     const LoadReview = async () => {
-        const response = await axios.get(`https://localhost:7259/api/review/${params.id}`, {
+        const response = await axios.get(`${config.SERVER_URL}/review/${params.id}`, {
             params: {
                 pageNumber: pageNum,
                 pageSize: 1
@@ -35,7 +36,7 @@ const SingleBook = () => {
     const BuyBook = async () => {
         setDisabledBuy(true);
         const cartId = user !== null ? user.cartId : Cookies.get("anonCartId");
-        const response = await axios.post(`https://localhost:7259/api/order/${cartId}`, {
+        const response = await axios.post(`${config.SERVER_URL}/order/${cartId}`, {
             count: 1,
             book
         });
@@ -54,7 +55,7 @@ const SingleBook = () => {
                 setError("Оберіть оцінку!")
             }
             else {
-                const response = await axios.post(`https://localhost:7259/api/review/${params.id}`, {
+                const response = await axios.post(`${config.SERVER_URL}/review/${params.id}`, {
                     text: text,
                     rating: Number(rating)
                 }, {
@@ -78,7 +79,7 @@ const SingleBook = () => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`https://localhost:7259/api/book/${params.id}`);
+                const response = await axios.get(`${config.SERVER_URL}/book/${params.id}`);
                 if (response.status === 200) {
                     setBook(response.data);
                     await LoadReview();
@@ -93,6 +94,7 @@ const SingleBook = () => {
     if (book) {
         return (
             <>
+                {book.imgFilesSrc.map(image => <img src={`${config.IMAGE_SERVICE_URL}/${image}`} alt="book" width="200px" key={image}/>)}
                 <div>{book.name} by {book.authorName}</div>
                 <div>{book.description}</div>
                 <div>Genre: {book.genre}</div>

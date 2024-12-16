@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
-import Book from "./Book";
 import axios from "axios";
+import Book from "./Book";
+import config from "../../../config.json"
 
 const Books = (prop) => {
     const {name, minPrice, maxPrice, genre, language, authorName} = prop;
@@ -8,11 +9,11 @@ const Books = (prop) => {
     const [pageNum, setPageNum] = useState(1)
 
     const DownloadBooks = async (page) => {
-        const response = await axios.get(`https://localhost:7259/api/book`,
+        const response = await axios.get(`${config.SERVER_URL}/book`,
             {
                 params: {
                     pageNumber: page,
-                    pageSize: 1,
+                    pageSize: 3,
                     Name: name,
                     minPrice,
                     maxPrice,

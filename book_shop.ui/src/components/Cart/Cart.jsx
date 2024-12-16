@@ -1,9 +1,10 @@
 import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import UserContext from "../../context/UserContext";
 import Cookies from "js-cookie";
 import axios from "axios";
+import UserContext from "../../context/UserContext";
 import Order from "./Order";
+import config from "../../../config.json"
 
 const Cart = () => {
     const [orders, setOrders] = useState([]);
@@ -20,11 +21,11 @@ const Cart = () => {
 
     if (user !== null) {
         const cartId = user.cartId;
-        url = `https://localhost:7259/api/cart/${cartId}`;
+        url = `${config.SERVER_URL}/cart/${cartId}`;
     }
     else {
         const cartId = Cookies.get("anonCartId");
-        url = `https://localhost:7259/api/cart/anon/${cartId}`;
+        url = `${config.SERVER_URL}/cart/anon/${cartId}`;
     }
 
     useEffect(() => {
@@ -35,10 +36,11 @@ const Cart = () => {
             setPrice(response.data.totalPrice);
             setOrders(response.data.orders);
         })();
+
     }, []);
 
     const changeCount = async (change, id, count, orderPrice) => {
-        const response = await axios.put(`https://localhost:7259/api/order/${id}`, {}, {
+        const response = await axios.put(`${config.SERVER_URL}/order/${id}`, {}, {
             params: {
                 change
             }

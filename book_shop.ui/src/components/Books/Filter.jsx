@@ -1,10 +1,15 @@
 import {useState} from "react";
 
 const Filter = ({onSubmit}) => {
-    const [data, setData] = useState({name: "", minPrice: 0, maxPrice: 10000, genre: "", language: "", authorName: ""});
+    const defaultData = {name: "", minPrice: 0, maxPrice: 10000, genre: "", language: "", authorName: ""};
+    const [data, setData] = useState(defaultData);
 
     const handleChange = (event, name) => {
         setData({...data, [name]: event.target.value});
+    }
+
+    const handleReset = (event, name) => {
+        setData(defaultData);
     }
 
     return (
@@ -39,6 +44,7 @@ const Filter = ({onSubmit}) => {
                        value={data.language}
                        onChange={(e) => handleChange(e, "language")}/>
                 <div>
+                    <button type="Submit" onClick={handleReset}>Скинути</button>
                     <button type="Submit">Пошук</button>
                 </div>
             </form>

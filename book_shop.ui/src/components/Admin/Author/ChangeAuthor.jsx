@@ -1,7 +1,8 @@
 import {useContext, useEffect, useState} from "react";
-import UserContext from "../../../context/UserContext";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../../context/UserContext";
+import config from "../../../../config.json"
 
 const ChangeAuthor = () => {
     const {user} = useContext(UserContext);
@@ -27,7 +28,7 @@ const ChangeAuthor = () => {
         }
         else {
             try {
-                const response = await axios.get(`https://localhost:7259/api/author/${name}`);
+                const response = await axios.get(`${config.SERVER_URL}/author/${name}`);
                 if (response.status === 200) {
                     setNewName(response.data.fullname);
                     setCountry(response.data.country);
@@ -49,7 +50,7 @@ const ChangeAuthor = () => {
         }
         else {
             try {
-                const response = await axios.put(`https://localhost:7259/api/author/${name}`, {
+                const response = await axios.put(`${config.SERVER_URL}/author/${name}`, {
                     fullname: newName,
                     country
                 }, {

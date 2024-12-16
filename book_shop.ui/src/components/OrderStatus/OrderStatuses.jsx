@@ -1,13 +1,14 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import OrderStatus from "./OrderStatus";
+import config from "../../../config.json"
 
 const OrderStatuses = () => {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         (async function () {
-            const response = await axios.get(`https://localhost:7259/api/orderstatus`, {
+            const response = await axios.get(`${config.SERVER_URL}/orderstatus`, {
                 withCredentials: true
             });
 

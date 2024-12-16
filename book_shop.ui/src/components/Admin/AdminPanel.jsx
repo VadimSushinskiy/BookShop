@@ -1,6 +1,6 @@
 import {useContext, useEffect} from "react";
-import UserContext from "../../context/UserContext";
 import {Link, useNavigate} from "react-router-dom";
+import UserContext from "../../context/UserContext";
 
 const AdminPanel = () => {
     const {user} = useContext(UserContext);
@@ -8,7 +8,7 @@ const AdminPanel = () => {
 
     useEffect(() => {
         if (user?.role !== "Admin") {
-            navigator("/admin");
+            navigator("..", {relative: "path"});
         }
     }, []);
 

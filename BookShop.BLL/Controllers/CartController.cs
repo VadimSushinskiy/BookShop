@@ -1,4 +1,7 @@
-﻿using BookShop.BLL.Tools;
+﻿using BookShop.BLL.Models;
+using BookShop.BLL.Tools;
+using BookShop.BLL.Tools.Implementations;
+using BookShop.BLL.Tools.Interfaces;
 using BookShop.DAL.Interfaces;
 using BookShop.Shared.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -12,16 +15,19 @@ namespace BookShop.BLL.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        public CartController(ICartDAL cartDal)
+        public CartController(ICartDAL cartDal, IFileHelper fileHelper)
         {
             _cartDal = cartDal;
+            _fileHelper = fileHelper;
         }
 
         private readonly ICartDAL _cartDal;
 
+        private readonly IFileHelper _fileHelper;
+
         [HttpGet("{cartId}")]
         [Authorize]
-        public async Task<ActionResult<CartDTO>> GetUser(string cartId)
+        public async Task<ActionResult<ResponseCart>> GetUser(string cartId)
         {
             Claim? claim = HttpContext.User.FindFirst(claim => claim.Type == "cartId");
             if (claim == null || claim.Value != cartId)
@@ -29,11 +35,20 @@ namespace BookShop.BLL.Controllers
                 return BadRequest();
             }
 
-            return Ok(await _cartDal.GetById(cartId));
+            CartDTO? cart = await _cartDal.GetById(cartId);
+
+            ResponseCart response = cart.MapFromDto();
+
+            foreach (ResponseOrder order in response.Orders)
+            {
+                order.ImgSrc = await _fileHelper.GetPathByIdClient(order.Book.Images[0].Id);
+            }
+
+            return Ok(response);
         }
 
         [HttpGet("anon/{cartId}")]
-        public async Task<ActionResult<CartDTO>> GetAnonUser(string cartId)
+        public async Task<ActionResult<ResponseCart>> GetAnonUser(string cartId)
         {
             CartDTO? cart = await _cartDal.GetById(cartId);
 
@@ -42,7 +57,14 @@ namespace BookShop.BLL.Controllers
                 return NotFound();
             }
 
-            return Ok(cart);
+            ResponseCart response = cart.MapFromDto();
+
+            foreach (ResponseOrder order in response.Orders)
+            {
+                order.ImgSrc = await _fileHelper.GetPathByIdClient(order.Book.Images[0].Id);
+            }
+
+            return Ok(response);
         }
 
         [HttpPost("anon")]

@@ -1,7 +1,8 @@
 import {useContext, useEffect, useState} from "react";
-import UserContext from "../../../context/UserContext";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../../context/UserContext";
+import config from "../../../../config.json"
 
 const AddAuthor = () => {
     const {user} = useContext(UserContext);
@@ -23,7 +24,7 @@ const AddAuthor = () => {
         }
         else {
             try {
-                const response = await axios.post("https://localhost:7259/api/author", {
+                const response = await axios.post(`${config.SERVER_URL}/author`, {
                     fullname: name,
                     country
                 }, {

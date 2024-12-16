@@ -1,7 +1,8 @@
 import {useContext, useEffect, useState} from "react";
-import UserContext from "../../../context/UserContext";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../../context/UserContext";
+import config from "../../../../config.json"
 
 const ChangeBook = () => {
     const {user} = useContext(UserContext);
@@ -15,7 +16,9 @@ const ChangeBook = () => {
         authorName: "",
         publishingName: "",
         volume: 0,
-        price: 0
+        price: 0,
+        mainImage: null,
+        imgFiles: null
     };
 
     const [data, setData] = useState(defaultData);
@@ -29,6 +32,18 @@ const ChangeBook = () => {
         }
     }, []);
 
+    const handleChange = (event, name) => {
+        if (name === "imgFiles") {
+            setData({...data, [name]: event.target.files});
+        }
+        else if (name === "mainImage") {
+            setData({...data, [name]: event.target.files[0]});
+        }
+        else {
+            setData({...data, [name]: event.target.value});
+        }
+    }
+
     const FindBook = async () => {
         setHidden(true);
 
@@ -37,9 +52,9 @@ const ChangeBook = () => {
         }
         else {
             try {
-                const response = await axios.get(`https://localhost:7259/api/book/${id}`);
+                const response = await axios.get(`${config.SERVER_URL}/book/${id}`);
                 if (response.status === 200) {
-                    setData(response.data);
+                    setData({...response.data, mainImage: null, imgFiles: null});
                     setError("");
                     setHidden(false);
                 }
@@ -53,14 +68,27 @@ const ChangeBook = () => {
 
     const ChangeBook = async () => {
         for (let key in data) {
-            if (data[key] === "" || +data[key] <= 0) {
+            if (!["mainImage", "imgFiles", "mainImageSrc", "imgFilesSrc"].includes(key) && (data[key] === "" || +data[key] <= 0)) {
                 setError("Заповніть всі поля корректними значеннями!");
                 return;
             }
         }
 
+        const formData = new FormData();
+
+        for (let prop in data) {
+            if (prop === "imgFiles" && data[prop]) {
+                for (const file of data[prop]) {
+                    formData.append(prop, file);
+                }
+            }
+            else {
+                formData.append(prop, data[prop]);
+            }
+        }
+
         try {
-            const response = await axios.put("https://localhost:7259/api/book", data, {
+            const response = await axios.put(`${config.SERVER_URL}/book`, formData, {
                 withCredentials: true
             });
 
@@ -71,10 +99,6 @@ const ChangeBook = () => {
         catch {
             setError("Такого автора або видавництва не існує!");
         }
-    }
-
-    const handleChange = (event, name) => {
-        setData({...data, [name]: event.target.value});
     }
 
     return (
@@ -118,6 +142,12 @@ const ChangeBook = () => {
                 <div>
                     <input type="number" placeholder="Ціна" value={data.price}
                            onChange={(e) => handleChange(e, "price")}/>
+                </div>
+                <div>
+                    <input type="file" accept="image/*" onChange={(e) => handleChange(e, "mainImage")}/>
+                </div>
+                <div>
+                    <input type="file" accept="image/*" multiple onChange={(e) => handleChange(e, "imgFiles")}/>
                 </div>
                 <button onClick={ChangeBook}>Редагувати</button>
             </div>}

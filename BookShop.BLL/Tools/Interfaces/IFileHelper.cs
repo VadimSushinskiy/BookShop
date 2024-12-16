@@ -2,7 +2,7 @@
 {
     public interface IFileHelper
     {
-        Task<string> GetPathById(int id);
+        Task<string> GetPathByIdClient(int id);
 
         Task CreateFile(IFormFile file, int id);
 

@@ -29,6 +29,19 @@ namespace BookShop.BLL.Tools.Implementations
             });
         }
 
+        public async Task<string> GetPathByIdClient(int id)
+        {
+            string hexId = id.ToString("X16");
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", hexId[..4], hexId[4..8], hexId[8..12]);
+
+            string res = await Task.Run(() =>
+            {
+                return Directory.GetFiles(path, $"{hexId[12..]}.*")[0];
+            });
+
+            return res.Replace(_webHostEnvironment.WebRootPath, "");
+        }
+
         public async Task CreateFile(IFormFile file, int id)
         {
             string path = GetPath(id, file.FileName);

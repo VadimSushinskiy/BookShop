@@ -1,7 +1,8 @@
 import {useContext, useEffect, useState} from "react";
-import UserContext from "../../../context/UserContext";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../../context/UserContext";
+import config from "../../../../config.json"
 
 const AddBook = () => {
     const {user} = useContext(UserContext);
@@ -16,17 +17,20 @@ const AddBook = () => {
         publishingName: "",
         volume: 0,
         price: 0,
-        imgFile: null
+        mainImage: null,
+        imgFiles: null
     });
     const [error, setError] = useState("");
 
     const handleChange = (event, name) => {
-        if (name !== "imgFile") {
-            setData({...data, [name]: event.target.value});
+        if (name === "imgFiles") {
+            setData({...data, [name]: event.target.files});
+        }
+        else if (name === "mainImage") {
+            setData({...data, [name]: event.target.files[0]});
         }
         else {
-            console.log(event.target.files[0]);
-            setData({...data, [name]: event.target.files[0]});
+            setData({...data, [name]: event.target.value});
         }
     }
 
@@ -38,8 +42,21 @@ const AddBook = () => {
             }
         }
 
+        const formData = new FormData();
+
+        for (let prop in data) {
+            if (prop === "imgFiles") {
+                for (const file of data[prop]) {
+                    formData.append(prop, file);
+                }
+            }
+            else {
+                formData.append(prop, data[prop]);
+            }
+        }
+
         try {
-            const response = await axios.post("https://localhost:7259/api/book", data, {
+            const response = await axios.post(`${config.SERVER_URL}/book`, formData, {
                 withCredentials: true
             });
 
@@ -54,7 +71,7 @@ const AddBook = () => {
 
     useEffect(() => {
         if (user?.role !== "Admin") {
-            navigator("..", {relative: "path"});
+            navigator("/admin");
         }
     }, []);
 
@@ -91,7 +108,10 @@ const AddBook = () => {
                 <input type="number" placeholder="Ціна" value={data.price} onChange={(e) => handleChange(e, "price")}/>
             </div>
             <div>
-                <input type="file" onChange={(e) => handleChange(e, "imgFile")}/>
+                <input type="file" accept="image/*" onChange={(e) => handleChange(e, "mainImage")}/>
+            </div>
+            <div>
+                <input type="file" accept="image/*" multiple onChange={(e) => handleChange(e, "imgFiles")}/>
             </div>
             <button onClick={AddHandler}>Додати</button>
         </div>

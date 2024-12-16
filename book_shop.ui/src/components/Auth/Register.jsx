@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom"
 import axios from "axios";
+import config from "../../../config.json";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -26,7 +27,7 @@ const Register = () => {
             setError("Помилка! Паролі не співпадають!")
         }
         else {
-            const response = await axios.post("https://localhost:7259/api/user/register", {
+            const response = await axios.post(`${config.SERVER_URL}/user/register`, {
                 name,
                 email,
                 password

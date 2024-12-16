@@ -30,10 +30,9 @@ namespace BookShop.BLL.Models
         [Required]
         public string PublishingName { get; set; }
 
-        [Required]
+        
         public IFormFile? MainImage { get; set; }
 
-        [Required]
         public List<IFormFile> ImgFiles { get; set; } = new List<IFormFile>();
     }
 }

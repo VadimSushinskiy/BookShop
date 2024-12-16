@@ -1,7 +1,8 @@
 import {useContext, useEffect, useState} from "react";
-import UserContext from "../../../context/UserContext";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../../context/UserContext";
+import config from "../../../../config.json"
 
 const DeleteBook = () => {
     const {user} = useContext(UserContext);
@@ -12,7 +13,7 @@ const DeleteBook = () => {
 
     useEffect(() => {
         if (user?.role !== "Admin") {
-            navigator("..", {relative: "path"});
+            navigator("/admin");
         }
     }, []);
 
@@ -21,12 +22,17 @@ const DeleteBook = () => {
             setError("Введіть коректне значення id")
         }
         else {
-            const response = await axios.delete(`https://localhost:7259/api/book/${id}`, {
-                withCredentials: true
-            });
+            try {
+                const response = await axios.delete(`${config.SERVER_URL}/book/${id}`, {
+                    withCredentials: true
+                });
 
-            if (response.status === 204) {
-                navigator("/admin");
+                if (response.status === 204) {
+                    setError("");
+                }
+            }
+            catch {
+                setError("Книги з таким id не існує!");
             }
         }
     }

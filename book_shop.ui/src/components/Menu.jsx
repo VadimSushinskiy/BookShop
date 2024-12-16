@@ -1,13 +1,14 @@
 import {Link} from "react-router-dom";
-import GetUser from "../tools/GetUser";
 import axios from "axios";
 import {useContext} from "react";
+import GetUser from "../tools/GetUser";
 import UserContext from "../context/UserContext";
+import config from "../../config.json"
 
 const Menu = () => {
     const {user, setUser} = useContext(UserContext);
     const exitHandler = async () => {
-        const response = await axios.get("https://localhost:7259/api/user/logout", {
+        const response = await axios.get(`${config.SERVER_URL}/user/logout`, {
             withCredentials: true
         });
         if (response.status === 200) {

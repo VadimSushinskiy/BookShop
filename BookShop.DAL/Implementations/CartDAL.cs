@@ -26,6 +26,9 @@ namespace BookShop.DAL.Implementations
                 .Include(cart => cart.Orders)
                     .ThenInclude(order => order.Book)
                         .ThenInclude(book => book.Publishing)
+                .Include(cart => cart.Orders)
+                    .ThenInclude(order => order.Book)
+                        .ThenInclude(book => book.Images.Where(image => image.IsMain))
                 .Select(cart => cart.MapToDTO())
                 .SingleAsync();
         }
