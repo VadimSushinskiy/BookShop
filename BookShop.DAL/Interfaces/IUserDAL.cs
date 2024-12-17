@@ -1,4 +1,5 @@
-﻿using BookShop.Shared.DTO;
+﻿using BookShop.DAL.Models;
+using BookShop.Shared.DTO;
 
 namespace BookShop.DAL.Interfaces
 {
@@ -8,6 +9,8 @@ namespace BookShop.DAL.Interfaces
 
         Task Create(UserDTO user);
 
+        Task<List<ViewUserDTO>> GetALL(string name, int pageNumber, int pageSize);
 
+        Task ChangeRole(int id, string role);
     }
 }

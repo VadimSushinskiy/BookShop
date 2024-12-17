@@ -12,6 +12,8 @@
 
         public string? Language { get; set; }
 
+        public float Rating { get; set; }
+
         public string? AuthorName { get; set; }
     }
 }

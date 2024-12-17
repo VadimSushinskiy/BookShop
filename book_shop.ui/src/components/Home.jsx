@@ -3,7 +3,7 @@ import Books from "./Books/Books";
 import Filter from "./Books/Filter";
 
 const Home = () => {
-    const [filter, setFilter] = useState({name: "", minPrice: 0, maxPrice: 10000, genre: "", language: "", authorName: ""});
+    const [filter, setFilter] = useState({name: "", minPrice: 0, maxPrice: 10000, genre: "", language: "", authorName: "", rating: ""});
 
     const onSubmitHandler = (prop) => {
         setFilter({...prop});

@@ -4,9 +4,9 @@ import Book from "./Book";
 import config from "../../../config.json"
 
 const Books = (prop) => {
-    const {name, minPrice, maxPrice, genre, language, authorName} = prop;
+    const {name, minPrice, maxPrice, genre, language, authorName, rating} = prop;
     const [books, setBooks] = useState([]);
-    const [pageNum, setPageNum] = useState(1)
+    const [pageNum, setPageNum] = useState(1);
 
     const DownloadBooks = async (page) => {
         const response = await axios.get(`${config.SERVER_URL}/book`,
@@ -19,7 +19,8 @@ const Books = (prop) => {
                     maxPrice,
                     Genre: genre,
                     Language: language,
-                    AuthorName: authorName
+                    AuthorName: authorName,
+                    Rating: rating !== "" ? +rating : 0
                 }
             });
         setBooks(prev => [...prev, ...response.data])

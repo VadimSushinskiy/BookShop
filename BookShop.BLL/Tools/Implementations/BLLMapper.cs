@@ -42,6 +42,8 @@ namespace BookShop.BLL.Tools.Implementations
             book.PublishingName = bookDto.PublishingName;
             book.Volume = bookDto.Volume;
             book.Price = bookDto.Price;
+            book.Rating = bookDto.Rating;
+            book.RatingNumber = bookDto.RatingNumber;
         }
 
         public static ResponseCart MapFromDto(this CartDTO cart)

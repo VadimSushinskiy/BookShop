@@ -27,15 +27,18 @@ const Register = () => {
             setError("Помилка! Паролі не співпадають!")
         }
         else {
-            const response = await axios.post(`${config.SERVER_URL}/user/register`, {
-                name,
-                email,
-                password
-            });
-            if (response.status === 201) {
-                navigator("../login", {relative: "path"})
+
+            try {
+                const response = await axios.post(`${config.SERVER_URL}/user/register`, {
+                    name,
+                    email,
+                    password
+                });
+                if (response.status === 201) {
+                    navigator("../login", {relative: "path"})
+                }
             }
-            else {
+            catch {
                 setError("Помилка! Користувач з такою поштою вже існує")
             }
         }

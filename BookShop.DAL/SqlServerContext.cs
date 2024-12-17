@@ -31,6 +31,8 @@ namespace BookShop.DAL
 
         public virtual DbSet<Image> Images { get; set; }
 
+        public virtual DbSet<ViewUser> ViewUsers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_configuration.GetConnectionString("SqlServer"));
@@ -42,6 +44,9 @@ namespace BookShop.DAL
                 entity.HasOne(d => d.Author).WithMany(p => p.Books).HasForeignKey(d => d.AuthorId);
 
                 entity.HasOne(d => d.Publishing).WithMany(p => p.Books).HasForeignKey(d => d.PublishingId);
+
+                entity.Property(e => e.Rating).HasDefaultValue(0);
+                entity.Property(e => e.RatingNumber).HasDefaultValue(0);
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -71,6 +76,12 @@ namespace BookShop.DAL
             modelBuilder.Entity<Image>(entity =>
             {
                 entity.HasOne(d => d.Book).WithMany(p => p.Images).HasForeignKey(d => d.BookId);
+            });
+
+            modelBuilder.Entity<ViewUser>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("View_Users");
             });
         }
 

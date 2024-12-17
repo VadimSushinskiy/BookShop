@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import UserContext from "../../context/UserContext";
 import config from "../../../config.json"
+import "../../App.css"
 
 const SingleBook = () => {
     const params = useParams();
@@ -12,6 +13,7 @@ const SingleBook = () => {
     const [book, setBook] = useState(undefined);
     const [review, setReview] = useState([]);
     const [pageNum, setPageNum] = useState(1);
+    const [additional, setAdditional] = useState(0);
     const [text, setText] = useState("")
     const [rating, setRating] = useState("")
     const [disabled, setDisabled] = useState(false);
@@ -24,7 +26,8 @@ const SingleBook = () => {
         const response = await axios.get(`${config.SERVER_URL}/review/${params.id}`, {
             params: {
                 pageNumber: pageNum,
-                pageSize: 1
+                pageSize: 1,
+                additionalSkip: additional
             }
         });
         if (response.status === 200) {
@@ -52,7 +55,10 @@ const SingleBook = () => {
 
         try {
             if (rating.length !== 1) {
-                setError("Оберіть оцінку!")
+                setError("Оберіть оцінку!");
+            }
+            else if (text === "") {
+                setError("Введіть відгук!");
             }
             else {
                 const response = await axios.post(`${config.SERVER_URL}/review/${params.id}`, {
@@ -63,14 +69,16 @@ const SingleBook = () => {
                 });
 
                 if (response.status === 200) {
+                    setBook({...book, rating: (book.rating * book.ratingNumber + +rating) / (book.ratingNumber + 1), ratingNumber: book.ratingNumber + 1});
                     setText("");
                     setRating("");
+                    setAdditional(additional + 1);
                     setReview([response.data, ...review]);
                 }
             }
         }
         catch {
-            setError("Сталась невідома помилка!")
+            setError("Сталась невідома помилка!");
         }
 
         setDisabled(false);
@@ -94,7 +102,9 @@ const SingleBook = () => {
     if (book) {
         return (
             <>
-                {book.imgFilesSrc.map(image => <img src={`${config.IMAGE_SERVICE_URL}/${image}`} alt="book" width="200px" key={image}/>)}
+                <div>
+                        {book.imgFilesSrc.map(image => <img src={`${config.IMAGE_SERVICE_URL}/${image}`} alt="book" width="200px" key={image}/>)}
+                </div>
                 <div>{book.name} by {book.authorName}</div>
                 <div>{book.description}</div>
                 <div>Genre: {book.genre}</div>
@@ -102,6 +112,7 @@ const SingleBook = () => {
                 <div>Volume: {book.volume}</div>
                 <div>Language: {book.language}</div>
                 <div>Publishing: {book.publishingName}</div>
+                <div>Rating: {+book.rating.toFixed(1)}</div>
                 <button onClick={BuyBook} disabled={disabledBuy}>Купити</button>
                 {review.length > 0 && (
                     <>

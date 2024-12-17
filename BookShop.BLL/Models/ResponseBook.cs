@@ -25,6 +25,12 @@ namespace BookShop.BLL.Models
         public string Language { get; set; }
 
         [Required]
+        public float Rating { get; set; }
+
+        [Required]
+        public int RatingNumber { get; set; }
+
+        [Required]
         public string AuthorName { get; set; }
 
         [Required]

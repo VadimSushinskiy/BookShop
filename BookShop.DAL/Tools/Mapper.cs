@@ -18,6 +18,8 @@ namespace BookShop.DAL.Tools
                 Genre = book.Genre,
                 Volume = book.Volume,
                 Language = book.Language,
+                Rating = book.Rating,
+                RatingNumber = book.RatingNumber,
                 AuthorName = book.Author.Fullname,
                 PublishingName = book.Publishing.Name,
                 Images = book.Images.Select(image => image.MapToDTO()).ToList()
@@ -34,6 +36,8 @@ namespace BookShop.DAL.Tools
             book.Genre = bootDto.Genre;
             book.Volume = bootDto.Volume;
             book.Language = bootDto.Language;
+            book.Rating = bootDto.Rating;
+            book.RatingNumber = bootDto.RatingNumber;
         }
 
         public static UserDTO? MapToDTO(this User? user)
@@ -189,6 +193,19 @@ namespace BookShop.DAL.Tools
             {
                 Id = image.Id,
                 IsMain = image.IsMain
+            };
+        }
+
+        public static ViewUserDTO MapToDTO(this ViewUser viewUser)
+        {
+            return new ViewUserDTO
+            {
+                Id = viewUser.Id,
+                Name = viewUser.Name,
+                Email = viewUser.Email,
+                Role = viewUser.Role,
+                Total = viewUser.Total,
+                OrderCount = viewUser.OrderCount,
             };
         }
     }

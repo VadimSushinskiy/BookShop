@@ -88,5 +88,21 @@ namespace BookShop.BLL.Controllers
             }
             return Ok();
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Owner")]
+        public async Task<ActionResult<List<ViewUserDTO>>> GetAll(string? name, int pageNumber, int pageSize)
+        {
+            return await _userDal.GetALL(name, pageNumber, pageSize);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Owner")]
+        public async Task<IActionResult> ChangeRole(int id, [FromQuery]string role)
+        {
+            await _userDal.ChangeRole(id, role);
+
+            return Ok();
+        }
     }
 }

@@ -7,7 +7,7 @@ const AdminPanel = () => {
     const navigator = useNavigate();
 
     useEffect(() => {
-        if (user?.role !== "Admin") {
+        if (user?.role !== "Admin" && user?.role !== "Owner") {
             navigator("..", {relative: "path"});
         }
     }, []);
@@ -35,6 +35,9 @@ const AdminPanel = () => {
             <div>
                 <Link to="publishing/change">Редагувати видавництво</Link>
             </div>
+            {user?.role === "Owner" && <div>
+                <Link to="users">Користувачі</Link>
+            </div>}
         </>
     )
 }

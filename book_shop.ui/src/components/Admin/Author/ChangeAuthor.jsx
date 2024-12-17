@@ -15,7 +15,7 @@ const ChangeAuthor = () => {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        if (user?.role !== "Admin") {
+        if (user?.role !== "Admin" && user?.role !== "Owner") {
             navigator("/admin");
         }
     }, []);

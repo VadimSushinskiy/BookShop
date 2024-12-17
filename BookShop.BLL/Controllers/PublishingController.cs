@@ -31,7 +31,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Create(PublishingDTO publishing)
         {
             try
@@ -46,7 +46,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPut("{publishingName}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Update(PublishingDTO publishing, string publishingName)
         {
             await _publishingDal.Update(publishingName, publishing);

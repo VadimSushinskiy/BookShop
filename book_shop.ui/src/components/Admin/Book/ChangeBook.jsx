@@ -27,7 +27,7 @@ const ChangeBook = () => {
     const [hidden, setHidden] = useState(true);
 
     useEffect(() => {
-        if (user?.role !== "Admin") {
+        if (user?.role !== "Admin" && user?.role !== "Owner") {
             navigator("/admin");
         }
     }, []);

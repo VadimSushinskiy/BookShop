@@ -16,6 +16,10 @@ public class Book
 
     public string Language { get; set; } = null!;
 
+    public float Rating { get; set; } = 0;
+
+    public int RatingNumber { get; set; } = 0;
+
     public int AuthorId { get; set; }
 
     public int PublishingId { get; set; }

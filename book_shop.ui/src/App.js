@@ -20,6 +20,7 @@ import AddAuthor from "./components/Admin/Author/AddAuthor";
 import AddPublishing from "./components/Admin/Publishing/AddPublishing";
 import ChangeAuthor from "./components/Admin/Author/ChangeAuthor";
 import ChangePublishing from "./components/Admin/Publishing/ChangePublishing";
+import Users from "./components/Admin/User/Users";
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
                           <Route path="admin/author/change" element={<ChangeAuthor/>}/>
                           <Route path="admin/publishing/add" element={<AddPublishing/>}/>
                           <Route path="admin/publishing/change" element={<ChangePublishing/>}/>
+                          <Route path="admin/users" element={<Users/>}/>
                       </Route>
                   </Routes>
               </div>

@@ -1,14 +1,22 @@
 import {useState} from "react";
 
 const Filter = ({onSubmit}) => {
-    const defaultData = {name: "", minPrice: 0, maxPrice: 10000, genre: "", language: "", authorName: ""};
+    const defaultData = {name: "", minPrice: 0, maxPrice: 10000, genre: "", language: "", authorName: "", rating: ""};
     const [data, setData] = useState(defaultData);
 
     const handleChange = (event, name) => {
-        setData({...data, [name]: event.target.value});
+        if (name !== "rating") {
+            setData({...data, [name]: event.target.value});
+        }
+        else {
+            const val = event.target.value;
+            if ("12345".includes(val) && val.length < 2) {
+                setData({...data, [name]: event.target.value});
+            }
+        }
     }
 
-    const handleReset = (event, name) => {
+    const handleReset = () => {
         setData(defaultData);
     }
 
@@ -39,6 +47,10 @@ const Filter = ({onSubmit}) => {
                 <input type="number"
                        value={data.maxPrice}
                        onChange={(e) => handleChange(e, "maxPrice")}/>
+                <p>Мінімальний рейтинг:</p>
+                <input type="number"
+                       value={data.rating}
+                       onChange={(e) => handleChange(e, "rating")}/>
                 <p>Мова:</p>
                 <input type="text"
                        value={data.language}

@@ -2,6 +2,7 @@
 using BookShop.DAL.Models;
 using BookShop.DAL.Tools;
 using BookShop.Shared.DTO;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -35,7 +36,8 @@ namespace BookShop.DAL.Implementations
                 && EF.Functions.Like(book.Language, $"%{filter.Language}%") 
                 && EF.Functions.Like(book.Author.Fullname, $"%{filter.AuthorName}%")
                 && book.Price >= filter.MinPrice 
-                && book.Price <= filter.MaxPrice)
+                && book.Price <= filter.MaxPrice
+                && book.Rating >= filter.Rating)
                 .Include(book => book.Images.OrderByDescending(image => image.IsMain))
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)

@@ -19,14 +19,14 @@ namespace BookShop.BLL.Controllers
         private readonly IReviewDAL _reviewDal;
 
         [HttpGet("{bookId}")]
-        public async Task<ActionResult<ReviewDTO>> Get(int bookId, int pageNumber, int pageSize)
+        public async Task<ActionResult<ReviewDTO>> Get(int bookId, int pageNumber, int pageSize, int additionalSkip)
         {
             if (pageNumber <= 0 || pageSize <= 0)
             {
                 return BadRequest();
             }
 
-            return Ok(await _reviewDal.GetWithPagination(bookId, pageNumber, pageSize));
+            return Ok(await _reviewDal.GetWithPagination(bookId, pageNumber, pageSize, additionalSkip));
         }
 
         [HttpPost("{bookId}")]

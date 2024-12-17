@@ -70,7 +70,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Create([FromForm]FormBook book)
         {
             try
@@ -94,7 +94,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Update([FromForm]FormBook book)
         {
             try
@@ -133,7 +133,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Delete(int id)
         {
             try

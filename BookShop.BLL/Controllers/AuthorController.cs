@@ -31,7 +31,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Create(AuthorDTO author)
         {
             try
@@ -46,7 +46,7 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpPut("{authorName}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Owner")]
         public async Task<IActionResult> Update(AuthorDTO author, string authorName)
         {
             await _authorDal.Update(authorName, author);
