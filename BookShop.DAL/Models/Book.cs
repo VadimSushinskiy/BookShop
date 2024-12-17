@@ -18,6 +18,10 @@ public class Book
 
     public float Rating { get; set; } = 0;
 
+    public string CoverType { get; set; }
+
+    public int PublicationYear { get; set; }
+
     public int RatingNumber { get; set; } = 0;
 
     public int AuthorId { get; set; }

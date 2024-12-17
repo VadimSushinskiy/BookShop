@@ -1,6 +1,7 @@
 ﻿using BookShop.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Globalization;
 
 namespace BookShop.DAL
 {
@@ -47,6 +48,8 @@ namespace BookShop.DAL
 
                 entity.Property(e => e.Rating).HasDefaultValue(0);
                 entity.Property(e => e.RatingNumber).HasDefaultValue(0);
+                entity.Property(e => e.CoverType).HasDefaultValue("Тверда");
+                entity.Property(e => e.PublicationYear).HasDefaultValue(2024);
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -66,6 +69,8 @@ namespace BookShop.DAL
                 entity.HasOne(d => d.Book).WithMany(p => p.Reviews).HasForeignKey(d => d.BookId);
 
                 entity.HasOne(d => d.User).WithMany(p => p.Reviews).HasForeignKey(d => d.UserId);
+
+                entity.Property(e => e.WritingDate).HasDefaultValue(new DateTime(2024, 12, 17).ToString("dd MMMM yyyy", CultureInfo.CreateSpecificCulture("uk")));
             });
 
             modelBuilder.Entity<User>(entity =>

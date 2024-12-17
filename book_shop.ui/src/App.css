@@ -1,4 +1,18 @@
+@font-face {
+  font-family: 'Mabry Pro';
+  src: url('fonts/MabryPro-Regular.eot');
+  src: local('Mabry Pro'), local('MabryPro-Regular'),
+  url('fonts/MabryPro-Regular.eot?#iefix') format('embedded-opentype'),
+  url('fonts/MabryPro-Regular.woff2') format('woff2'),
+  url('fonts/MabryPro-Regular.woff') format('woff'),
+  url('fonts/MabryPro-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 .App {
   text-align: center;
+  font-family: "Mabry Pro", sans-serif;
 }
 

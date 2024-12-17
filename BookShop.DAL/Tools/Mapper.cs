@@ -20,6 +20,8 @@ namespace BookShop.DAL.Tools
                 Language = book.Language,
                 Rating = book.Rating,
                 RatingNumber = book.RatingNumber,
+                CoverType = book.CoverType,
+                PublicationYear = book.PublicationYear,
                 AuthorName = book.Author.Fullname,
                 PublishingName = book.Publishing.Name,
                 Images = book.Images.Select(image => image.MapToDTO()).ToList()
@@ -38,6 +40,8 @@ namespace BookShop.DAL.Tools
             book.Language = bootDto.Language;
             book.Rating = bootDto.Rating;
             book.RatingNumber = bootDto.RatingNumber;
+            book.CoverType = bootDto.CoverType;
+            book.PublicationYear = bootDto.PublicationYear;
         }
 
         public static UserDTO? MapToDTO(this User? user)
@@ -74,7 +78,8 @@ namespace BookShop.DAL.Tools
                 Id = review.Id,
                 Text = review.Text,
                 Rating = review.Rating,
-                UserName = review.User.Name
+                UserName = review.User.Name,
+                WritingDate = review.WritingDate,
             };
         }
 
@@ -84,6 +89,7 @@ namespace BookShop.DAL.Tools
 
             review.Text = reviewDto.Text;
             review.Rating = reviewDto.Rating;
+            review.WritingDate = reviewDto.WritingDate;
         }
 
         public static OrderStatusDTO? MapToDTO(this OrderStatus? orderStatus)

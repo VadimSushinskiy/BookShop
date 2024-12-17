@@ -1,0 +1,13 @@
+.gallery-main {
+    margin-bottom: 15px;
+}
+.gallery-images img {
+    margin-right: 7px;
+    width: 60px;
+    cursor: pointer;
+}
+
+.gallery-main img {
+    width: 300px;
+
+}

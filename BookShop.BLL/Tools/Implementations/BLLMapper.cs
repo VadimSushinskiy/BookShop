@@ -27,6 +27,8 @@ namespace BookShop.BLL.Tools.Implementations
                 PublishingName = book.PublishingName,
                 Volume = book.Volume,
                 Price = book.Price,
+                PublicationYear = book.PublicationYear,
+                CoverType = book.CoverType,
                 Images = images
             };
         }
@@ -44,6 +46,8 @@ namespace BookShop.BLL.Tools.Implementations
             book.Price = bookDto.Price;
             book.Rating = bookDto.Rating;
             book.RatingNumber = bookDto.RatingNumber;
+            book.CoverType = bookDto.CoverType;
+            book.PublicationYear = bookDto.PublicationYear;
         }
 
         public static ResponseCart MapFromDto(this CartDTO cart)

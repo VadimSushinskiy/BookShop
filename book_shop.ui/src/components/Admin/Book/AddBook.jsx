@@ -17,6 +17,8 @@ const AddBook = () => {
         publishingName: "",
         volume: 0,
         price: 0,
+        coverType: "",
+        publicationYear: 0,
         mainImage: null,
         imgFiles: null
     });
@@ -99,6 +101,14 @@ const AddBook = () => {
             <div>
                 <input type="text" placeholder="Назва видавництва" value={data.publishingName}
                        onChange={(e) => handleChange(e, "publishingName")}/>
+            </div>
+            <div>
+                <input type="text" placeholder="Тип обкладинки" value={data.coverType}
+                       onChange={(e) => handleChange(e, "coverType")}/>
+            </div>
+            <div>
+                <input type="number" placeholder="Рік видання" value={data.publicationYear}
+                       onChange={(e) => handleChange(e, "publicationYear")}/>
             </div>
             <div>
                 <input type="number" placeholder="Кількість сторінок" value={data.volume}

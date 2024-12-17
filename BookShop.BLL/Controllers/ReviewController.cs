@@ -3,6 +3,7 @@ using BookShop.Shared.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace BookShop.BLL.Controllers
@@ -44,6 +45,7 @@ namespace BookShop.BLL.Controllers
             {
                 return BadRequest();
             }
+            reviewDto.WritingDate = DateTime.Today.ToString("dd MMMM yyyy", CultureInfo.CreateSpecificCulture("uk"));
             await _reviewDal.Create(reviewDto, userId, bookId);
 
             reviewDto.UserName = userName;

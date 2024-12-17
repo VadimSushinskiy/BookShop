@@ -25,12 +25,17 @@ namespace BookShop.BLL.Models
         public string Language { get; set; }
 
         [Required]
+        public string CoverType { get; set; }
+
+        [Required]
+        public int PublicationYear { get; set; }
+
+        [Required]
         public string AuthorName { get; set; }
 
         [Required]
         public string PublishingName { get; set; }
 
-        
         public IFormFile? MainImage { get; set; }
 
         public List<IFormFile> ImgFiles { get; set; } = new List<IFormFile>();

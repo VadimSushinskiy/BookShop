@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 import UserContext from "../../context/UserContext";
 import config from "../../../config.json"
 import "../../App.css"
+import Gallery from "./Gallery";
+import "./SingleBook.css"
 
 const SingleBook = () => {
     const params = useParams();
@@ -101,49 +103,95 @@ const SingleBook = () => {
 
     if (book) {
         return (
-            <>
-                <div>
-                        {book.imgFilesSrc.map(image => <img src={`${config.IMAGE_SERVICE_URL}/${image}`} alt="book" width="200px" key={image}/>)}
-                </div>
-                <div>{book.name} by {book.authorName}</div>
-                <div>{book.description}</div>
-                <div>Genre: {book.genre}</div>
-                <div>Price: {book.price}</div>
-                <div>Volume: {book.volume}</div>
-                <div>Language: {book.language}</div>
-                <div>Publishing: {book.publishingName}</div>
-                <div>Rating: {+book.rating.toFixed(1)}</div>
-                <button onClick={BuyBook} disabled={disabledBuy}>Купити</button>
-                {review.length > 0 && (
-                    <>
-                        <h3>Відгуки:</h3>
-                        {review.map(review => {
-                            return <div key={review.id}>{review.text} by {review.userName}.
-                                Rating: {review.rating}</div>
-                        })}
-                        <button onClick={LoadReview}>Загрузити ще</button>
-                    </>
-                )}
-                {user && <div>
-                    <h4>Додати відгук:</h4>
-                    {error !== "" && <div>{error}</div>}
-                    <form action="" onSubmit={(e) => SubmitHandler(e)}>
-                        <span>Оцінка: </span>
-                        <input type="number" min="1" max="5" value={rating} onChange={(e) => {
-                            const val = e.target.value;
-                            if (val.length < 2 && "12345".includes(val)) {
-                                setRating(val);
-                            }
-                        }}/>
-                        <p>Ваш відгук: </p>
-                        <textarea value={text} onChange={(e) => setText(e.target.value)}></textarea>
-                        <div>
-                            <button type="Submit" disabled={disabled}>Додати</button>
+            <div className="container">
+                <div className="book-container">
+                    <div className="book-images">
+                        <Gallery images={book.imgFilesSrc}/>
+                    </div>
+                    <div className="book-info">
+                        <div className="title">Книга «{book.name}»</div>
+                        <div className="author">{book.authorName}</div>
+                        <div className="stars-rating">
+                            <div className="stars">
+                                <span></span>
+                                <div className="inner" style={{width: `${+book.rating / 5 * 100}%`}}></div>
+                            </div>
+                            <div className="rating">{book.ratingNumber} відгуків</div>
                         </div>
-                    </form>
-                </div>}
+                        <div className="description">{book.description}</div>
+                        <div className="char">
+                            <h4>Характеристики</h4>
+                            <div>
+                                <div>Назва</div>
+                                <div>{book.name}</div>
+                            </div>
+                            <div>
+                                <div>Автор</div>
+                                <div>{book.authorName}</div>
+                            </div>
+                            <div>
+                                <div>Жанр</div>
+                                <div>{book.genre}</div>
+                            </div>
+                            <div>
+                                <div>Мова</div>
+                                <div>{book.language}</div>
+                            </div>
+                            <div>
+                                <div>Видавництво</div>
+                                <div>{book.publishingName}</div>
+                            </div>
+                            <div>
+                                <div>Рік видання</div>
+                                <div>{book.publicationYear}</div>
+                            </div>
+                            <div>
+                                <div>Кількість сторінок</div>
+                                <div>{book.volume}</div>
+                            </div>
+                            <div>
+                                <div>Тип обкладинки</div>
+                                <div>{book.coverType}</div>
+                            </div>
+                        </div>
 
-            </>
+                        {review.length > 0 && (
+                            <>
+                                <h3>Відгуки:</h3>
+                                {review.map(review => {
+                                    return <div key={review.id}>{review.writingDate} {review.text} by {review.userName}.
+                                        Rating: {review.rating}</div>
+                                })}
+                                <button onClick={LoadReview}>Загрузити ще</button>
+                            </>
+                        )}
+                        {user && <div>
+                            <h4>Додати відгук:</h4>
+                            {error !== "" && <div>{error}</div>}
+                            <form action="" onSubmit={(e) => SubmitHandler(e)}>
+                                <span>Оцінка: </span>
+                                <input type="number" min="1" max="5" value={rating} onChange={(e) => {
+                                    const val = e.target.value;
+                                    if (val.length < 2 && "12345".includes(val)) {
+                                        setRating(val);
+                                    }
+                                }}/>
+                                <p>Ваш відгук: </p>
+                                <textarea value={text} onChange={(e) => setText(e.target.value)}></textarea>
+                                <div>
+                                    <button type="Submit" disabled={disabled}>Додати</button>
+                                </div>
+                            </form>
+                        </div>}
+                    </div>
+                    <div className="book-buy">
+                        <div>Price: {book.price}</div>
+                        <button onClick={BuyBook} disabled={disabledBuy}>Купити</button>
+                    </div>
+                </div>
+
+
+            </div>
         )
     }
 

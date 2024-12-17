@@ -8,6 +8,8 @@ public class Review
 
     public int Rating { get; set; }
 
+    public string WritingDate { get; set; }
+
     public int BookId { get; set; }
 
     public int UserId { get; set; }

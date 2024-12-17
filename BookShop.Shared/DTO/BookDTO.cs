@@ -32,6 +32,12 @@ namespace BookShop.Shared.DTO
         public int RatingNumber { get; set; }
 
         [Required]
+        public string CoverType { get; set; }
+
+        [Required]
+        public int PublicationYear { get; set; }
+
+        [Required]
         public string AuthorName { get; set; }
 
         [Required]
