@@ -1,6 +1,7 @@
 import {useState} from "react";
 import Books from "./Books/Books";
 import Filter from "./Books/Filter";
+import "./Home.css"
 
 const Home = () => {
     const [filter, setFilter] = useState({name: "", minPrice: 0, maxPrice: 10000, genre: "", language: "", authorName: "", rating: ""});
@@ -10,10 +11,10 @@ const Home = () => {
     }
 
     return (
-        <>
+        <div className="book-filter-container">
             <Filter onSubmit={onSubmitHandler}/>
             <Books {...filter}/>
-        </>
+        </div>
     )
 }
 

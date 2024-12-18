@@ -23,7 +23,9 @@ namespace BookShop.DAL.Tools
                 CoverType = book.CoverType,
                 PublicationYear = book.PublicationYear,
                 AuthorName = book.Author.Fullname,
+                AuthorCountry = book.Author.Country,
                 PublishingName = book.Publishing.Name,
+                PublishingCountry = book.Publishing.Country,
                 Images = book.Images.Select(image => image.MapToDTO()).ToList()
             };
         }

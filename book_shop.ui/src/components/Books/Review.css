@@ -1,0 +1,16 @@
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.review-header > div:nth-child(1) > div:nth-child(2) {
+    font-size: 14px;
+    color: #5d5c5c;
+}
+
+.stars-rating {
+    align-self: flex-start;
+    margin-top: -2px;
+}

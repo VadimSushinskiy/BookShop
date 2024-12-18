@@ -1,0 +1,4 @@
+.book-filter-container {
+    display: flex;
+    flex-basis: 100%;
+}

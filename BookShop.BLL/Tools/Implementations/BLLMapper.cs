@@ -41,7 +41,9 @@ namespace BookShop.BLL.Tools.Implementations
             book.Genre = bookDto.Genre;
             book.Language = bookDto.Language;
             book.AuthorName = bookDto.AuthorName;
+            book.AuthorCountry = bookDto.AuthorCountry;
             book.PublishingName = bookDto.PublishingName;
+            book.PublishingCountry = bookDto.PublishingCountry;
             book.Volume = bookDto.Volume;
             book.Price = bookDto.Price;
             book.Rating = bookDto.Rating;

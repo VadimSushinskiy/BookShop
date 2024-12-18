@@ -1,0 +1,15 @@
+.books-container {
+    flex-grow: 1;
+}
+
+.books {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 30px;
+}
+
+.load-book-button {
+    width: 20%;
+    min-width: 200px;
+    margin-top: 40px;
+}

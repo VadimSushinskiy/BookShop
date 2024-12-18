@@ -1,0 +1,62 @@
+nav {
+    height: 80px;
+    background-color: #d2d2d2;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.link-icon {
+    margin-right: 10px;
+    margin-left: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.link-home {
+    text-decoration: none;
+    font-size: 26px;
+    color: #5B636F;
+    margin-left: 10px;
+}
+
+.menu-link {
+    text-decoration: none;
+    color: #5B636F;
+    font-size: 19px;
+}
+
+.icon {
+    font-size: 22px;
+    color: #5B636F;
+    margin-right: 5px;
+}
+
+.cart-user {
+    display: flex;
+}
+
+.login {
+    margin-right: 50px;
+}
+
+.phone-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #5B636F;
+}
+
+.phone {
+    display: flex;
+    align-items: center;
+}
+
+.phone-flex > div:nth-child(2) {
+    font-size: 14px;
+}
+
+.phone-icon {
+    margin-right: 4px;
+}

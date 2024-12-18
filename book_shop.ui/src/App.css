@@ -11,8 +11,68 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Mabry Pro';
+  src: url('fonts/MabryPro-Medium.eot');
+  src: local('Mabry Pro Medium'), local('MabryPro-Medium'),
+  url('fonts/MabryPro-Medium.eot?#iefix') format('embedded-opentype'),
+  url('fonts/MabryPro-Medium.woff2') format('woff2'),
+  url('fonts/MabryPro-Medium.woff') format('woff'),
+  url('fonts/MabryPro-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 .App {
   text-align: center;
   font-family: "Mabry Pro", sans-serif;
+
 }
 
+body {
+  background-color: #efefef;
+}
+
+.stars-rating {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.stars{
+  color: #d0a296;
+  display: inline-block;
+  position: relative;
+}
+
+.stars span{
+  position: absolute;
+  left: 0;
+}
+.stars span::before {
+  content: "☆☆☆☆☆";
+}
+.stars .inner{
+  overflow: hidden;
+}
+
+.stars .inner::before {
+  content: "★★★★★";
+}
+
+.button {
+  height: 40px;
+  border: none;
+  background-color: #babdd9;
+  border-radius: 7px;
+  transition-duration: 300ms;
+  font-family: "Mabry Pro", sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 1px 1px 5px 1px #8a8fb2;
+}
+
+.button:hover {
+  background-color: #939ebe;
+}

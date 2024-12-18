@@ -7,6 +7,7 @@ import config from "../../../config.json"
 import "../../App.css"
 import Gallery from "./Gallery";
 import "./SingleBook.css"
+import Review from "./Review";
 
 const SingleBook = () => {
     const params = useParams();
@@ -17,7 +18,7 @@ const SingleBook = () => {
     const [pageNum, setPageNum] = useState(1);
     const [additional, setAdditional] = useState(0);
     const [text, setText] = useState("")
-    const [rating, setRating] = useState("")
+    const [rating, setRating] = useState(0);
     const [disabled, setDisabled] = useState(false);
     const [disabledBuy, setDisabledBuy] = useState(false);
     const [error, setError] = useState("");
@@ -28,7 +29,7 @@ const SingleBook = () => {
         const response = await axios.get(`${config.SERVER_URL}/review/${params.id}`, {
             params: {
                 pageNumber: pageNum,
-                pageSize: 1,
+                pageSize: 3,
                 additionalSkip: additional
             }
         });
@@ -48,6 +49,13 @@ const SingleBook = () => {
 
         if (response.status === 200) {
             setDisabledBuy(false);
+            return true
+        }
+    }
+
+    const BuyBookCart = async () => {
+        if (await BuyBook()) {
+            navigate("../cart", {relative: "path"})
         }
     }
 
@@ -56,7 +64,7 @@ const SingleBook = () => {
         setDisabled(true);
 
         try {
-            if (rating.length !== 1) {
+            if (rating < 1 || rating > 5) {
                 setError("Оберіть оцінку!");
             }
             else if (text === "") {
@@ -65,15 +73,15 @@ const SingleBook = () => {
             else {
                 const response = await axios.post(`${config.SERVER_URL}/review/${params.id}`, {
                     text: text,
-                    rating: Number(rating)
+                    rating: rating
                 }, {
                     withCredentials: true
                 });
 
                 if (response.status === 200) {
-                    setBook({...book, rating: (book.rating * book.ratingNumber + +rating) / (book.ratingNumber + 1), ratingNumber: book.ratingNumber + 1});
+                    setBook({...book, rating: (book.rating * book.ratingNumber + rating) / (book.ratingNumber + 1), ratingNumber: book.ratingNumber + 1});
                     setText("");
-                    setRating("");
+                    setRating(0);
                     setAdditional(additional + 1);
                     setReview([response.data, ...review]);
                 }
@@ -84,6 +92,15 @@ const SingleBook = () => {
         }
 
         setDisabled(false);
+    }
+
+    const getIndex = (e) => {
+        if (e.target.tagName === "SPAN") {
+            const stars = e.target.parentElement.children;
+            const idx = [...stars].indexOf(e.target);
+
+            setRating(idx + 1);
+        }
     }
 
     useEffect(() => {
@@ -110,13 +127,27 @@ const SingleBook = () => {
                     </div>
                     <div className="book-info">
                         <div className="title">Книга «{book.name}»</div>
-                        <div className="author">{book.authorName}</div>
+                        <div className="author" title={book.authorCountry}>{book.authorName}</div>
                         <div className="stars-rating">
-                            <div className="stars">
+                            <div className="stars stars-single-book">
                                 <span></span>
                                 <div className="inner" style={{width: `${+book.rating / 5 * 100}%`}}></div>
                             </div>
                             <div className="rating">{book.ratingNumber} відгуків</div>
+                        </div>
+                        <div className="additional-inf">
+                            <div>
+                                <div>Мова книги</div>
+                                <div>{book.language}</div>
+                            </div>
+                            <div>
+                                <div>Видавництво</div>
+                                <div title={book.publishingCountry}>{book.publishingName}</div>
+                            </div>
+                            <div>
+                                <div>Рік видання</div>
+                                <div>{book.publicationYear} рік</div>
+                            </div>
                         </div>
                         <div className="description">{book.description}</div>
                         <div className="char">
@@ -157,40 +188,59 @@ const SingleBook = () => {
 
                         {review.length > 0 && (
                             <>
-                                <h3>Відгуки:</h3>
-                                {review.map(review => {
-                                    return <div key={review.id}>{review.writingDate} {review.text} by {review.userName}.
-                                        Rating: {review.rating}</div>
-                                })}
-                                <button onClick={LoadReview}>Загрузити ще</button>
+                                <h4>Відгуки</h4>
+                                <div className="reviews">
+                                    {review.map(review => <Review key={review.id} {...review}/>)}
+                                </div>
+
+                                <button onClick={LoadReview} className="button review-button">Загрузити ще</button>
                             </>
                         )}
-                        {user && <div>
-                            <h4>Додати відгук:</h4>
-                            {error !== "" && <div>{error}</div>}
-                            <form action="" onSubmit={(e) => SubmitHandler(e)}>
-                                <span>Оцінка: </span>
-                                <input type="number" min="1" max="5" value={rating} onChange={(e) => {
-                                    const val = e.target.value;
-                                    if (val.length < 2 && "12345".includes(val)) {
-                                        setRating(val);
-                                    }
-                                }}/>
-                                <p>Ваш відгук: </p>
-                                <textarea value={text} onChange={(e) => setText(e.target.value)}></textarea>
-                                <div>
-                                    <button type="Submit" disabled={disabled}>Додати</button>
-                                </div>
-                            </form>
+                        {user && <div className="add-review">
+                            <h4>Додати відгук</h4>
+                            <div className="review-container">
+                                {error !== "" && <div className="error">{error}</div>}
+                                <form action="" onSubmit={(e) => SubmitHandler(e)}>
+                                    <div className="review-container-flex">
+                                        <div className="add-rating">
+                                            <div>Оцінка:</div>
+                                            <div className="add-stars" onClick={(e) => getIndex(e)}>
+                                                {["☆", "☆", "☆", "☆", "☆"].map((star, idx) => {
+                                                    if (rating <= idx) {
+                                                        return <span key={idx}>☆</span>
+                                                    }
+                                                    else {
+                                                        return <span key={idx}>★</span>
+                                                    }
+                                                })}
+                                            </div>
+                                        </div>
+                                        <div className="add-review-text-hint">Ваш відгук:</div>
+                                        <div className="add-text">
+                                        <textarea value={text}
+                                                  spellCheck="false"
+                                                  onChange={(e) => setText(e.target.value)}>
+                                        </textarea>
+                                        </div>
+                                        <button type="Submit" disabled={disabled} className="button review-button">Додати</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>}
                     </div>
                     <div className="book-buy">
-                        <div>Price: {book.price}</div>
-                        <button onClick={BuyBook} disabled={disabledBuy}>Купити</button>
+                        <div className="price">{book.price} грн</div>
+                        <button onClick={BuyBook} disabled={disabledBuy} className="button-buy buy-button">До кошику
+                        </button>
+                        <button onClick={BuyBookCart} disabled={disabledBuy} className="button-buy cart-button">Купити
+                            негайно
+                        </button>
+                        <div className="article">
+                            <div>Артикул</div>
+                            <div>{book.id.toString().padStart(6, "0")}</div>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
         )
     }

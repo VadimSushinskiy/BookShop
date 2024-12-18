@@ -40,8 +40,12 @@ namespace BookShop.Shared.DTO
         [Required]
         public string AuthorName { get; set; }
 
+        public string? AuthorCountry { get; set; }
+
         [Required]
         public string PublishingName { get; set; }
+
+        public string? PublishingCountry { get; set; }
 
         public List<ImageDTO> Images { get; set; } = new List<ImageDTO>();
     }

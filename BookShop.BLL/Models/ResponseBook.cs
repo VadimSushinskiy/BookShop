@@ -40,7 +40,13 @@ namespace BookShop.BLL.Models
         public string AuthorName { get; set; }
 
         [Required]
+        public string AuthorCountry { get; set; }
+
+        [Required]
         public string PublishingName { get; set; }
+
+        [Required]
+        public string PublishingCountry { get; set; }
 
         public string MainImageSrc { get; set; }
 

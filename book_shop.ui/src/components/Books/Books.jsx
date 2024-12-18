@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Book from "./Book";
 import config from "../../../config.json"
+import "./Books.css"
 
 const Books = (prop) => {
     const {name, minPrice, maxPrice, genre, language, authorName, rating} = prop;
@@ -13,7 +14,7 @@ const Books = (prop) => {
             {
                 params: {
                     pageNumber: page,
-                    pageSize: 3,
+                    pageSize: 10,
                     Name: name,
                     minPrice,
                     maxPrice,
@@ -34,16 +35,14 @@ const Books = (prop) => {
     }, [prop]);
 
     return (
-        <>
+        <div className="books-container">
             <div className="books">
                 {books.map(book => {
                     return <Book key={book.id} {...book}/>
                 })}
             </div>
-            <button onClick={() => DownloadBooks(pageNum)}>
-                Показати ще
-            </button>
-        </>
+            <button className="button load-book-button" onClick={() => DownloadBooks(pageNum)}>Показати ще</button>
+        </div>
     )
 }
 

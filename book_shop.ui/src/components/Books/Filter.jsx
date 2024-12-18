@@ -1,4 +1,5 @@
 import {useState} from "react";
+import "./Filter.css"
 
 const Filter = ({onSubmit}) => {
     const defaultData = {name: "", minPrice: 0, maxPrice: 10000, genre: "", language: "", authorName: "", rating: ""};
@@ -26,39 +27,45 @@ const Filter = ({onSubmit}) => {
                 e.preventDefault();
                 onSubmit(data);
             }}>
-                <p>Назва:</p>
-                <input
-                    type="text"
-                    value={data.name}
-                    onChange={(e) => handleChange(e, "name")}/>
-                <p>Автор:</p>
-                <input type="text"
-                       value={data.authorName}
-                       onChange={(e) => handleChange(e, "authorName")}/>
-                <p>Жанр:</p>
-                <input type="text"
-                       value={data.genre}
-                       onChange={(e) => handleChange(e, "genre")}/>
-                <p>Ціна</p>
-                <input type="number"
-                       value={data.minPrice}
-                       onChange={(e) => handleChange(e, "minPrice")}/>
-                <span> - </span>
-                <input type="number"
-                       value={data.maxPrice}
-                       onChange={(e) => handleChange(e, "maxPrice")}/>
-                <p>Мінімальний рейтинг:</p>
-                <input type="number"
-                       value={data.rating}
-                       onChange={(e) => handleChange(e, "rating")}/>
-                <p>Мова:</p>
-                <input type="text"
-                       value={data.language}
-                       onChange={(e) => handleChange(e, "language")}/>
-                <div>
-                    <button type="Submit" onClick={handleReset}>Скинути</button>
-                    <button type="Submit">Пошук</button>
+                <div className="form-container">
+                    <div>Назва:</div>
+                    <input
+                        type="text"
+                        value={data.name}
+                        onChange={(e) => handleChange(e, "name")}/>
+                    <div>Автор:</div>
+                    <input type="text"
+                           value={data.authorName}
+                           onChange={(e) => handleChange(e, "authorName")}/>
+                    <div>Жанр:</div>
+                    <input type="text"
+                           value={data.genre}
+                           onChange={(e) => handleChange(e, "genre")}/>
+                    <div>Ціна</div>
+                    <div>
+                        <input type="number"
+                               className="input-price"
+                               value={data.minPrice}
+                               onChange={(e) => handleChange(e, "minPrice")}/>
+                        <span> - </span>
+                        <input type="number"
+                               className="input-price"
+                               value={data.maxPrice}
+                               onChange={(e) => handleChange(e, "maxPrice")}/>
+                    </div>
+                    <div>Мінімальний рейтинг:</div>
+                    <input type="number"
+                           value={data.rating}
+                           onChange={(e) => handleChange(e, "rating")}/>
+                    <div>Мова:</div>
+                    <input type="text"
+                           value={data.language}
+                           onChange={(e) => handleChange(e, "language")}/>
+                    <button className="button search" type="Submit">Пошук</button>
+                    <button className="button reset" type="Submit" onClick={handleReset}>Скинути</button>
+
                 </div>
+
             </form>
         </div>
     )

@@ -1,0 +1,42 @@
+.book {
+    width: 168px;
+    max-height: 50vh;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-right: 50px;
+    text-align: start;
+}
+
+.book-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.book-author {
+    font-size: 14px;
+
+    color: gray;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.stars-book {
+    font-size: 22px;
+}
+
+.stars-book span::before {
+    font-size: 22px;
+}
+
+.book-price {
+    font-size: 18px;
+    color: #374375;
+    font-weight: 500;
+    margin: 0 auto;
+}
