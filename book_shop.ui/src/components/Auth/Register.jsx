@@ -1,7 +1,8 @@
 import {useState} from "react";
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import axios from "axios";
 import config from "../../../config.json";
+import "./Login.css"
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -47,34 +48,43 @@ const Register = () => {
 
     return (
         <div>
-            {error.length > 0 && <div className="error">{error}</div>}
+
             <form action="" onSubmit={(e) => SubmitHandler(e)}>
-                <div>
-                    <input type="text"
-                           placeholder="Name"
-                           value={name}
-                           onChange={(e) => setName(e.target.value)}/>
-                </div>
-                <div>
-                    <input type="text"
-                           placeholder="Email"
-                           value={email}
-                           onChange={(e) => setEmail(e.target.value)}/>
-                </div>
-                <div>
-                    <input type="password"
-                           placeholder="Password"
-                           value={password}
-                           onChange={(e) => setPassword(e.target.value)}/>
-                </div>
-                <div>
-                    <input type="password"
-                           placeholder="Repeat your password"
-                           value={secondPassword}
-                           onChange={(e) => setSecondPassword(e.target.value)}/>
-                </div>
-                <div>
-                    <button type="Submit" disabled={disabled}>Зареєструватись!</button>
+                <div className="center-box">
+                    <div className="box-container login-container">
+                        {error.length > 0 && <div className="error">{error}</div>}
+                        <div className="input-row">
+                            <div className="login-input-label">Ім'я</div>
+                            <input type="text"
+                                   placeholder="Ваше ім'я"
+                                   value={name}
+                                   onChange={(e) => setName(e.target.value)}/>
+                        </div>
+                        <div className="input-row">
+                            <div className="login-input-label">Email</div>
+                            <input type="text"
+                                   placeholder="Email"
+                                   value={email}
+                                   onChange={(e) => setEmail(e.target.value)}/>
+                        </div>
+                        <div className="input-row">
+                            <div className="login-input-label">Пароль</div>
+                            <input type="password"
+                                   placeholder="Пароль"
+                                   value={password}
+                                   onChange={(e) => setPassword(e.target.value)}/>
+                        </div>
+                        <div className="input-row">
+                            <div className="login-input-label">Повторіть пароль</div>
+                            <input type="password"
+                                   placeholder="Повторіть пароль"
+                                   value={secondPassword}
+                                   onChange={(e) => setSecondPassword(e.target.value)}/>
+                        </div>
+                        <button type="Submit" disabled={disabled} className="button login-button">Зареєструватись!
+                        </button>
+                        <div>Вже маєте акаунт? <Link to="../register" className="register-link">Увійдіть у нього!</Link></div>
+                    </div>
                 </div>
             </form>
         </div>

@@ -106,6 +106,9 @@ namespace BookShop.DAL.Tools
                 CreatedDate = orderStatus.CreatedDate,
                 Name = orderStatus.Name,
                 Address = orderStatus.Address,
+                Phone = orderStatus.Phone,
+                Email = orderStatus.Email,
+                DeliveryType = orderStatus.DeliveryType,
             };
         }
 
@@ -113,11 +116,12 @@ namespace BookShop.DAL.Tools
         {
             if (orderStatus == null) return;
 
-            orderStatus.TotalPrice = orderStatusDto.TotalPrice;
             orderStatus.Status = orderStatusDto.Status;
             orderStatus.CreatedDate = orderStatusDto.CreatedDate;
             orderStatus.Name = orderStatusDto.Name;
             orderStatus.Address = orderStatusDto.Address;
+            orderStatus.Phone = orderStatusDto.Phone;
+            orderStatus.Email = orderStatusDto.Email;
         }
 
         public static OrderDTO? MapToDTO(this Order? order)

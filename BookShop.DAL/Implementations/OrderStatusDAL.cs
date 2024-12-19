@@ -20,6 +20,7 @@ namespace BookShop.DAL.Implementations
             return await _context.OrderStatuses
                 .AsNoTracking()
                 .Where(status => status.UserId == userId)
+                .OrderByDescending(status => status.Id)
                 .Select(status => status.MapToDTO())
                 .ToListAsync();
         }
@@ -32,6 +33,15 @@ namespace BookShop.DAL.Implementations
             {
                 orderStatus.UserId = userId;
             }
+
+            Cart? cart = await _context.Carts.Where(cart => cart.Id == cartId).FirstOrDefaultAsync();
+            Dictionary<string, decimal> deliveryPrices = new Dictionary<string, decimal> { { "UkrPosta", 40 }, { "NovaPosta", 60 }, { "UkrPostaCourier", 80 }, { "NovaPostaCourier", 120 } };
+            Dictionary<string, string> deliveryTypes = new Dictionary<string, string> { { "UkrPosta", "Нова Пошта" }, { "NovaPosta", "Укрпошта" }, { "UkrPostaCourier", "Кур'єр Нова Пошта" }, { "NovaPostaCourier", "Кур'єр Укрпошта" } };
+
+            decimal deliveryPrice = deliveryPrices.ContainsKey(orderStatusDto.DeliveryType) ? deliveryPrices[orderStatusDto.DeliveryType] : deliveryPrices["NovaPosta"];
+
+            orderStatus.TotalPrice = cart.TotalPrice + deliveryPrice;
+            orderStatus.DeliveryType = deliveryTypes.ContainsKey(orderStatusDto.DeliveryType) ? deliveryTypes[orderStatusDto.DeliveryType] : deliveryTypes["NovaPosta"];
 
             await _context.OrderStatuses.AddAsync(orderStatus);
 
@@ -47,3 +57,4 @@ namespace BookShop.DAL.Implementations
         }
     }
 }
+

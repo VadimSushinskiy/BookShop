@@ -1,0 +1,79 @@
+.order-row img {
+    width: 60px;
+}
+
+.order-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    border: 1px solid #949393;
+    border-radius: 7px;
+    padding: 10px 5px;
+    box-shadow: 0 0 3px 0 #949393;
+
+}
+
+.order-link {
+    display: flex;
+    text-decoration: none;
+    align-items: flex-start;
+}
+
+.order-info {
+    text-align: start;
+    margin-left: 10px;
+}
+
+.order-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+}
+
+.order-author {
+    font-size: 14px;
+    color: gray;
+}
+
+.order-price {
+    font-size: 18px;
+    color: #374375;
+    font-weight: 500;
+}
+
+.order-count-delete {
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.order-count {
+    display: flex;
+    align-items: center;
+}
+
+.order-count div {
+    margin: 5px;
+    font-size: 26px;
+    font-weight: 500;
+    padding: 1px 8px;
+}
+
+.order-count span {
+    font-size: 36px;
+    color: #5d5c5c;
+    cursor: pointer;
+    transition-duration: 250ms;
+}
+
+.order-count span:hover {
+    color: #282828;
+    user-select: none;
+}
+
+.order-delete {
+    font-size: 14px;
+    color: #282828;
+    cursor: pointer;
+}

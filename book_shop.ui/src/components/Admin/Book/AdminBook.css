@@ -1,0 +1,80 @@
+.admin-container {
+    width: 45%;
+    min-width: 800px;
+    padding: 30px;
+    margin: 20px auto 0;
+}
+
+.admin-input-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-input {
+    width: 45%;
+}
+
+.admin-single {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.admin-input input:not(input[type="file"]) {
+    height: 22px;
+    background-color: #e8e8e8;
+    font-family: "Mabry Pro", sans-serif;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 10px 0 10px 5px;
+    font-size: 22px;
+    margin-bottom: 20px;
+    transition-duration: 250ms;
+    width: 100%;
+}
+
+.admin-textarea {
+    height: 170px;
+    background-color: #e8e8e8;
+    font-family: "Mabry Pro", sans-serif;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 100%;
+    font-size: 20px;
+    resize: vertical;
+}
+
+.admin-label {
+    font-size: 20px;
+    text-align: start;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+input[type="file"]::file-selector-button {
+    height: 40px;
+    background-color: #babdd9;
+    border: 1px solid #babdd9;
+    border-radius: 7px;
+    transition-duration: 300ms;
+    font-family: "Mabry Pro", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #939ebe;
+}
+
+input[type="file"] {
+    margin-bottom: 15px;
+}
+
+.admin-button {
+    width: 30%;
+}
+
+.admin-find {
+    width: 25%;
+}

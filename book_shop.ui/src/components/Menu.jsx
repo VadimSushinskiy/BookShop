@@ -6,6 +6,7 @@ import GetUser from "../tools/GetUser";
 import UserContext from "../context/UserContext";
 import config from "../../config.json"
 import "./Menu.css"
+import {MdAdminPanelSettings} from "react-icons/md";
 
 const Menu = () => {
     const {user, setUser} = useContext(UserContext);
@@ -21,10 +22,11 @@ const Menu = () => {
     return (
         <nav>
             <Link to="." className="link-home">Магазин</Link>
-
-            {(user?.role === "Admin" || user?.role === "Owner") && <Link to="admin">Admin</Link>}
-
             <div className="cart-user">
+                {(user?.role === "Admin" || user?.role === "Owner") && <Link to="admin" className="link-icon">
+                    <MdAdminPanelSettings className="icon"/>
+                    <div className="menu-link">Адміністрування</div>
+                </Link>}
                 <div className="phone-flex">
                     <div className="phone">
                         <FaPhoneAlt className="phone-icon"/>
@@ -32,19 +34,19 @@ const Menu = () => {
                     </div>
                     <div>Пн-Пт, 8:00-20:00</div>
                 </div>
-                {user && <div className="link-icon">
+                {user && <Link to="statuses"  className="link-icon">
                     <FaRegFileAlt className="icon"/>
-                    <Link to="statuses" className="menu-link">Замовлення</Link>
-                </div>}
-                <div className="link-icon">
+                    <div className="menu-link">Замовлення</div>
+                </Link>}
+                <Link to="cart" className="link-icon">
                     <FaShoppingCart className="icon"/>
-                    <Link to="cart" className="menu-link">Кошик</Link>
-                </div>
-                {!user && <div className="link-icon login">
+                    <div  className="menu-link">Кошик</div>
+                </Link>
+                {!user && <Link to="login" className="link-icon first-icon">
                     <FaUser className="icon"/>
-                    <Link to="login" className="menu-link">Увійти</Link>
-                </div>}
-                {user && <span onClick={exitHandler} className="menu-link login link-icon">Вийти</span>}
+                    <div  className="menu-link">Увійти</div>
+                </Link>}
+                {user && <span onClick={exitHandler} className="menu-link first-icon link-icon">Вийти</span>}
             </div>
         </nav>
     )

@@ -12,6 +12,7 @@ nav {
     margin-left: 60px;
     display: flex;
     align-items: center;
+    text-decoration: none;
 }
 
 .link-home {
@@ -22,7 +23,6 @@ nav {
 }
 
 .menu-link {
-    text-decoration: none;
     color: #5B636F;
     font-size: 19px;
 }
@@ -35,10 +35,12 @@ nav {
 
 .cart-user {
     display: flex;
+    align-items: center;
 }
 
-.login {
+.first-icon {
     margin-right: 50px;
+    cursor: pointer;
 }
 
 .phone-flex {
@@ -46,6 +48,7 @@ nav {
     flex-direction: column;
     align-items: center;
     color: #5B636F;
+    margin-left: 60px;
 }
 
 .phone {

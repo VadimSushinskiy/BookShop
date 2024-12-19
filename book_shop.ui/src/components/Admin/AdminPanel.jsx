@@ -1,6 +1,7 @@
 import {useContext, useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import UserContext from "../../context/UserContext";
+import "./AdminPanel.css"
 
 const AdminPanel = () => {
     const {user} = useContext(UserContext);
@@ -13,32 +14,48 @@ const AdminPanel = () => {
     }, []);
 
     return (
-        <>
+        <div className="admin-panel">
             <div>
-                <Link to="book/add">Додати книгу</Link>
+                <Link to="book/add">
+                    <button className="button">Додати книгу</button>
+                </Link>
             </div>
             <div>
-                <Link to="book/change">Редагувати книгу</Link>
+                <Link to="book/change">
+                    <button className="button">Змінити книгу</button>
+                </Link>
             </div>
             <div>
-                <Link to="book/delete">Видалити книгу</Link>
+                <Link to="book/delete">
+                    <button className="button">Видалити книгу</button>
+                </Link>
             </div>
             <div>
-                <Link to="author/add">Додати автора</Link>
+                <Link to="author/add">
+                    <button className="button">Додати автора</button>
+                </Link>
             </div>
             <div>
-                <Link to="author/change">Редагувати автора</Link>
+                <Link to="author/change">
+                    <button className="button">Змінити автора</button>
+                </Link>
             </div>
             <div>
-                <Link to="publishing/add">Додати видавництво</Link>
+                <Link to="publishing/add">
+                    <button className="button">Додати видавництво</button>
+                </Link>
             </div>
             <div>
-                <Link to="publishing/change">Редагувати видавництво</Link>
+                <Link to="publishing/change">
+                    <button className="button">Змінити видавництво</button>
+                </Link>
             </div>
             {user?.role === "Owner" && <div>
-                <Link to="users">Користувачі</Link>
+                <Link to="users">
+                    <button className="button">Користувачі</button>
+                </Link>
             </div>}
-        </>
+        </div>
     )
 }
 

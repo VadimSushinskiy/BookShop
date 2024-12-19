@@ -5,19 +5,31 @@ import axios from "axios";
 import UserContext from "../../context/UserContext";
 import Order from "./Order";
 import config from "../../../config.json"
+import "./Cart.css"
 
 const Cart = () => {
+    const {user} = useContext(UserContext);
+    const navigator = useNavigate();
+    let url;
+    const delivery = {
+        NovaPostaCourier: 120,
+        NovaPosta: 60,
+        UkrPostaCourier: 80,
+        UkrPosta: 40
+    }
+
     const [orders, setOrders] = useState([]);
     const [price, setPrice] = useState(0);
-    const [hidden, setHidden] = useState(false);
-    const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
+    const [data, setData] = useState({
+        name: user?.name ?? "",
+        address:"",
+        phoneNumber: "",
+        email: "",
+        deliveryType: ""
+    });
     const [error, setError] = useState("");
 
-    const {user} = useContext(UserContext);
-    let url;
 
-    const navigator = useNavigate();
 
     if (user !== null) {
         const cartId = user.cartId;
@@ -73,28 +85,32 @@ const Cart = () => {
         }
     }
 
-    const changeHidden = () => {
-        setHidden(true);
-    }
-    if (orders.length === 0) {
-        return <div>Кошик порожній!</div>
-    }
-
     const PlaceOrder = async () => {
-        if (name === "") {
+        if (data.name === "") {
             setError("Введіть ім'я отримувача!");
         }
-        else if (address === "") {
+        else if (data.address === "") {
             setError("Введіть адресу доставки!");
+        }
+        else if (!data.phoneNumber.match(/^((\+?38)[\- ]?)?(\(?\d{3}\)?[\- ]?)[\d\- ]{7,10}$/)) {
+            setError("Введіть номер телефону!");
+        }
+        else if (!data.email.match(/.+@.+\.+/)) {
+            setError("Введіть коректну пошту!");
+        }
+        else if (data.deliveryType === "") {
+            setError("Оберіть тип доставки!");
         }
         else {
             const cartId = user !== null ? user.cartId : Cookies.get("anonCartId");
             const response = await axios.post(`https://localhost:7259/api/orderstatus/${cartId}`, {
-                    totalPrice: price,
                     status: "прийнятно",
                     createdDate: new Date(),
-                    name,
-                    address
+                    name: data.name,
+                    address: data.address,
+                    phone: data.phoneNumber,
+                    email: data.email,
+                    deliveryType: data.deliveryType
                 }, {
                 withCredentials: true
             });
@@ -109,30 +125,138 @@ const Cart = () => {
         }
     }
 
+    const changeRadio = (e) => {
+        const radio = e.currentTarget.children[0];
+        radio.checked = true;
+        setData({...data, deliveryType: radio.value})
+    }
+
+    const changeData = (e, name) => {
+        setData({...data, [name]: e.target.value});
+    }
+
+
+    if (orders.length === 0) {
+        return <div className="nothing-message">Кошик порожній!</div>
+    }
+
     return (
         <>
-            {hidden && <div>
-                <h2>Оформити замовлення</h2>
-                {error !== "" && <div>{error}</div>}
-                <div>
-                    <input type="text"
-                           placeholder="Ім'я отримувача"
-                           value={name}
-                           onChange={(e) => setName(e.target.value)}/>
+            <h4>Оформити замовлення</h4>
+            <div className="cart-container">
+                <div className="cart-form box-container">
+                    {error !== "" && <div className="error">{error}</div>}
+                    <div className="form-title">Інформація про користувача</div>
+                    <div className="form-row">
+                        <div>
+                            <div className="input-label">ПІБ отримувача</div>
+                            <div>
+                                <input type="text"
+                                       placeholder="ПІБ отримувача"
+                                       value={data.name}
+                                       onChange={(e) => changeData(e, "name")}/>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="input-label">Адреса отримувача</div>
+                            <div>
+                                <input type="text"
+                                       placeholder="Адреса отримувача"
+                                       value={data.address}
+                                       onChange={(e) => changeData(e, "address")}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="form-row">
+                        <div>
+                            <div className="input-label">Номер телефону</div>
+                            <div>
+                                <input type="text"
+                                       placeholder="Номер телефону"
+                                       value={data.phoneNumber}
+                                       onChange={(e) => changeData(e, "phoneNumber")}/>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="input-label">Електрона пошта</div>
+                            <div>
+                                <input type="text"
+                                       placeholder="Пошта"
+                                       value={data.email}
+                                       onChange={(e) => changeData(e, "email")}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="form-title">Доставка</div>
+                    <div>
+                        <div className="radio-row" onClick={(e) => changeRadio(e)}>
+                            <input type="radio" name="delivery" value="NovaPosta"/>
+                            <div className="delivery-body">
+                                <div className="delivery-row">
+                                    <div>Відділення Нова Пошта</div>
+                                    <div className="delivery-price">60 грн</div>
+                                </div>
+                                <div>1-3 дні</div>
+                            </div>
+                        </div>
+                        <div className="radio-row" onClick={(e) => changeRadio(e)}>
+                            <input type="radio" name="delivery" value="UkrPosta"/>
+                            <div className="delivery-body">
+                                <div className="delivery-row">
+                                    <div>Відділення Укрпошта</div>
+                                    <div className="delivery-price">40 грн</div>
+                                </div>
+                                <div>2-5 дні</div>
+                            </div>
+                        </div>
+                        <div className="radio-row" onClick={(e) => changeRadio(e)}>
+                            <input type="radio" name="delivery" value="NovaPostaCourier"/>
+                            <div className="delivery-body">
+                                <div className="delivery-row">
+                                    <div>Кур'єр Нова Пошта</div>
+                                    <div className="delivery-price">120 грн</div>
+                                </div>
+                                <div>1-3 дні</div>
+                            </div>
+                        </div>
+                        <div className="radio-row" onClick={(e) => changeRadio(e)}>
+                            <input type="radio" name="delivery" value="UkrPostaCourier"/>
+                            <div className="delivery-body">
+                                <div className="delivery-row">
+                                    <div>Кур'єр Укрпошта</div>
+                                    <div className="delivery-price">80 грн</div>
+                                </div>
+                                <div>2-5 дні</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <input type="text"
-                           placeholder="Адреса отримувача"
-                           value={address}
-                           onChange={(e) => setAddress(e.target.value)}/>
+                <div className="cart-cart">
+                    <div className="cart-info box-container">
+                        <div className="cart-count">{orders.reduce((acc, item) => acc += item.count, 0)} товари у кошику</div>
+                        {orders.map(order => {
+                            return <Order key={order.id} {...order} changeHandler={changeCount}
+                                          deleteHandler={deleteOrder}/>
+                        })}
+                        <div className="cart-price">Разом: {price} грн</div>
+                    </div>
+                    <div className="cart-summary box-container">
+                        <div className="summary-row summary-ordinary">
+                            <div>До сплати</div>
+                            <div>{price + (data.deliveryType !== "" ? delivery[data.deliveryType] : 0)} грн</div>
+                        </div>
+                        <div className="summary-row summary-secondary">
+                            <div>{orders.length} товарів</div>
+                            <div>{price} грн</div>
+                        </div>
+                        <div className="summary-row summary-secondary">
+                            <div>Доставка</div>
+                            <div>{data.deliveryType !== "" ? delivery[data.deliveryType] : 0} грн</div>
+                        </div>
+                        <button onClick={PlaceOrder} className="button order-button">Оформити замовлення</button>
+                    </div>
                 </div>
-                <button onClick={PlaceOrder}>Оформити</button>
-            </div>}
-            {orders.map(order => {
-                return <Order key={order.id} {...order} changeHandler={changeCount} deleteHandler={deleteOrder}/>
-            })}
-            <div>Total price: {price}</div>
-            {price > 0 && <button hidden={hidden} onClick={changeHidden}>Оформити замовлення</button>}
+            </div>
         </>
 
     );

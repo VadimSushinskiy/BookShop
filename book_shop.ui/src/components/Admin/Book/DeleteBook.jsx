@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
+import "./AdminBook.css"
 
 const DeleteBook = () => {
     const {user} = useContext(UserContext);
@@ -38,13 +39,17 @@ const DeleteBook = () => {
     }
 
     return (
-        <div>
-            {error !== "" && error}
-            <div>
-                <input type="number" placeholder="Id" value={id} onChange={(e) => setId(+e.target.value)}/>
+        <div className="admin-container">
+            {error !== "" && <div className="error">{error}</div>}
+            <div className="admin-input-row">
+                <div className="admin-input admin-single admin-find">
+                    <div className="login-input-label">Id</div>
+                    <input type="number" placeholder="Id" value={id}
+                           onChange={(e) => setId(+e.target.value)}/>
+                </div>
             </div>
             <div>
-                <button onClick={handleDelete}>Видалити</button>
+                <button onClick={handleDelete} className="button admin-button">Видалити</button>
             </div>
         </div>
     )

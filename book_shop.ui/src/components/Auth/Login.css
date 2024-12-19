@@ -1,0 +1,55 @@
+.login-container {
+    width: 30%;
+    min-width: 400px;
+    padding: 20px;
+}
+
+.input-row {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.login-container input {
+    height: 22px;
+    background-color: #e8e8e8;
+    font-family: "Mabry Pro", sans-serif;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 22px;
+    margin-bottom: 20px;
+    transition-duration: 250ms;
+}
+
+.login-container input[type="password"] {
+    font-family: sans-serif;
+}
+
+.login-container input:hover {
+    box-shadow: 1px 1px 10px 1px #949393;
+}
+
+.login-input-label {
+    font-size: 20px;
+    text-align: start;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.login-button {
+    width: 35%;
+    margin-bottom: 15px;
+}
+
+.center-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 90px);
+}
+
+.register-link {
+    text-decoration: none;
+}

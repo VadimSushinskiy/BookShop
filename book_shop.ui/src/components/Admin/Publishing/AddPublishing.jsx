@@ -42,15 +42,20 @@ const AddPublishing = () => {
     }
 
     return (
-        <div>
-            {error !== "" && error}
-            <div>
-                <input type="text" placeholder="Назва видавництва" value={name} onChange={(e) => setName(e.target.value)}/>
+        <div className="box-container admin-container">
+            {error !== "" && <div className="error">{error}</div>}
+            <div className="admin-input-row">
+                <div className="admin-input">
+                    <div className="admin-label">Назва видавництва</div>
+                    <input type="text" placeholder="Повне ім'я" value={name} onChange={(e) => setName(e.target.value)}/>
+                </div>
+                <div className="admin-input">
+                    <div className="admin-label">Країна видавництва</div>
+                    <input type="text" placeholder="Країна автора" value={country}
+                           onChange={(e) => setCountry(e.target.value)}/>
+                </div>
             </div>
-            <div>
-                <input type="text" placeholder="Країна видавництва" value={country} onChange={(e) => setCountry(e.target.value)}/>
-            </div>
-            <button onClick={AddHandler}>Додати видавництво</button>
+            <button onClick={AddHandler} className="button admin-button">Додати видавництво</button>
         </div>
     )
 }

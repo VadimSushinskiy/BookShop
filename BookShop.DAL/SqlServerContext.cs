@@ -50,6 +50,7 @@ namespace BookShop.DAL
                 entity.Property(e => e.RatingNumber).HasDefaultValue(0);
                 entity.Property(e => e.CoverType).HasDefaultValue("Тверда");
                 entity.Property(e => e.PublicationYear).HasDefaultValue(2024);
+
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -62,6 +63,10 @@ namespace BookShop.DAL
             modelBuilder.Entity<OrderStatus>(entity =>
             {
                 entity.HasOne(d => d.User).WithMany(p => p.Orders).HasForeignKey(d => d.UserId);
+
+                entity.Property(e => e.Phone).HasDefaultValue("+380974863665");
+                entity.Property(e => e.Email).HasDefaultValue("admin@gmail.com");
+                entity.Property(e => e.DeliveryType).HasDefaultValue("Нова Пошта");
             });
 
             modelBuilder.Entity<Review>(entity =>

@@ -70,28 +70,33 @@ const ChangeAuthor = () => {
     }
 
     return (
-        <div>
-            {error !== "" && error}
-            <div>
-                <input type="text" placeholder="Повне ім'я" value={name}
-                       onChange={(e) => setName(e.target.value)}/>
+        <div className="box-container admin-container">
+            {error !== "" && <div className="error">{error}</div>}
+            <div className="admin-input-row">
+                <div className="admin-input admin-single admin-find">
+                    <div className="login-input-label">Повне ім'я</div>
+                    <input type="text" placeholder="Повне ім'я" value={name}
+                           onChange={(e) => setName(e.target.value)}/>
+                </div>
             </div>
-            <div>
-                <button onClick={FindAuthor}>Знайти</button>
-            </div>
-            {!hidden && <div>
-                <div>
-                    <input type="text" placeholder="Нове ім'я" value={newName}
-                           onChange={(e) => setNewName(e.target.value)}/>
+            <button onClick={FindAuthor} className="button admin-button">Знайти</button>
+            {!hidden && <>
+                <div className="admin-input-row">
+                    <div className="admin-input">
+                        <div className="admin-label">Нове ім'я</div>
+                        <input type="text" placeholder="Нове ім'я" value={newName}
+                               onChange={(e) => setNewName(e.target.value)}/>
+                    </div>
+                    <div className="admin-input">
+                        <div className="admin-label">Країна автора</div>
+                        <input type="text" placeholder="Країна автора" value={country}
+                               onChange={(e) => setCountry(e.target.value)}/>
+                    </div>
                 </div>
                 <div>
-                    <input type="text" placeholder="Країна автора" value={country}
-                           onChange={(e) => setCountry(e.target.value)}/>
+                    <button onClick={ChangeAuthor} className="button admin-button">Редагувати</button>
                 </div>
-                <div>
-                    <button onClick={ChangeAuthor}>Редагувати</button>
-                </div>
-            </div>}
+            </>}
         </div>
     )
 }

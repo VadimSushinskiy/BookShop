@@ -1,0 +1,42 @@
+.order-container {
+    width: 45%;
+}
+
+.order-status-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 5px;
+}
+
+.order-status-row > div:nth-child(1) {
+    text-align: start;
+}
+
+.order-status-row > div:nth-child(2) {
+    text-align: end;
+}
+
+.status-id {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.status-status {
+    font-size: 18px;
+    font-weight: 500;
+    color: green;
+}
+
+.status-title {
+    color: #5d5c5c;
+    margin-bottom: 5px;
+}
+
+.status-title ~ div {
+    margin-bottom: 2px;
+    font-size: 17px;
+}
+
+.status-title ~ div > span {
+    font-weight: 500;
+}

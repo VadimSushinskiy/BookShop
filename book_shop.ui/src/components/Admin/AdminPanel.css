@@ -1,0 +1,10 @@
+.admin-panel {
+    width: 15%;
+    margin: 80px auto 0;
+}
+
+.admin-panel  .button {
+    width: 75%;
+    margin-bottom: 15px;
+    min-width: 230px;
+}

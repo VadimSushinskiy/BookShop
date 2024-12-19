@@ -76,3 +76,22 @@ body {
 .button:hover {
   background-color: #939ebe;
 }
+
+.box-container {
+  background-color: #e8e8e8;
+  border-radius: 12px;
+  padding: 8px 14px 20px;
+  margin-bottom: 15px;
+  box-shadow: 1px 1px 10px 1px #949393;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 20px;
+}
+
+.nothing-message {
+  font-size: 22px;
+  font-weight: 400;
+}

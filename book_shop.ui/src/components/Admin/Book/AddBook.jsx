@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
+import "./AdminBook.css"
 
 const AddBook = () => {
     const {user} = useContext(UserContext);
@@ -78,53 +79,83 @@ const AddBook = () => {
     }, []);
 
     return (
-        <div>
-            {error !== "" && error}
-            <div>
-                <input type="text" placeholder="Назва" value={data.name} onChange={(e) => handleChange(e, "name")}/>
+        <div className="box-container admin-container">
+            {error !== "" && <div className="error">{error}</div>}
+            <div className="admin-input-row">
+                <div className="admin-input">
+                    <div className="admin-label">Назва</div>
+                    <input type="text" placeholder="Назва" value={data.name}
+                           onChange={(e) => handleChange(e, "name")}/>
+                </div>
+                <div className="admin-input">
+                    <div className="admin-label">Жанр</div>
+                    <input type="text" placeholder="Жанр" value={data.genre}
+                           onChange={(e) => handleChange(e, "genre")}/>
+                </div>
             </div>
             <div>
-                <textarea placeholder="Опис" value={data.description}
+                <div className="admin-label">Опис</div>
+                <textarea className="admin-textarea" placeholder="Опис" value={data.description}
                           onChange={(e) => handleChange(e, "description")}></textarea>
             </div>
-            <div>
-                <input type="text" placeholder="Жанр" value={data.genre} onChange={(e) => handleChange(e, "genre")}/>
+            <div className="admin-input-row">
+                <div className="admin-input">
+                    <div className="login-input-label">Мова</div>
+                    <input type="text" placeholder="Мова" value={data.language}
+                           onChange={(e) => handleChange(e, "language")}/>
+                </div>
+                <div className="admin-input">
+                    <div className="login-input-label">Тип обкладинки</div>
+                    <input type="text" placeholder="Тип обкладинки" value={data.coverType}
+                           onChange={(e) => handleChange(e, "coverType")}/>
+                </div>
             </div>
-            <div>
-                <input type="text" placeholder="Мова" value={data.language}
-                       onChange={(e) => handleChange(e, "language")}/>
+            <div className="admin-input-row">
+                <div className="admin-input">
+                    <div className="login-input-label">Ім'я автора</div>
+                    <input type="text" placeholder="Ім'я автора" value={data.authorName}
+                           onChange={(e) => handleChange(e, "authorName")}/>
+                </div>
+                <div className="admin-input">
+                    <div className="login-input-label">Назва видавництва</div>
+                    <input type="text" placeholder="Назва видавництва" value={data.publishingName}
+                           onChange={(e) => handleChange(e, "publishingName")}/>
+                </div>
             </div>
-            <div>
-                <input type="text" placeholder="Ім'я автора" value={data.authorName}
-                       onChange={(e) => handleChange(e, "authorName")}/>
+            <div className="admin-input-row">
+                <div className="admin-input">
+                    <div className="login-input-label">Рік видання</div>
+                    <input type="number" placeholder="Рік видання" value={data.publicationYear}
+                           onChange={(e) => handleChange(e, "publicationYear")}/>
+                </div>
+                <div className="admin-input">
+                    <div className="login-input-label">Кількість сторінок</div>
+                    <input type="number" placeholder="Кількість сторінок" value={data.volume}
+                           onChange={(e) => handleChange(e, "volume")}/>
+                </div>
             </div>
-            <div>
-                <input type="text" placeholder="Назва видавництва" value={data.publishingName}
-                       onChange={(e) => handleChange(e, "publishingName")}/>
+            <div className="admin-input-row">
+                <div className="admin-input admin-single">
+                    <div className="login-input-label">Ціна</div>
+                    <input type="number" placeholder="Ціна" value={data.price}
+                           onChange={(e) => handleChange(e, "price")}/>
+                </div>
             </div>
-            <div>
-                <input type="text" placeholder="Тип обкладинки" value={data.coverType}
-                       onChange={(e) => handleChange(e, "coverType")}/>
+            <div className="admin-input-row">
+                <div className="admin-input admin-single">
+                    <div className="login-input-label">Головне зображення</div>
+                    <input type="file" accept="image/*" onChange={(e) => handleChange(e, "mainImage")}/>
+                </div>
             </div>
-            <div>
-                <input type="number" placeholder="Рік видання" value={data.publicationYear}
-                       onChange={(e) => handleChange(e, "publicationYear")}/>
+            <div className="admin-input-row">
+                <div className="admin-input admin-single">
+                    <div className="login-input-label">Зображення</div>
+                    <input type="file" accept="image/*" multiple onChange={(e) => handleChange(e, "imgFiles")}/>
+                </div>
             </div>
-            <div>
-                <input type="number" placeholder="Кількість сторінок" value={data.volume}
-                       onChange={(e) => handleChange(e, "volume")}/>
-            </div>
-            <div>
-                <input type="number" placeholder="Ціна" value={data.price} onChange={(e) => handleChange(e, "price")}/>
-            </div>
-            <div>
-                <input type="file" accept="image/*" onChange={(e) => handleChange(e, "mainImage")}/>
-            </div>
-            <div>
-                <input type="file" accept="image/*" multiple onChange={(e) => handleChange(e, "imgFiles")}/>
-            </div>
-            <button onClick={AddHandler}>Додати</button>
+            <button onClick={AddHandler} className="button admin-button">Додати</button>
         </div>
+
     )
 }
 

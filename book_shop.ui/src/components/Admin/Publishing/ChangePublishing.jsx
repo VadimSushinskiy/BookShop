@@ -70,30 +70,35 @@ const ChangePublishing = () => {
     }
 
     return (
-        <div>
-            {error !== "" && error}
-            <div>
+    <div className="box-container admin-container">
+        {error !== "" && <div className="error">{error}</div>}
+        <div className="admin-input-row">
+            <div className="admin-input admin-single admin-find">
+                <div className="login-input-label">Назва</div>
                 <input type="text" placeholder="Назва" value={name}
                        onChange={(e) => setName(e.target.value)}/>
             </div>
-            <div>
-                <button onClick={FindPublishing}>Знайти</button>
-            </div>
-            {!hidden && <div>
-                <div>
+        </div>
+        <button onClick={FindPublishing} className="button admin-button">Знайти</button>
+        {!hidden && <>
+            <div className="admin-input-row">
+                <div className="admin-input">
+                    <div className="admin-label">Нова назва</div>
                     <input type="text" placeholder="Нова назва" value={newName}
                            onChange={(e) => setNewName(e.target.value)}/>
                 </div>
-                <div>
+                <div className="admin-input">
+                    <div className="admin-label">Країна автора</div>
                     <input type="text" placeholder="Країна видавництва" value={country}
                            onChange={(e) => setCountry(e.target.value)}/>
                 </div>
-                <div>
-                    <button onClick={ChangePublishing}>Редагувати</button>
-                </div>
-            </div>}
-        </div>
-    )
+            </div>
+            <div>
+                <button onClick={ChangePublishing} className="button admin-button">Редагувати</button>
+            </div>
+        </>}
+    </div>
+)
 }
 
 export default ChangePublishing;

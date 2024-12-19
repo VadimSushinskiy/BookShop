@@ -1,9 +1,10 @@
 import {useState, useContext} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../context/UserContext";
 import GetUser from "../../tools/GetUser";
 import config from "../../../config.json";
+import "./Login.css"
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -46,22 +47,28 @@ const Login = () => {
 
     return (
         <div>
-            {error.length > 0 && <div className="error">{error}</div>}
+
             <form action="" onSubmit={(e) => SubmitHandler(e)}>
-                <div>
-                    <input type="text"
-                           placeholder="Email"
-                           value={email}
-                           onChange={(e) => setEmail(e.target.value)}/>
-                </div>
-                <div>
-                    <input type="password"
-                           placeholder="Password"
-                           value={password}
-                           onChange={(e) => setPassword(e.target.value)}/>
-                </div>
-                <div>
-                    <button type="Submit" disabled={disabled}>Увійти</button>
+                <div className="center-box">
+                    <div className="box-container login-container">
+                        {error.length > 0 && <div className="error">{error}</div>}
+                        <div className="input-row">
+                            <div className="login-input-label">Email</div>
+                            <input type="text"
+                                   placeholder="Email"
+                                   value={email}
+                                   onChange={(e) => setEmail(e.target.value)}/>
+                        </div>
+                        <div className="input-row">
+                            <div className="login-input-label">Пароль</div>
+                            <input type="password"
+                                   placeholder="Пароль"
+                                   value={password}
+                                   onChange={(e) => setPassword(e.target.value)}/>
+                        </div>
+                        <button type="Submit" disabled={disabled} className="button login-button">Увійти</button>
+                        <div>Немає акаунту? <Link to="../register" className="register-link">Зареєструватися</Link></div>
+                    </div>
                 </div>
             </form>
         </div>
