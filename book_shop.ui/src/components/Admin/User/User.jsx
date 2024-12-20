@@ -13,14 +13,21 @@ const User = ({id, name, email, role, total, orderCount}) => {
         })
     }
 
-    return <div>{id}: {name} - {email} -
-        {role !== "Owner" &&
-            <select defaultValue={role} onChange={(e) => ChangeRoleHandler(e)}>
-                <option>User</option>
-                <option>Admin</option>
-            </select>}
-        {role === "Owner" && " Owner"}
-        . Всього замовлень: {orderCount}, витрачено грошей: {total}</div>
+    return <tr>
+        <td>{id}</td>
+        <td>{name}</td>
+        <td>{email}</td>
+        <td>{role !== "Owner" &&
+                <div className="select-container select-user">
+                    <select className="select-beautiful" defaultValue={role} onChange={(e) => ChangeRoleHandler(e)}>
+                        <option>User</option>
+                        <option>Admin</option>
+                    </select>
+                </div>}
+            {role === "Owner" && " Owner"}</td>
+        <td>{orderCount}</td>
+        <td>{total} грн</td>
+    </tr>
 }
 
 export default User;

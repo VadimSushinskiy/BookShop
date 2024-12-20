@@ -8,6 +8,7 @@ import "../../App.css"
 import Gallery from "./Gallery";
 import "./SingleBook.css"
 import Review from "./Review";
+import {toast} from "react-toastify";
 
 const SingleBook = () => {
     const params = useParams();
@@ -21,21 +22,23 @@ const SingleBook = () => {
     const [rating, setRating] = useState(0);
     const [disabled, setDisabled] = useState(false);
     const [disabledBuy, setDisabledBuy] = useState(false);
-    const [error, setError] = useState("");
-
+    const [hideButton, setHideButton] = useState(false);
     const {user} = useContext(UserContext);
+
+    const PAGE_SIZE = 3;
 
     const LoadReview = async () => {
         const response = await axios.get(`${config.SERVER_URL}/review/${params.id}`, {
             params: {
                 pageNumber: pageNum,
-                pageSize: 3,
+                pageSize: PAGE_SIZE,
                 additionalSkip: additional
             }
         });
         if (response.status === 200) {
-            setReview([...review, ...response.data]);
+            setReview([...review, ...response.data.slice(0, PAGE_SIZE)]);
             setPageNum(pageNum + 1);
+            setHideButton(response.data.length <= PAGE_SIZE)
         }
     }
 
@@ -49,6 +52,7 @@ const SingleBook = () => {
 
         if (response.status === 200) {
             setDisabledBuy(false);
+            toast.success("Ви додали книгу до кошика!")
             return true
         }
     }
@@ -65,10 +69,10 @@ const SingleBook = () => {
 
         try {
             if (rating < 1 || rating > 5) {
-                setError("Оберіть оцінку!");
+                toast.error("Оберіть оцінку", {autoClose: 2000});
             }
             else if (text === "") {
-                setError("Введіть відгук!");
+                toast.error("Введіть відгук", {autoClose: 2000});
             }
             else {
                 const response = await axios.post(`${config.SERVER_URL}/review/${params.id}`, {
@@ -84,11 +88,12 @@ const SingleBook = () => {
                     setRating(0);
                     setAdditional(additional + 1);
                     setReview([response.data, ...review]);
+                    toast.success("Відгук додано!")
                 }
             }
         }
         catch {
-            setError("Сталась невідома помилка!");
+            toast.error("Сталась невідома помилка", {autoClose: 2000});
         }
 
         setDisabled(false);
@@ -128,13 +133,13 @@ const SingleBook = () => {
                     <div className="book-info">
                         <div className="title">Книга «{book.name}»</div>
                         <div className="author" title={book.authorCountry}>{book.authorName}</div>
-                        <div className="stars-rating">
+                        <a href="#review" className="stars-rating">
                             <div className="stars stars-single-book">
                                 <span></span>
                                 <div className="inner" style={{width: `${+book.rating / 5 * 100}%`}}></div>
                             </div>
                             <div className="rating">{book.ratingNumber} відгуків</div>
-                        </div>
+                        </a>
                         <div className="additional-inf">
                             <div>
                                 <div>Мова книги</div>
@@ -188,18 +193,17 @@ const SingleBook = () => {
 
                         {review.length > 0 && (
                             <>
-                                <h4>Відгуки</h4>
+                                <h4 id="review">Відгуки</h4>
                                 <div className="reviews">
                                     {review.map(review => <Review key={review.id} {...review}/>)}
                                 </div>
 
-                                <button onClick={LoadReview} className="button review-button">Загрузити ще</button>
+                                <button onClick={LoadReview} hidden={hideButton} className="button review-button">Загрузити ще</button>
                             </>
                         )}
                         {user && <div className="add-review">
                             <h4>Додати відгук</h4>
                             <div className="review-container">
-                                {error !== "" && <div className="error">{error}</div>}
                                 <form action="" onSubmit={(e) => SubmitHandler(e)}>
                                     <div className="review-container-flex">
                                         <div className="add-rating">

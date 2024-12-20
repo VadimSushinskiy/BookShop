@@ -5,11 +5,11 @@ import UserContext from "../../context/UserContext";
 import GetUser from "../../tools/GetUser";
 import config from "../../../config.json";
 import "./Login.css"
+import {toast} from "react-toastify";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const [disabled, setDisabled] = useState(false);
 
     const {setUser} = useContext(UserContext);
@@ -21,10 +21,10 @@ const Login = () => {
         setDisabled(true);
 
         if (email === "" || password === "") {
-            setError("Помилка! Введіть усі дані!");
+            toast.error("Введіть усі дані", {autoClose: 2000});
         }
         else if (!email.match(/.+@.+\.+/)) {
-            setError("Помилка! Введіть пошту у правильному форматі!")
+            toast.error("Введіть пошту у правильному форматі", {autoClose: 2000});
         }
         else {
             try {
@@ -39,7 +39,7 @@ const Login = () => {
                 }
             }
             catch {
-                setError("Помилка! Неправильна пошта або пароль!");
+                toast.error("Неправильна пошта або пароль", {autoClose: 2000});
             }
         }
         setDisabled(false);
@@ -51,7 +51,6 @@ const Login = () => {
             <form action="" onSubmit={(e) => SubmitHandler(e)}>
                 <div className="center-box">
                     <div className="box-container login-container">
-                        {error.length > 0 && <div className="error">{error}</div>}
                         <div className="input-row">
                             <div className="login-input-label">Email</div>
                             <input type="text"

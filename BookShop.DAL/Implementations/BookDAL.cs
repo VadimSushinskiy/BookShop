@@ -5,6 +5,7 @@ using BookShop.Shared.DTO;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
+using System.Collections.Generic;
 
 namespace BookShop.DAL.Implementations
 {
@@ -27,22 +28,44 @@ namespace BookShop.DAL.Implementations
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<List<BookDTO>> GetWithFilterAndPagination(FilterDTO filter, int pageNumber, int pageSize)
+        public async Task<List<BookDTO>> GetWithFilterAndPagination(FilterDTO filter, int pageNumber, int pageSize, string? sort)
         {
-            Task<List<BookDTO>> books = _context.Books.Include(book => book.Author).Include(book => book.Publishing)
+            var books = _context.Books.Include(book => book.Author).Include(book => book.Publishing)
                 .AsNoTracking()
-                .Where(book => EF.Functions.Like(book.Name, $"%{filter.Name}%") 
-                && EF.Functions.Like(book.Genre, $"%{filter.Genre}%") 
-                && EF.Functions.Like(book.Language, $"%{filter.Language}%") 
+                .Where(book => EF.Functions.Like(book.Name, $"%{filter.Name}%")
+                && EF.Functions.Like(book.Genre, $"%{filter.Genre}%")
+                && EF.Functions.Like(book.Language, $"%{filter.Language}%")
                 && EF.Functions.Like(book.Author.Fullname, $"%{filter.AuthorName}%")
-                && book.Price >= filter.MinPrice 
+                && book.Price >= filter.MinPrice
                 && book.Price <= filter.MaxPrice
                 && book.Rating >= filter.Rating)
-                .Include(book => book.Images.OrderByDescending(image => image.IsMain))
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .Select(book => book.MapToDTO()).ToListAsync()!;
-            return await books;
+                .Include(book => book.Images.OrderByDescending(image => image.IsMain));
+                
+            List<BookDTO> result;
+            switch (sort)
+            {
+                case "rating":
+                    {
+                        result = await books.OrderByDescending(book => book.Rating).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
+                        break;
+                    }
+                case "cheap":
+                    {
+                        result = await books.OrderBy(book => book.Price).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
+                        break;
+                    }
+                case "expensive":
+                    {
+                        result = await books.OrderByDescending(book => book.Price).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
+                        break;
+                    }
+                default:
+                    {
+                        result = await books.Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
+                        break;
+                    }
+            }
+            return result;
         }
 
         public async Task<List<int>> Create(BookDTO bookDto)
@@ -130,7 +153,7 @@ namespace BookShop.DAL.Implementations
 
             if (book == null)
             {
-                throw new Exception("Book not find");
+                throw new Exception("Book not found");
             }
 
             List<int> ids = book.Images.Select(image => image.Id).ToList();

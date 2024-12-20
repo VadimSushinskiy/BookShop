@@ -1,3 +1,10 @@
+.filter {
+    position: sticky;
+    top: 10px;
+    align-self: flex-start;
+    margin-left: 10px;
+}
+
 .form-container {
     font-size: 18px;
     background-color: #e8e8e8;

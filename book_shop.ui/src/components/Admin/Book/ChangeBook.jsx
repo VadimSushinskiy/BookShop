@@ -4,6 +4,7 @@ import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
 import "./AdminBook.css"
+import {toast} from "react-toastify";
 
 const ChangeBook = () => {
     const {user} = useContext(UserContext);
@@ -26,7 +27,6 @@ const ChangeBook = () => {
 
     const [data, setData] = useState(defaultData);
     const [id, setId] = useState(0);
-    const [error, setError] = useState("");
     const [hidden, setHidden] = useState(true);
 
     useEffect(() => {
@@ -51,19 +51,18 @@ const ChangeBook = () => {
         setHidden(true);
 
         if (id <= 0) {
-            setError("Введіть коректне значення id");
+            toast.error("Введіть коректне значення id", {autoClose: 2000})
         }
         else {
             try {
                 const response = await axios.get(`${config.SERVER_URL}/book/${id}`);
                 if (response.status === 200) {
                     setData({...response.data, mainImage: null, imgFiles: null});
-                    setError("");
                     setHidden(false);
                 }
             }
             catch {
-                setError("Книги з таким id не знайдено");
+                toast.error("Книги з таким id не знайдено", {autoClose: 2000})
                 setData(defaultData);
             }
         }
@@ -71,8 +70,8 @@ const ChangeBook = () => {
 
     const ChangeBook = async () => {
         for (let key in data) {
-            if (!["mainImage", "imgFiles", "mainImageSrc", "imgFilesSrc"].includes(key) && (data[key] === "" || +data[key] <= 0)) {
-                setError("Заповніть всі поля корректними значеннями!");
+            if (defaultData.hasOwnProperty(key) && !["mainImage", "imgFiles"].includes(key) && (data[key] === "" || +data[key] <= 0)) {
+                toast.error("Заповніть всі поля корректними значеннями", {autoClose: 2000})
                 return;
             }
         }
@@ -96,17 +95,18 @@ const ChangeBook = () => {
             });
 
             if (response.status === 204) {
-                navigator("/admin");
+                toast.success("Книгу успішно змінено!");
+                setHidden(true);
+                setId(0);
             }
         }
         catch {
-            setError("Такого автора або видавництва не існує!");
+            toast.error("Такого автора або видавництва не існує", {autoClose: 2000})
         }
     }
 
     return (
         <div className="box-container admin-container">
-            {error !== "" && <div className="error">{error}</div>}
             <div className="admin-input-row">
                 <div className="admin-input admin-single admin-find">
                     <div className="login-input-label">Id</div>

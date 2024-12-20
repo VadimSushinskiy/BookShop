@@ -95,3 +95,54 @@ body {
   font-size: 22px;
   font-weight: 400;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number]{
+  -moz-appearance: textfield;
+}
+
+select.select-beautiful {
+  appearance: none;
+  outline: 1px red;
+  border: 0;
+  box-shadow: none;
+  flex: 1;
+  padding: 0 10px;
+  font-weight: 500;
+  font-size: 16px;
+  background-color: #babdd9;
+  background-image: none;
+  cursor: pointer;
+}
+
+select.select-beautiful::-ms-expand {
+  display: none;
+}
+
+.select-container {
+  position: relative;
+  display: flex;
+  height: 35px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.select-container::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
+  background-color: #7d7fa1;
+  transition: .25s all ease;
+  pointer-events: none;
+}
+
+.select-container:hover::after {
+  color: #96535d;
+}

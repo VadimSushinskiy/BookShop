@@ -22,7 +22,7 @@ namespace BookShop.DAL.Implementations
                 .Where(review => review.BookId == bookId)
                 .OrderByDescending(review => review.Id)
                 .Skip((pageNumber - 1) * pageSize + additionalSkip)
-                .Take(pageSize)
+                .Take(pageSize + 1)
                 .Select(review => review.MapToDTO())
                 .ToListAsync();
         }

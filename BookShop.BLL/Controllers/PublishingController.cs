@@ -1,4 +1,5 @@
-﻿using BookShop.DAL.Interfaces;
+﻿using BookShop.DAL.Implementations;
+using BookShop.DAL.Interfaces;
 using BookShop.Shared.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -50,6 +51,22 @@ namespace BookShop.BLL.Controllers
         public async Task<IActionResult> Update(PublishingDTO publishing, string publishingName)
         {
             await _publishingDal.Update(publishingName, publishing);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{publishingName}")]
+        [Authorize(Roles = "Admin, Owner")]
+        public async Task<IActionResult> Delete(string publishingName)
+        {
+            try
+            {
+                await _publishingDal.Delete(publishingName);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
 
             return NoContent();
         }

@@ -4,10 +4,12 @@ namespace BookShop.DAL.Interfaces
 {
     public interface IAuthorDAL
     {
-        public Task<AuthorDTO?> Get(string name);
+        Task<AuthorDTO?> Get(string name);
 
-        public Task Create(AuthorDTO author);
+        Task Create(AuthorDTO author);
 
-        public Task Update(string name, AuthorDTO author);
+        Task Update(string name, AuthorDTO author);
+
+        Task Delete(string name);
     }
 }

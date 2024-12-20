@@ -6,6 +6,7 @@ import UserContext from "../../context/UserContext";
 import Order from "./Order";
 import config from "../../../config.json"
 import "./Cart.css"
+import {toast} from "react-toastify";
 
 const Cart = () => {
     const {user} = useContext(UserContext);
@@ -27,7 +28,6 @@ const Cart = () => {
         email: "",
         deliveryType: ""
     });
-    const [error, setError] = useState("");
 
 
 
@@ -67,10 +67,11 @@ const Cart = () => {
                     else {
                         return {...order, count: order.count + change}
                     }
-                }))
+                }));
             }
             else {
                 setOrders(orders.filter(order => order.id !== id));
+                toast.success("Книгу видалено з кошика");
             }
             setPrice(price + orderPrice * change);
         }
@@ -82,24 +83,25 @@ const Cart = () => {
         if (response.status === 204) {
             setOrders(orders.filter(order => order.id !== id));
             setPrice(price - count * orderPrice);
+            toast.success("Книгу видалено з кошика");
         }
     }
 
     const PlaceOrder = async () => {
         if (data.name === "") {
-            setError("Введіть ім'я отримувача!");
+            toast.error("Введіть ім'я отримувача", {autoClose: 2000});
         }
         else if (data.address === "") {
-            setError("Введіть адресу доставки!");
+            toast.error("Введіть адресу доставки", {autoClose: 2000});
         }
         else if (!data.phoneNumber.match(/^((\+?38)[\- ]?)?(\(?\d{3}\)?[\- ]?)[\d\- ]{7,10}$/)) {
-            setError("Введіть номер телефону!");
+            toast.error("Введіть коректний номер телефону", {autoClose: 2000});
         }
         else if (!data.email.match(/.+@.+\.+/)) {
-            setError("Введіть коректну пошту!");
+            toast.error("Введіть коректну пошту", {autoClose: 2000});
         }
         else if (data.deliveryType === "") {
-            setError("Оберіть тип доставки!");
+            toast.error("Оберіть тип доставки", {autoClose: 2000});
         }
         else {
             const cartId = user !== null ? user.cartId : Cookies.get("anonCartId");
@@ -115,6 +117,7 @@ const Cart = () => {
                 withCredentials: true
             });
             if (response.status === 201) {
+                toast.success("Замовлення оформлено!")
                 if (user !== null) {
                     navigator("../statuses", {relative: "path"});
                 }
@@ -145,7 +148,6 @@ const Cart = () => {
             <h4>Оформити замовлення</h4>
             <div className="cart-container">
                 <div className="cart-form box-container">
-                    {error !== "" && <div className="error">{error}</div>}
                     <div className="form-title">Інформація про користувача</div>
                     <div className="form-row">
                         <div>
@@ -246,7 +248,7 @@ const Cart = () => {
                             <div>{price + (data.deliveryType !== "" ? delivery[data.deliveryType] : 0)} грн</div>
                         </div>
                         <div className="summary-row summary-secondary">
-                            <div>{orders.length} товарів</div>
+                            <div>{orders.reduce((acc, item) => acc += item.count, 0)} товарів</div>
                             <div>{price} грн</div>
                         </div>
                         <div className="summary-row summary-secondary">
@@ -258,9 +260,7 @@ const Cart = () => {
                 </div>
             </div>
         </>
-
     );
-
 }
 
 export default Cart;

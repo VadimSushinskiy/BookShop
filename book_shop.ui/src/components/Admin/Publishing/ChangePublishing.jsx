@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
+import {toast} from "react-toastify";
 
 const ChangePublishing = () => {
     const {user} = useContext(UserContext);
@@ -12,7 +13,6 @@ const ChangePublishing = () => {
     const [newName, setNewName] = useState("");
     const [country, setCountry] = useState("");
     const [hidden, setHidden] = useState(true);
-    const [error, setError] = useState("");
 
     useEffect(() => {
         if (user?.role !== "Admin" && user?.role !== "Owner") {
@@ -24,7 +24,7 @@ const ChangePublishing = () => {
         setHidden(true);
 
         if (name === "") {
-            setError("Введіть коректну назву видавництва");
+            toast.error("Введіть коректну назву видавництва", {autoClose: 2000});
         }
         else {
             try {
@@ -32,12 +32,11 @@ const ChangePublishing = () => {
                 if (response.status === 200) {
                     setNewName(response.data.name);
                     setCountry(response.data.country);
-                    setError("");
                     setHidden(false);
                 }
             }
             catch {
-                setError("Видавництва з такою назвою не знайдено");
+                toast.error("Видавництва з такою назвою не знайдено", {autoClose: 2000});
                 setCountry("");
                 setNewName("");
             }
@@ -46,7 +45,7 @@ const ChangePublishing = () => {
 
     const ChangePublishing = async () => {
         if (name === "" || country === "") {
-            setError("Введіть дані в усі поля!");
+            toast.error("Введіть дані в усі поля", {autoClose: 2000});
         }
         else {
             try {
@@ -58,11 +57,13 @@ const ChangePublishing = () => {
                 });
 
                 if (response.status === 204) {
-                    navigator("/admin");
+                    toast.success("Видавництво успішно змінено!");
+                    setHidden(true);
+                    setName("");
                 }
             }
             catch {
-                setError("Видавництва з такою назвою не знайдено");
+                toast.error("Видавництва з такою назвою не знайдено", {autoClose: 2000});
             }
         }
 
@@ -71,7 +72,6 @@ const ChangePublishing = () => {
 
     return (
     <div className="box-container admin-container">
-        {error !== "" && <div className="error">{error}</div>}
         <div className="admin-input-row">
             <div className="admin-input admin-single admin-find">
                 <div className="login-input-label">Назва</div>

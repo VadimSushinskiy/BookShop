@@ -4,6 +4,7 @@ import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
 import "./AdminBook.css"
+import {toast} from "react-toastify";
 
 const AddBook = () => {
     const {user} = useContext(UserContext);
@@ -23,7 +24,6 @@ const AddBook = () => {
         mainImage: null,
         imgFiles: null
     });
-    const [error, setError] = useState("");
 
     const handleChange = (event, name) => {
         if (name === "imgFiles") {
@@ -40,7 +40,7 @@ const AddBook = () => {
     const AddHandler = async () => {
         for (let key in data) {
             if (data[key] === "" || +data[key] <= 0) {
-                setError("Заповніть всі поля корректними значеннями!");
+                toast.error("Заповніть всі поля корректними значеннями!", {autoClose: 2000})
                 return;
             }
         }
@@ -64,11 +64,12 @@ const AddBook = () => {
             });
 
             if (response.status === 201) {
+                toast.success("Книгу успішно додано!");
                 navigator("/admin");
             }
         }
         catch {
-            setError("Такого автора або видавництва не існує!");
+            toast.error("Такого автора або видавництва не існує", {autoClose: 2000});
         }
     }
 
@@ -80,7 +81,6 @@ const AddBook = () => {
 
     return (
         <div className="box-container admin-container">
-            {error !== "" && <div className="error">{error}</div>}
             <div className="admin-input-row">
                 <div className="admin-input">
                     <div className="admin-label">Назва</div>
@@ -125,19 +125,19 @@ const AddBook = () => {
             <div className="admin-input-row">
                 <div className="admin-input">
                     <div className="login-input-label">Рік видання</div>
-                    <input type="number" placeholder="Рік видання" value={data.publicationYear}
+                    <input type="number" placeholder="Рік видання" value={data.publicationYear !== 0 ? data.publicationYear : ""}
                            onChange={(e) => handleChange(e, "publicationYear")}/>
                 </div>
                 <div className="admin-input">
                     <div className="login-input-label">Кількість сторінок</div>
-                    <input type="number" placeholder="Кількість сторінок" value={data.volume}
+                    <input type="number" placeholder="Кількість сторінок" value={data.volume !== 0 ? data.volume : ""}
                            onChange={(e) => handleChange(e, "volume")}/>
                 </div>
             </div>
             <div className="admin-input-row">
                 <div className="admin-input admin-single">
                     <div className="login-input-label">Ціна</div>
-                    <input type="number" placeholder="Ціна" value={data.price}
+                    <input type="number" placeholder="Ціна" value={data.price !== 0 ? data.price : ""}
                            onChange={(e) => handleChange(e, "price")}/>
                 </div>
             </div>

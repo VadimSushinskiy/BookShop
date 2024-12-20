@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
+import {toast} from "react-toastify";
 
 const AddAuthor = () => {
     const {user} = useContext(UserContext);
@@ -10,7 +11,6 @@ const AddAuthor = () => {
 
     const [name, setName] = useState("");
     const [country, setCountry] = useState("");
-    const [error, setError] = useState("");
 
     useEffect(() => {
         if (user?.role !== "Admin" && user?.role !== "Owner") {
@@ -20,7 +20,7 @@ const AddAuthor = () => {
 
     const AddHandler = async () => {
         if (name === "" || country === "") {
-            setError("Введіть дані в усі поля!")
+            toast.error("Введіть дані в усі поля", {autoClose: 2000})
         }
         else {
             try {
@@ -32,18 +32,18 @@ const AddAuthor = () => {
                 });
 
                 if (response.status === 201) {
+                    toast.success("Автора успішно додано!");
                     navigator("/admin");
                 }
             }
             catch {
-                setError("Автор з таким ім'я вже існує!");
+                toast.error("Автор з таким ім'я вже існує", {autoClose: 2000});
             }
         }
     }
 
     return (
         <div className="box-container admin-container">
-            {error !== "" && <div className="error">{error}</div>}
             <div className="admin-input-row">
                 <div className="admin-input">
                     <div className="admin-label">Повне ім'я</div>

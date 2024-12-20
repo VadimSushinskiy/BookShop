@@ -53,5 +53,21 @@ namespace BookShop.BLL.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{authorName}")]
+        [Authorize(Roles = "Admin, Owner")]
+        public async Task<IActionResult> Delete(string authorName)
+        {
+            try
+            {
+                await _authorDal.Delete(authorName);
+            } 
+            catch (Exception ex) 
+            {
+                return BadRequest(ex);
+            }
+
+            return NoContent();
+        }
     }
 }

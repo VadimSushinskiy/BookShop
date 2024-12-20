@@ -1,5 +1,6 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import {useState} from "react";
+import {ToastContainer} from "react-toastify";
 import Cookies from "js-cookie";
 import axios from "axios";
 import GetUser from "./tools/GetUser";
@@ -21,6 +22,8 @@ import AddPublishing from "./components/Admin/Publishing/AddPublishing";
 import ChangeAuthor from "./components/Admin/Author/ChangeAuthor";
 import ChangePublishing from "./components/Admin/Publishing/ChangePublishing";
 import Users from "./components/Admin/User/Users";
+import DeleteAuthor from "./components/Admin/Author/DeleteAuthor";
+import DeletePublishing from "./components/Admin/Publishing/DeletePublishing";
 
 
 function App() {
@@ -53,13 +56,17 @@ function App() {
                           <Route path="admin/book/delete" element={<DeleteBook/>}/>
                           <Route path="admin/author/add" element={<AddAuthor/>}/>
                           <Route path="admin/author/change" element={<ChangeAuthor/>}/>
+                          <Route path="admin/author/delete" element={<DeleteAuthor/>}/>
                           <Route path="admin/publishing/add" element={<AddPublishing/>}/>
                           <Route path="admin/publishing/change" element={<ChangePublishing/>}/>
+                          <Route path="admin/publishing/delete" element={<DeletePublishing/>}/>
                           <Route path="admin/users" element={<Users/>}/>
                       </Route>
                   </Routes>
+                  <ToastContainer position="top-right" autoClose="1000" closeOnClick="true"/>
               </div>
           </BrowserRouter>
+
       </UserContext.Provider>
     )
 }

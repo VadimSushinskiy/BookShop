@@ -49,5 +49,19 @@ namespace BookShop.DAL.Implementations
                 .SetProperty(a => a.Fullname, authorDto.Fullname)
                 .SetProperty(a => a.Country, authorDto.Country));
         }
+
+        public async Task Delete(string name)
+        {
+            Author? author = await _context.Authors.Where(author => author.Fullname == name).FirstOrDefaultAsync();
+
+            if (author == null)
+            {
+                throw new Exception("Author not found");
+            }
+
+            _context.Authors.Remove(author);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

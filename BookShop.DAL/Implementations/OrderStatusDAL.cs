@@ -36,7 +36,7 @@ namespace BookShop.DAL.Implementations
 
             Cart? cart = await _context.Carts.Where(cart => cart.Id == cartId).FirstOrDefaultAsync();
             Dictionary<string, decimal> deliveryPrices = new Dictionary<string, decimal> { { "UkrPosta", 40 }, { "NovaPosta", 60 }, { "UkrPostaCourier", 80 }, { "NovaPostaCourier", 120 } };
-            Dictionary<string, string> deliveryTypes = new Dictionary<string, string> { { "UkrPosta", "Нова Пошта" }, { "NovaPosta", "Укрпошта" }, { "UkrPostaCourier", "Кур'єр Нова Пошта" }, { "NovaPostaCourier", "Кур'єр Укрпошта" } };
+            Dictionary<string, string> deliveryTypes = new Dictionary<string, string> { { "UkrPosta", "Укрпошта" }, { "NovaPosta", "Нова Пошта" }, { "UkrPostaCourier", "Кур'єр Укрпошта" }, { "NovaPostaCourier", "Кур'єр Нова Пошта" } };
 
             decimal deliveryPrice = deliveryPrices.ContainsKey(orderStatusDto.DeliveryType) ? deliveryPrices[orderStatusDto.DeliveryType] : deliveryPrices["NovaPosta"];
 

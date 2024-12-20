@@ -3,14 +3,13 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
-import "./AdminBook.css"
 import {toast} from "react-toastify";
 
-const DeleteBook = () => {
+const DeletePublishing = () => {
     const {user} = useContext(UserContext);
     const navigator = useNavigate();
 
-    const [id, setId] = useState(0);
+    const [name, setName] = useState("");
 
     useEffect(() => {
         if (user?.role !== "Admin" && user?.role !== "Owner") {
@@ -19,22 +18,22 @@ const DeleteBook = () => {
     }, []);
 
     const handleDelete = async () => {
-        if (id === undefined || id <= 0) {
-            toast.error("Введіть коректне значення id", {autoClose: 2000});
+        if (name === "") {
+            toast.error("Введіть коректну назву", {autoClose: 2000});
         }
         else {
             try {
-                const response = await axios.delete(`${config.SERVER_URL}/book/${id}`, {
+                const response = await axios.delete(`${config.SERVER_URL}/publishing/${name}`, {
                     withCredentials: true
                 });
 
                 if (response.status === 204) {
-                    setId(0);
-                    toast.success("Книгу успішно видалено");
+                    setName("");
+                    toast.success("Видавництво успішно видалено!");
                 }
             }
             catch {
-                toast.error("Книги з таким id не існує", {autoClose: 2000});
+                toast.error("Такого видавництва не існує", {autoClose: 2000});
             }
         }
     }
@@ -43,9 +42,9 @@ const DeleteBook = () => {
         <div className="admin-container">
             <div className="admin-input-row">
                 <div className="admin-input admin-single admin-find">
-                    <div className="login-input-label">Id</div>
-                    <input type="number" placeholder="Id" value={id}
-                           onChange={(e) => setId(+e.target.value)}/>
+                    <div className="login-input-label">Назва видавництва</div>
+                    <input type="text" placeholder="Назва видавництва" value={name}
+                           onChange={(e) => setName(e.target.value)}/>
                 </div>
             </div>
             <div>
@@ -55,4 +54,4 @@ const DeleteBook = () => {
     )
 }
 
-export default DeleteBook;
+export default DeletePublishing;

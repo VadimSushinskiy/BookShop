@@ -45,14 +45,14 @@ namespace BookShop.BLL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResponseBook>>> Get([FromQuery]FilterDTO filter,  int pageNumber, int pageSize)
+        public async Task<ActionResult<IEnumerable<ResponseBook>>> Get([FromQuery]FilterDTO filter,  int pageNumber, int pageSize, string? sort)
         {
             if (pageNumber <= 0 || pageSize <= 0)
             {
                 return BadRequest();
             }
 
-            var books = await _bookDal.GetWithFilterAndPagination(filter, pageNumber, pageSize);
+            var books = await _bookDal.GetWithFilterAndPagination(filter, pageNumber, pageSize, sort);
 
             var result = books.Select(book => 
             {

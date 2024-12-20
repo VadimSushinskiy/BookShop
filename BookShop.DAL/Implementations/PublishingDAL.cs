@@ -49,5 +49,19 @@ namespace BookShop.DAL.Implementations
                 .SetProperty(p => p.Name, publishingDto.Name)
                 .SetProperty(p => p.Country, publishingDto.Country));
         }
+
+        public async Task Delete(string name)
+        {
+            Publishing? publishing = await _context.Publishings.Where(publishing => publishing.Name == name).FirstOrDefaultAsync();
+
+            if (publishing == null)
+            {
+                throw new Exception("Publishing not found");
+            }
+
+            _context.Publishings.Remove(publishing);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

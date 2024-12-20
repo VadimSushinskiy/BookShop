@@ -6,7 +6,7 @@ namespace BookShop.DAL.Interfaces
     {
         Task<BookDTO?> GetById(int id);
 
-        Task<List<BookDTO>> GetWithFilterAndPagination(FilterDTO filter, int pageNumber, int pageSize);
+        Task<List<BookDTO>> GetWithFilterAndPagination(FilterDTO filter, int pageNumber, int pageSize, string? sort);
 
         Task<List<int>> Create(BookDTO dto);
 

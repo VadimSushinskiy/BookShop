@@ -221,3 +221,7 @@ h4 {
 .add-review-text-hint {
     margin-bottom: 10px;
 }
+
+a.stars-rating {
+    text-decoration: none;
+}

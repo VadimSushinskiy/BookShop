@@ -35,7 +35,7 @@ namespace BookShop.DAL.Implementations
             return await _context.ViewUsers.AsNoTracking()
                 .Where(user => EF.Functions.Like(user.Name, $"%{name}%"))
                 .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
+                .Take(pageSize + 1)
                 .Select(user => user.MapToDTO())
                 .ToListAsync();
         }

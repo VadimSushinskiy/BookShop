@@ -22,7 +22,7 @@ const Filter = ({onSubmit}) => {
     }
 
     return (
-        <div>
+        <div className="filter">
             <form action="" onSubmit={(e) => {
                 e.preventDefault();
                 onSubmit(data);

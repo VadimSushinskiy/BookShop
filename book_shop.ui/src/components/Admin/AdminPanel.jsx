@@ -41,6 +41,11 @@ const AdminPanel = () => {
                 </Link>
             </div>
             <div>
+                <Link to="author/delete">
+                    <button className="button">Видалити автора</button>
+                </Link>
+            </div>
+            <div>
                 <Link to="publishing/add">
                     <button className="button">Додати видавництво</button>
                 </Link>
@@ -48,6 +53,11 @@ const AdminPanel = () => {
             <div>
                 <Link to="publishing/change">
                     <button className="button">Змінити видавництво</button>
+                </Link>
+            </div>
+            <div>
+                <Link to="publishing/delete">
+                    <button className="button">Видалити видавництво</button>
                 </Link>
             </div>
             {user?.role === "Owner" && <div>
