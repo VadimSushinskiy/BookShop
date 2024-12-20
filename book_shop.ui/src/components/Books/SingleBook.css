@@ -173,6 +173,7 @@ h4 {
     padding: 8px 14px 20px;
     margin-bottom: 15px;
     box-shadow: 1px 1px 10px 1px #949393;
+    position: relative;
 }
 
 .add-review {

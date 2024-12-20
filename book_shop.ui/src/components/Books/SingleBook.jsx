@@ -19,10 +19,13 @@ const SingleBook = () => {
     const [pageNum, setPageNum] = useState(1);
     const [additional, setAdditional] = useState(0);
     const [text, setText] = useState("")
+    const [id, setId] = useState(0);
     const [rating, setRating] = useState(0);
+    const [oldRating, setOldRating] = useState(0);
     const [disabled, setDisabled] = useState(false);
     const [disabledBuy, setDisabledBuy] = useState(false);
     const [hideButton, setHideButton] = useState(false);
+    const [editButton, setEditButton] = useState(false);
     const {user} = useContext(UserContext);
 
     const PAGE_SIZE = 3;
@@ -76,8 +79,8 @@ const SingleBook = () => {
             }
             else {
                 const response = await axios.post(`${config.SERVER_URL}/review/${params.id}`, {
-                    text: text,
-                    rating: rating
+                    text,
+                    rating
                 }, {
                     withCredentials: true
                 });
@@ -105,6 +108,63 @@ const SingleBook = () => {
             const idx = [...stars].indexOf(e.target);
 
             setRating(idx + 1);
+        }
+    }
+
+    const DeleteHandler = async (id, rating) => {
+        try {
+            const response = await axios.delete(`${config.SERVER_URL}/review/${id}`, {
+                withCredentials: true
+            });
+
+            if (response.status === 200) {
+                setReview(review.filter(review => review.id !== id));
+                setBook({...book, rating: (book.rating * book.ratingNumber - rating) / (book.ratingNumber - 1), ratingNumber: book.ratingNumber - 1});
+                toast.success("Відгук видалено");
+            }
+        }
+        catch {
+            toast.error("Ви не можете видалите цей відгук")
+        }
+    }
+
+    const StartEditing = (id, text, rating) => {
+        setText(text);
+        setRating(rating);
+        setOldRating(rating);
+        setId(id);
+        setEditButton(true);
+    }
+
+    const EndEditing = async () => {
+        try {
+            const response = await axios.put(`${config.SERVER_URL}/review`, {
+                id,
+                text,
+                rating
+            }, {
+                withCredentials: true
+            });
+
+            if (response.status === 200) {
+                setReview(review.map(review => {
+                    if (review.id === id) {
+                        review.text = text;
+                        review.rating = rating;
+                    }
+                    return review;
+                }));
+                setBook({...book, rating: (book.rating * book.ratingNumber - oldRating + rating) / book.ratingNumber});
+                setRating(0);
+                setText("");
+                setOldRating(0);
+                setId(0);
+                setEditButton(false);
+                toast.success("Відгук змінено!");
+            }
+        }
+        catch {
+            toast.error("Ви не можете редагувати цей відгук")
         }
     }
 
@@ -195,7 +255,7 @@ const SingleBook = () => {
                             <>
                                 <h4 id="review">Відгуки</h4>
                                 <div className="reviews">
-                                    {review.map(review => <Review key={review.id} {...review}/>)}
+                                    {review.map(review => <Review key={review.id} {...review} deleteHandler={DeleteHandler} editHandler={StartEditing}/>)}
                                 </div>
 
                                 <button onClick={LoadReview} hidden={hideButton} className="button review-button">Загрузити ще</button>
@@ -204,7 +264,7 @@ const SingleBook = () => {
                         {user && <div className="add-review">
                             <h4>Додати відгук</h4>
                             <div className="review-container">
-                                <form action="" onSubmit={(e) => SubmitHandler(e)}>
+                                <form id="add-review" action="" onSubmit={(e) => SubmitHandler(e)}>
                                     <div className="review-container-flex">
                                         <div className="add-rating">
                                             <div>Оцінка:</div>
@@ -226,7 +286,8 @@ const SingleBook = () => {
                                                   onChange={(e) => setText(e.target.value)}>
                                         </textarea>
                                         </div>
-                                        <button type="Submit" disabled={disabled} className="button review-button">Додати</button>
+                                        <button type="Submit" disabled={disabled} hidden={editButton} className="button review-button">Додати</button>
+                                        <button type="button" onClick={EndEditing} disabled={disabled} hidden={!editButton} className="button review-button">Редагувати</button>
                                     </div>
                                 </form>
                             </div>

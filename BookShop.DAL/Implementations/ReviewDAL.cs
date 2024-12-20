@@ -15,6 +15,11 @@ namespace BookShop.DAL.Implementations
 
         private readonly SqlServerContext _context;
 
+        public async Task<ReviewDTO?> Get(int id)
+        {
+            return await _context.Reviews.Where(review => review.Id == id).Include(review => review.User).Select(review => review.MapToDTO()).FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<ReviewDTO>> GetWithPagination(int bookId, int pageNumber, int pageSize, int additionalSkip)
         {
             return await _context.Reviews.Include(review => review.User)
@@ -27,7 +32,7 @@ namespace BookShop.DAL.Implementations
                 .ToListAsync();
         }
 
-        public async Task Create(ReviewDTO reviewDto, int userId, int bookId)
+        public async Task<int> Create(ReviewDTO reviewDto, int userId, int bookId)
         {
             Review review = new Review();
             review.MapFromDTO(reviewDto);
@@ -41,6 +46,44 @@ namespace BookShop.DAL.Implementations
                     .SetProperty(b => b.RatingNumber, b => b.RatingNumber + 1));
 
             await _context.AddAsync(review);
+            await _context.SaveChangesAsync();
+
+            return review.Id;
+        }
+
+        public async Task Update(ReviewDTO reviewDto)
+        {
+            var review = await _context.Reviews.Where(review => review.Id == reviewDto.Id).Include(review => review.Book).FirstOrDefaultAsync();
+
+            if (review == null)
+            {
+                throw new Exception("Review with this id doesn't exist");
+            }
+
+            await _context.Books.Where(book => book.Id == review.BookId).ExecuteUpdateAsync(book => book
+            .SetProperty(b => b.Rating, b => (b.Rating * b.RatingNumber - review.Rating + reviewDto.Rating) / b.RatingNumber));
+
+            review.Rating = reviewDto.Rating;
+            review.Text = reviewDto.Text;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            var review = await _context.Reviews.Where(review => review.Id == id).Include(review => review.Book).FirstOrDefaultAsync();
+
+            if (review == null)
+            {
+                throw new Exception("Review with this id doesn't exist");
+            }
+
+            await _context.Books.Where(book => book.Id == review.BookId).ExecuteUpdateAsync(book => book
+            .SetProperty(b => b.Rating, b => (b.Rating * b.RatingNumber - review.Rating) / (b.RatingNumber - 1))
+            .SetProperty(b => b.RatingNumber, b => b.RatingNumber - 1));
+
+            _context.Reviews.Remove(review);
+
             await _context.SaveChangesAsync();
         }
     }

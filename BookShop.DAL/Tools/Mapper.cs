@@ -81,6 +81,7 @@ namespace BookShop.DAL.Tools
                 Text = review.Text,
                 Rating = review.Rating,
                 UserName = review.User.Name,
+                UserId = review.User.Id,
                 WritingDate = review.WritingDate,
             };
         }
@@ -88,7 +89,6 @@ namespace BookShop.DAL.Tools
         public static void MapFromDTO(this Review review, ReviewDTO? reviewDto)
         {
             if (reviewDto == null) return;
-
             review.Text = reviewDto.Text;
             review.Rating = reviewDto.Rating;
             review.WritingDate = reviewDto.WritingDate;

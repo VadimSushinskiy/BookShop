@@ -65,7 +65,7 @@ namespace BookShop.BLL.Controllers
                 HttpOnly = true,
                 Expires = DateTime.UtcNow.AddHours(double.Parse(options["ExpiresHours"]!))
             });
-            HttpContext.Response.Cookies.Append("userInfo", JsonSerializer.Serialize(new { name = user.Name, role = user.Role, cartId = user.CartId }), new CookieOptions
+            HttpContext.Response.Cookies.Append("userInfo", JsonSerializer.Serialize(new { name = user.Name, role = user.Role, cartId = user.CartId, id = user.Id }), new CookieOptions
             {
                 HttpOnly = false,
                 Expires = DateTime.UtcNow.AddHours(double.Parse(options["ExpiresHours"]!))
