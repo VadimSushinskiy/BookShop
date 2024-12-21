@@ -1,6 +1,6 @@
 import {useContext} from "react";
 import "./Review.css"
-import UserContext from "../../context/UserContext";
+import UserContext from "../../../../context/UserContext";
 
 const Review = ({id, text, userName, rating, writingDate, deleteHandler, editHandler, userId}) => {
     const {user} = useContext(UserContext);

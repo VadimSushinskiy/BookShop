@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
-import "./AdminBook.css"
+import "../Admin.css"
 import {toast} from "react-toastify";
 
 const ChangeBook = () => {
@@ -107,6 +107,7 @@ const ChangeBook = () => {
 
     return (
         <div className="box-container admin-container">
+            <title>КнигаUA | Адміністрування</title>
             <div className="admin-input-row">
                 <div className="admin-input admin-single admin-find">
                     <div className="login-input-label">Id</div>

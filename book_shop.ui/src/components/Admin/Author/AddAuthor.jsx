@@ -44,6 +44,7 @@ const AddAuthor = () => {
 
     return (
         <div className="box-container admin-container">
+            <title>КнигаUA | Адміністрування</title>
             <div className="admin-input-row">
                 <div className="admin-input">
                     <div className="admin-label">Повне ім'я</div>

@@ -1,6 +1,6 @@
 import {useState} from "react";
-import Books from "./Books/Books";
-import Filter from "./Books/Filter";
+import Books from "../Books/MainPageBooks/Books";
+import Filter from "../Books/MainPageBooks/Filter";
 import "./Home.css"
 
 const Home = () => {

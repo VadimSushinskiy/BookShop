@@ -4,7 +4,7 @@ import axios from "axios";
 import UserContext from "../../context/UserContext";
 import GetUser from "../../tools/GetUser";
 import config from "../../../config.json";
-import "./Login.css"
+import "./Auth.css"
 import {toast} from "react-toastify";
 
 const Login = () => {
@@ -47,7 +47,7 @@ const Login = () => {
 
     return (
         <div>
-
+            <title>КнигаUA | Вхід</title>
             <form action="" onSubmit={(e) => SubmitHandler(e)}>
                 <div className="center-box">
                     <div className="box-container login-container">

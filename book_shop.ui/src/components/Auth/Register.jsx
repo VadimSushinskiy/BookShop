@@ -2,7 +2,7 @@ import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom"
 import axios from "axios";
 import config from "../../../config.json";
-import "./Login.css"
+import "./Auth.css"
 import {toast} from "react-toastify";
 
 const Register = () => {
@@ -49,7 +49,7 @@ const Register = () => {
 
     return (
         <div>
-
+            <title>КнигаUA | Реєстрація</title>
             <form action="" onSubmit={(e) => SubmitHandler(e)}>
                 <div className="center-box">
                     <div className="box-container login-container">
@@ -83,7 +83,8 @@ const Register = () => {
                         </div>
                         <button type="Submit" disabled={disabled} className="button login-button">Зареєструватись!
                         </button>
-                        <div>Вже маєте акаунт? <Link to="../login" className="register-link">Увійдіть у нього!</Link></div>
+                        <div>Вже маєте акаунт? <Link to="../login" className="register-link">Увійдіть у нього!</Link>
+                        </div>
                     </div>
                 </div>
             </form>

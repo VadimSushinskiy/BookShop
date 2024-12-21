@@ -72,6 +72,7 @@ const ChangeAuthor = () => {
 
     return (
         <div className="box-container admin-container">
+            <title>КнигаUA | Адміністрування</title>
             <div className="admin-input-row">
                 <div className="admin-input admin-single admin-find">
                     <div className="login-input-label">Повне ім'я</div>

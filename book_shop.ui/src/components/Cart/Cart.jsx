@@ -145,6 +145,7 @@ const Cart = () => {
 
     return (
         <>
+            <title>КнигаUA | Кошик</title>
             <h4>Оформити замовлення</h4>
             <div className="cart-container">
                 <div className="cart-form box-container">
@@ -235,7 +236,9 @@ const Cart = () => {
                 </div>
                 <div className="cart-cart">
                     <div className="cart-info box-container">
-                        <div className="cart-count">{orders.reduce((acc, item) => acc += item.count, 0)} товари у кошику</div>
+                        <div className="cart-count">{orders.reduce((acc, item) => acc += item.count, 0)} товари у
+                            кошику
+                        </div>
                         {orders.map(order => {
                             return <Order key={order.id} {...order} changeHandler={changeCount}
                                           deleteHandler={deleteOrder}/>

@@ -6,8 +6,8 @@ import axios from "axios";
 import GetUser from "./tools/GetUser";
 import UserContext from "./context/UserContext";
 import MainLayout from "./layouts/MainLayout";
-import Home from "./components/Home";
-import SingleBook from "./components/Books/SingleBook"
+import Home from "./components/Main/Home";
+import SingleBook from "./components/Books/SingleBook/SingleBook"
 import Login from "./components/Auth/Login"
 import Register from "./components/Auth/Register";
 import Cart from "./components/Cart/Cart";
@@ -42,6 +42,7 @@ function App() {
       <UserContext.Provider value={{user, setUser}}>
           <BrowserRouter>
               <div className="App">
+                  <title>КнигаUA</title>
                   <Routes>
                       <Route path="/" element={<MainLayout/>}>
                           <Route index element={<Home/>}/>

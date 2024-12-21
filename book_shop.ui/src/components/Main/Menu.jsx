@@ -2,9 +2,9 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import {useContext} from "react";
 import {FaUser, FaShoppingCart, FaRegFileAlt, FaPhoneAlt} from "react-icons/fa";
-import GetUser from "../tools/GetUser";
-import UserContext from "../context/UserContext";
-import config from "../../config.json"
+import GetUser from "../../tools/GetUser";
+import UserContext from "../../context/UserContext";
+import config from "../../../config.json"
 import "./Menu.css"
 import {MdAdminPanelSettings} from "react-icons/md";
 
@@ -21,7 +21,7 @@ const Menu = () => {
 
     return (
         <nav>
-            <Link to="." className="link-home">Магазин</Link>
+            <Link to="." className="link-home">КнигаUA</Link>
             <div className="cart-user">
                 {(user?.role === "Admin" || user?.role === "Owner") && <Link to="admin" className="link-icon">
                     <MdAdminPanelSettings className="icon"/>

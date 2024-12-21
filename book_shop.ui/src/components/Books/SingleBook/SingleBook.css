@@ -226,3 +226,14 @@ h4 {
 a.stars-rating {
     text-decoration: none;
 }
+
+.rating-cancel {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rating-cancel > div:nth-child(2) {
+    font-size: 14px;
+    color: #5d5c5c;
+    cursor: pointer;
+}

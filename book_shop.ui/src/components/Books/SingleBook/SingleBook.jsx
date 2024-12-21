@@ -2,12 +2,12 @@ import {useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState, useContext} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import UserContext from "../../context/UserContext";
-import config from "../../../config.json"
-import "../../App.css"
-import Gallery from "./Gallery";
+import UserContext from "../../../context/UserContext";
+import config from "../../../../config.json"
+import "../../../App.css"
+import Gallery from "./Dependent/Gallery";
 import "./SingleBook.css"
-import Review from "./Review";
+import Review from "./Dependent/Review";
 import {toast} from "react-toastify";
 
 const SingleBook = () => {
@@ -136,6 +136,14 @@ const SingleBook = () => {
         setEditButton(true);
     }
 
+    const DisableEditing = () => {
+        setRating(0);
+        setText("");
+        setOldRating(0);
+        setId(0);
+        setEditButton(false);
+    }
+
     const EndEditing = async () => {
         try {
             const response = await axios.put(`${config.SERVER_URL}/review`, {
@@ -155,11 +163,7 @@ const SingleBook = () => {
                     return review;
                 }));
                 setBook({...book, rating: (book.rating * book.ratingNumber - oldRating + rating) / book.ratingNumber});
-                setRating(0);
-                setText("");
-                setOldRating(0);
-                setId(0);
-                setEditButton(false);
+                DisableEditing();
                 toast.success("Відгук змінено!");
             }
         }
@@ -182,10 +186,10 @@ const SingleBook = () => {
             }
         })();
     }, []);
-
     if (book) {
         return (
             <div className="container">
+                <title>{`КнигаUA | ${book.name}`}</title>
                 <div className="book-container">
                     <div className="book-images">
                         <Gallery images={book.imgFilesSrc}/>
@@ -266,18 +270,20 @@ const SingleBook = () => {
                             <div className="review-container">
                                 <form id="add-review" action="" onSubmit={(e) => SubmitHandler(e)}>
                                     <div className="review-container-flex">
-                                        <div className="add-rating">
-                                            <div>Оцінка:</div>
-                                            <div className="add-stars" onClick={(e) => getIndex(e)}>
-                                                {["☆", "☆", "☆", "☆", "☆"].map((star, idx) => {
-                                                    if (rating <= idx) {
-                                                        return <span key={idx}>☆</span>
-                                                    }
-                                                    else {
-                                                        return <span key={idx}>★</span>
-                                                    }
-                                                })}
+                                        <div className="rating-cancel">
+                                            <div className="add-rating">
+                                                <div>Оцінка:</div>
+                                                <div className="add-stars" onClick={(e) => getIndex(e)}>
+                                                    {["☆", "☆", "☆", "☆", "☆"].map((star, idx) => {
+                                                        if (rating <= idx) {
+                                                            return <span key={idx}>☆</span>
+                                                        } else {
+                                                            return <span key={idx}>★</span>
+                                                        }
+                                                    })}
+                                                </div>
                                             </div>
+                                            <div hidden={!editButton} onClick={DisableEditing}>Відмінити</div>
                                         </div>
                                         <div className="add-review-text-hint">Ваш відгук:</div>
                                         <div className="add-text">
@@ -286,8 +292,12 @@ const SingleBook = () => {
                                                   onChange={(e) => setText(e.target.value)}>
                                         </textarea>
                                         </div>
-                                        <button type="Submit" disabled={disabled} hidden={editButton} className="button review-button">Додати</button>
-                                        <button type="button" onClick={EndEditing} disabled={disabled} hidden={!editButton} className="button review-button">Редагувати</button>
+                                        <button type="Submit" disabled={disabled} hidden={editButton}
+                                                className="button review-button">Додати
+                                        </button>
+                                        <button type="button" onClick={EndEditing} disabled={disabled}
+                                                hidden={!editButton} className="button review-button">Редагувати
+                                        </button>
                                     </div>
                                 </form>
                             </div>

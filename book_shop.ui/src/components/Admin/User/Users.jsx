@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
-import Book from "../../Books/Book";
+import Book from "../../Books/MainPageBooks/Book";
 import User from "./User";
 import "./Users.css"
 
@@ -47,6 +47,7 @@ const Users = () => {
 
     return (
         <div className="box-container users-container">
+            <title>КнигаUA | Адміністрування</title>
             <div className="admin-input-row">
                 <div className="admin-input admin-single">
                     <div className="login-input-label">Ім'я користувача</div>
@@ -55,22 +56,24 @@ const Users = () => {
             </div>
             <table className="users-table">
                 <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Ім'я</th>
-                        <th>Email</th>
-                        <th>Роль</th>
-                        <th>Всього замовлень</th>
-                        <th>Витрачено грошей</th>
-                    </tr>
+                <tr>
+                    <th>Id</th>
+                    <th>Ім'я</th>
+                    <th>Email</th>
+                    <th>Роль</th>
+                    <th>Всього замовлень</th>
+                    <th>Витрачено грошей</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {users.map(u => {
-                        return <User key={u.id} {...u}/>
-                    })}
+                {users.map(u => {
+                    return <User key={u.id} {...u}/>
+                })}
                 </tbody>
             </table>
-            <button onClick={() => DownloadUsers(pageNum)} hidden={hideButton} className="button admin-button">Показати ще</button>
+            <button onClick={() => DownloadUsers(pageNum)} hidden={hideButton} className="button admin-button">Показати
+                ще
+            </button>
         </div>
     )
 }

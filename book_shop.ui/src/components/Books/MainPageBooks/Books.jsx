@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Book from "./Book";
-import config from "../../../config.json"
+import config from "../../../../config.json"
 import "./Books.css"
 
 const Books = (prop) => {

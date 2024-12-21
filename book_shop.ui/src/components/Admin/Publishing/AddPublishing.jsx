@@ -44,10 +44,12 @@ const AddPublishing = () => {
 
     return (
         <div className="box-container admin-container">
+            <title>КнигаUA | Адміністрування</title>
             <div className="admin-input-row">
                 <div className="admin-input">
                     <div className="admin-label">Назва видавництва</div>
-                    <input type="text" placeholder="Назва видавництва" value={name} onChange={(e) => setName(e.target.value)}/>
+                    <input type="text" placeholder="Назва видавництва" value={name}
+                           onChange={(e) => setName(e.target.value)}/>
                 </div>
                 <div className="admin-input">
                     <div className="admin-label">Країна видавництва</div>

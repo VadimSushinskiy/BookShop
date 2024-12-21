@@ -1,5 +1,5 @@
 import {useState} from "react";
-import config from "../../../config.json";
+import config from "../../../../../config.json";
 import "./Gallery.css";
 
 const Gallery = ({images}) => {

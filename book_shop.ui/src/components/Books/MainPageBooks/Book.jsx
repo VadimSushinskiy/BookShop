@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import config from "../../../config.json"
+import config from "../../../../config.json"
 import "./Book.css"
 
 const Book = ({id, name, price, authorName, mainImageSrc, rating, ratingNumber}) => {

@@ -21,6 +21,7 @@ const OrderStatuses = () => {
 
     return (
         <>
+            <title>КнигаUA | Замовлення</title>
             <h4>Ваші замовлення:</h4>
             {orders.length === 0 && <h4 className="nothing-message">Замовлень поки немає</h4>}
             <div className="order-status-container">

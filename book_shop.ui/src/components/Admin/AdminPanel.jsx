@@ -1,7 +1,7 @@
 import {useContext, useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import UserContext from "../../context/UserContext";
-import "./AdminPanel.css"
+import "./Admin.css"
 
 const AdminPanel = () => {
     const {user} = useContext(UserContext);
@@ -15,6 +15,7 @@ const AdminPanel = () => {
 
     return (
         <div className="admin-panel">
+            <title>КнигаUA | Адміністрування</title>
             <div>
                 <Link to="book/add">
                     <button className="button">Додати книгу</button>
