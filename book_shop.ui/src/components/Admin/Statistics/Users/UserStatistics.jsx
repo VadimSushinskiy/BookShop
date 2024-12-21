@@ -1,10 +1,9 @@
 import axios from "axios";
-import config from "../../../../config.json"
+import config from "../../../../../config.json"
 
-const User = ({id, name, email, role, total, orderCount}) => {
+const UserStatistics = ({id, name, email, role, total, orderCount}) => {
 
     const ChangeRoleHandler = async (e) => {
-        console.log(e.target.value)
         const response = axios.put(`${config.SERVER_URL}/user/${id}`, {}, {
             params: {
                 role: e.target.value
@@ -30,4 +29,4 @@ const User = ({id, name, email, role, total, orderCount}) => {
     </tr>
 }
 
-export default User;
+export default UserStatistics;

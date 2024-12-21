@@ -21,9 +21,13 @@ import AddAuthor from "./components/Admin/Author/AddAuthor";
 import AddPublishing from "./components/Admin/Publishing/AddPublishing";
 import ChangeAuthor from "./components/Admin/Author/ChangeAuthor";
 import ChangePublishing from "./components/Admin/Publishing/ChangePublishing";
-import Users from "./components/Admin/User/Users";
+import UsersStatistics from "./components/Admin/Statistics/Users/UsersStatistics";
 import DeleteAuthor from "./components/Admin/Author/DeleteAuthor";
 import DeletePublishing from "./components/Admin/Publishing/DeletePublishing";
+import AddCountBook from "./components/Admin/Book/AddCountBook";
+import BooksStatistics from "./components/Admin/Statistics/Books/BooksStatistics";
+import AuthorsStatistics from "./components/Admin/Statistics/Authors/AuthorsStatistics";
+import PublishingsStatistics from "./components/Admin/Statistics/Publishing/PublishingsStatistics";
 
 
 function App() {
@@ -53,6 +57,7 @@ function App() {
                           <Route path="statuses" element={<OrderStatuses/>}/>
                           <Route path="admin" element={<AdminPanel/>}/>
                           <Route path="admin/book/add" element={<AddBook/>}/>
+                          <Route path="admin/book/add-count" element={<AddCountBook/>}/>
                           <Route path="admin/book/change" element={<ChangeBook/>}/>
                           <Route path="admin/book/delete" element={<DeleteBook/>}/>
                           <Route path="admin/author/add" element={<AddAuthor/>}/>
@@ -61,7 +66,10 @@ function App() {
                           <Route path="admin/publishing/add" element={<AddPublishing/>}/>
                           <Route path="admin/publishing/change" element={<ChangePublishing/>}/>
                           <Route path="admin/publishing/delete" element={<DeletePublishing/>}/>
-                          <Route path="admin/users" element={<Users/>}/>
+                          <Route path="admin/stat/users" element={<UsersStatistics/>}/>
+                          <Route path="admin/stat/books" element={<BooksStatistics/>}/>
+                          <Route path="admin/stat/authors" element={<AuthorsStatistics/>}/>
+                          <Route path="admin/stat/publishings" element={<PublishingsStatistics/>}/>
                       </Route>
                   </Routes>
                   <ToastContainer position="top-right" autoClose="1000" closeOnClick="true"/>

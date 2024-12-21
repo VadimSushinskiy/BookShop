@@ -21,6 +21,7 @@ const AddBook = () => {
         price: 0,
         coverType: "",
         publicationYear: 0,
+        count: 0,
         mainImage: null,
         imgFiles: null
     });
@@ -137,10 +138,15 @@ const AddBook = () => {
                 </div>
             </div>
             <div className="admin-input-row">
-                <div className="admin-input admin-single">
+                <div className="admin-input">
                     <div className="login-input-label">Ціна</div>
                     <input type="number" placeholder="Ціна" value={data.price !== 0 ? data.price : ""}
                            onChange={(e) => handleChange(e, "price")}/>
+                </div>
+                <div className="admin-input">
+                    <div className="login-input-label">Кількість на складі</div>
+                    <input type="number" placeholder="Кількість на складі" value={data.count !== 0 ? data.count : ""}
+                           onChange={(e) => handleChange(e, "count")}/>
                 </div>
             </div>
             <div className="admin-input-row">

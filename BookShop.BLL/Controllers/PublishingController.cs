@@ -70,5 +70,12 @@ namespace BookShop.BLL.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("Statistics")]
+        [Authorize(Roles = "Owner")]
+        public async Task<ActionResult<List<ViewPublishingDTO>>> GetAll(string? name, int pageNumber, int pageSize)
+        {
+            return await _publishingDal.GetStatistics(name, pageNumber, pageSize);
+        }
     }
 }

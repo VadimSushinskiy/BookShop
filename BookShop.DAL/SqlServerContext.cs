@@ -1,4 +1,5 @@
-﻿using BookShop.DAL.Models;
+﻿using BookShop.DAL.Models.Entities;
+using BookShop.DAL.Models.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Globalization;
@@ -34,6 +35,12 @@ namespace BookShop.DAL
 
         public virtual DbSet<ViewUser> ViewUsers { get; set; }
 
+        public virtual DbSet<ViewBook> ViewBook { get; set; }
+
+        public virtual DbSet<ViewAuthor> ViewAuthor { get; set; }
+
+        public virtual DbSet<ViewPublishing> ViewPublishing { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_configuration.GetConnectionString("SqlServer"));
@@ -50,6 +57,8 @@ namespace BookShop.DAL
                 entity.Property(e => e.RatingNumber).HasDefaultValue(0);
                 entity.Property(e => e.CoverType).HasDefaultValue("Тверда");
                 entity.Property(e => e.PublicationYear).HasDefaultValue(2024);
+                entity.Property(e => e.SoldNum).HasDefaultValue(0);
+                entity.Property(e => e.Count).HasDefaultValue(30);
 
             });
 
@@ -92,6 +101,24 @@ namespace BookShop.DAL
             {
                 entity.HasNoKey();
                 entity.ToView("View_Users");
+            });
+
+            modelBuilder.Entity<ViewBook>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("Book_View");
+            });
+
+            modelBuilder.Entity<ViewAuthor>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("Author_View");
+            });
+
+            modelBuilder.Entity<ViewPublishing>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("Publishing_View");
             });
         }
 

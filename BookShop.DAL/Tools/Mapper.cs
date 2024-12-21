@@ -1,4 +1,5 @@
-﻿using BookShop.DAL.Models;
+﻿using BookShop.DAL.Models.Entities;
+using BookShop.DAL.Models.Views;
 using BookShop.Shared.DTO;
 
 namespace BookShop.DAL.Tools
@@ -22,6 +23,7 @@ namespace BookShop.DAL.Tools
                 RatingNumber = book.RatingNumber,
                 CoverType = book.CoverType,
                 PublicationYear = book.PublicationYear,
+                Count = book.Count,
                 AuthorName = book.Author.Fullname,
                 AuthorCountry = book.Author.Country,
                 PublishingName = book.Publishing.Name,
@@ -30,20 +32,24 @@ namespace BookShop.DAL.Tools
             };
         }
 
-        public static void MapFromDTO(this Book book, BookDTO? bootDto)
+        public static void MapFromDTO(this Book book, BookDTO? bookDto)
         {
-            if (bootDto == null) return;
+            if (bookDto == null) return;
 
-            book.Name = bootDto.Name;
-            book.Description = bootDto.Description;
-            book.Price = bootDto.Price;
-            book.Genre = bootDto.Genre;
-            book.Volume = bootDto.Volume;
-            book.Language = bootDto.Language;
-            book.Rating = bootDto.Rating;
-            book.RatingNumber = bootDto.RatingNumber;
-            book.CoverType = bootDto.CoverType;
-            book.PublicationYear = bootDto.PublicationYear;
+            book.Name = bookDto.Name;
+            book.Description = bookDto.Description;
+            book.Price = bookDto.Price;
+            book.Genre = bookDto.Genre;
+            book.Volume = bookDto.Volume;
+            book.Language = bookDto.Language;
+            book.Rating = bookDto.Rating;
+            book.RatingNumber = bookDto.RatingNumber;
+            book.CoverType = bookDto.CoverType;
+            book.PublicationYear = bookDto.PublicationYear;
+            if (bookDto.Count != null)
+            {
+                book.Count = (int)bookDto.Count;
+            }
         }
 
         public static UserDTO? MapToDTO(this User? user)
@@ -217,7 +223,46 @@ namespace BookShop.DAL.Tools
                 Email = viewUser.Email,
                 Role = viewUser.Role,
                 Total = viewUser.Total,
-                OrderCount = viewUser.OrderCount,
+                OrderCount = viewUser.OrderCount
+            };
+        }
+
+        public static ViewBookDTO MapToDTO(this ViewBook viewBook)
+        {
+            return new ViewBookDTO
+            {
+                Id = viewBook.Id,
+                Name = viewBook.Name,
+                AuthorName = viewBook.AuthorName,
+                PublishingName = viewBook.PublishingName,
+                Count = viewBook.Count,
+                Price = viewBook.Price,
+                SoldNum = viewBook.SoldNum,
+                TotalSold = viewBook.TotalSold
+            };
+        }
+
+        public static ViewAuthorDTO MapToDTO(this ViewAuthor viewAuthor)
+        {
+            return new ViewAuthorDTO
+            {
+                Id = viewAuthor.Id,
+                Fullname = viewAuthor.Fullname,
+                TotalBooks = viewAuthor.TotalBooks,
+                TotalSold = viewAuthor.TotalSold,
+                TotalCountSold = viewAuthor.TotalCountSold
+            };
+        }
+
+        public static ViewPublishingDTO MapToDTO(this ViewPublishing viewPublishing)
+        {
+            return new ViewPublishingDTO
+            {
+                Id = viewPublishing.Id,
+                Name = viewPublishing.Name,
+                TotalBooks = viewPublishing.TotalBooks,
+                TotalSold = viewPublishing.TotalSold,
+                TotalCountSold = viewPublishing.TotalCountSold
             };
         }
     }

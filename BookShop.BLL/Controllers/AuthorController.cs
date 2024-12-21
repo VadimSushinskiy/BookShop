@@ -1,4 +1,5 @@
-﻿using BookShop.DAL.Interfaces;
+﻿using BookShop.DAL.Implementations;
+using BookShop.DAL.Interfaces;
 using BookShop.Shared.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -68,6 +69,13 @@ namespace BookShop.BLL.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpGet("Statistics")]
+        [Authorize(Roles = "Owner")]
+        public async Task<ActionResult<List<ViewAuthorDTO>>> GetAll(string? name, int pageNumber, int pageSize)
+        {
+            return await _authorDal.GetStatistics(name, pageNumber, pageSize);
         }
     }
 }

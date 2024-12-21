@@ -37,6 +37,8 @@ namespace BookShop.Shared.DTO
         [Required]
         public int PublicationYear { get; set; }
 
+        public int? Count { get; set; }
+
         [Required]
         public string AuthorName { get; set; }
 

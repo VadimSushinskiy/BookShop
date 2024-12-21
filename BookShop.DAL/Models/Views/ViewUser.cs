@@ -1,4 +1,4 @@
-﻿namespace BookShop.DAL.Models
+﻿namespace BookShop.DAL.Models.Views
 {
     public class ViewUser
     {

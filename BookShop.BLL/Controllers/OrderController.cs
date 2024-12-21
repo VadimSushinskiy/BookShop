@@ -1,4 +1,5 @@
 ﻿using BookShop.DAL.Interfaces;
+using BookShop.DAL.Models;
 using BookShop.Shared.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,14 @@ namespace BookShop.BLL.Controllers
         [HttpPost("{cartId}")]
         public async Task<IActionResult> Create(OrderDTO order, string cartId)
         {
-            await _orderDal.Create(order, cartId);
+            try
+            {
+                await _orderDal.Create(order, cartId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             return Ok();
         }
@@ -35,7 +43,14 @@ namespace BookShop.BLL.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> ChangeCount(int id, int change)
         {
-            await _orderDal.ChangeCount(id, change);
+            try
+            {
+                await _orderDal.ChangeCount(id, change);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             return NoContent();
         }

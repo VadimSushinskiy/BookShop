@@ -1,4 +1,4 @@
-﻿namespace BookShop.DAL.Models;
+﻿namespace BookShop.DAL.Models.Entities;
 
 public class Book
 {
@@ -23,6 +23,10 @@ public class Book
     public int PublicationYear { get; set; }
 
     public int RatingNumber { get; set; } = 0;
+
+    public int SoldNum { get; set; } = 0;
+
+    public int Count { get; set; } = 30;
 
     public int AuthorId { get; set; }
 

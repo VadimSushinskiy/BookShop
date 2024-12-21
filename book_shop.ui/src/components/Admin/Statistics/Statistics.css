@@ -1,15 +1,20 @@
-table.users-table {
+table.statistics-table {
     border-collapse: collapse;
     margin: 0 auto 15px;
 }
 
-table.users-table td, table.users-table th {
+table.statistics-table td, table.statistics-table th {
     border: 1px solid black;
     padding: 12px;
 }
 
-.users-container {
+.user-container {
     width: 50%;
+    margin: 20px auto 0;
+}
+
+.statistics-container {
+    width: 70%;
     margin: 20px auto 0;
 }
 

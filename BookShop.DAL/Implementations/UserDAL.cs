@@ -1,5 +1,5 @@
 ﻿using BookShop.DAL.Interfaces;
-using BookShop.DAL.Models;
+using BookShop.DAL.Models.Entities;
 using BookShop.DAL.Tools;
 using BookShop.Shared.DTO;
 using Microsoft.Data.SqlClient;

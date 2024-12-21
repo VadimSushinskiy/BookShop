@@ -1,4 +1,5 @@
-﻿using BookShop.Shared.DTO;
+﻿using BookShop.DAL.Models.Views;
+using BookShop.Shared.DTO;
 
 namespace BookShop.DAL.Interfaces
 {
@@ -13,5 +14,9 @@ namespace BookShop.DAL.Interfaces
         Task<(List<int>, List<int>)> Update(BookDTO dto);
 
         Task<List<int>> Delete(int id);
+
+        Task UpdateCount(int bookId, int count);
+
+        Task<List<ViewBookDTO>> GetStatistics(string name, int pageNumber, int pageSize);
     }
 }

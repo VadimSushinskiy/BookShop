@@ -55,6 +55,7 @@ const SingleBook = () => {
 
         if (response.status === 200) {
             setDisabledBuy(false);
+            book.count -= 1;
             toast.success("Ви додали книгу до кошика!")
             return true
         }
@@ -305,9 +306,11 @@ const SingleBook = () => {
                     </div>
                     <div className="book-buy">
                         <div className="price">{book.price} грн</div>
-                        <button onClick={BuyBook} disabled={disabledBuy} className="button-buy buy-button">До кошику
+                        {book.count > 0 && <div className="count-more">Є в наявності</div>}
+                        {book.count <= 0 && <div className="count-less">Немає в наявності</div>}
+                        <button onClick={BuyBook} disabled={disabledBuy || book.count <= 0} className="button-buy buy-button">До кошику
                         </button>
-                        <button onClick={BuyBookCart} disabled={disabledBuy} className="button-buy cart-button">Купити
+                        <button onClick={BuyBookCart} disabled={disabledBuy || book.count <= 0} className="button-buy cart-button">Купити
                             негайно
                         </button>
                         <div className="article">

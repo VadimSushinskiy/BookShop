@@ -1,5 +1,5 @@
 ﻿using BookShop.DAL.Interfaces;
-using BookShop.DAL.Models;
+using BookShop.DAL.Models.Entities;
 using BookShop.DAL.Tools;
 using BookShop.Shared.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -49,9 +49,16 @@ namespace BookShop.DAL.Implementations
                 .Where(cart => cart.Id == cartId)
                 .ExecuteUpdateAsync(cart => cart.SetProperty(c => c.TotalPrice, 0));
 
-            await _context.Orders
+            var orders = await _context.Orders
                 .Where(order => order.CartId == cartId)
-                .ExecuteDeleteAsync();
+                .ToListAsync();
+
+            foreach (var order in orders)
+            {
+                await _context.Books.Where(book => book.Id == order.BookId).ExecuteUpdateAsync(book => book.SetProperty(b => b.SoldNum, b => b.SoldNum + order.Count));
+            }
+
+            _context.Orders.RemoveRange(orders);
 
             await _context.SaveChangesAsync();
         }

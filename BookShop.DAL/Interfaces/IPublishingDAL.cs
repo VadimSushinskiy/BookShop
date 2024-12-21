@@ -11,5 +11,7 @@ namespace BookShop.DAL.Interfaces
         Task Update(string name, PublishingDTO publishing);
 
         Task Delete(string name);
+
+        Task<List<ViewPublishingDTO>> GetStatistics(string name, int pageNumber, int pageSize);
     }
 }

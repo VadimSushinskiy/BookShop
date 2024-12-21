@@ -30,6 +30,9 @@ namespace BookShop.BLL.Models
         [Required]
         public int PublicationYear { get; set; }
 
+        [Required]        
+        public int Count { get; set; }
+
         [Required]
         public string AuthorName { get; set; }
 

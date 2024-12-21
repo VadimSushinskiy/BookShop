@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 import config from "../../../../config.json"
 import "./Book.css"
 
-const Book = ({id, name, price, authorName, mainImageSrc, rating, ratingNumber}) => {
+const Book = ({id, name, price, authorName, mainImageSrc, rating, ratingNumber, count}) => {
     return (
         <div className="book">
             <Link to={id.toString()} className="link">
@@ -16,6 +16,8 @@ const Book = ({id, name, price, authorName, mainImageSrc, rating, ratingNumber})
                     </div>
                     <div className="rating">{ratingNumber} відгуків</div>
                 </div>
+                {count > 0 && <div className="count-more">Є в наявності</div>}
+                {count <= 0 && <div className="count-less">Немає в наявності</div>}
                 <div className="book-price">{price} грн</div>
             </Link>
         </div>

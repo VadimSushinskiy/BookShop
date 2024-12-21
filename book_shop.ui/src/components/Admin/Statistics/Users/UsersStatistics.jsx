@@ -1,13 +1,12 @@
 import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import UserContext from "../../../context/UserContext";
-import config from "../../../../config.json"
-import Book from "../../Books/MainPageBooks/Book";
-import User from "./User";
-import "./Users.css"
+import UserContext from "../../../../context/UserContext";
+import config from "../../../../../config.json"
+import UserStatistics from "./UserStatistics";
+import "../Statistics.css"
 
-const Users = () => {
+const UsersStatistics = () => {
     const {user} = useContext(UserContext);
     const navigator = useNavigate();
 
@@ -19,7 +18,7 @@ const Users = () => {
     const PAGE_SIZE = 10;
 
     useEffect(() => {
-        if (user?.role !== "Admin" && user?.role !== "Owner") {
+        if (user?.role !== "Owner") {
             navigator("/admin");
         }
     }, []);
@@ -46,7 +45,7 @@ const Users = () => {
     }
 
     return (
-        <div className="box-container users-container">
+        <div className="box-container statistics-container">
             <title>КнигаUA | Адміністрування</title>
             <div className="admin-input-row">
                 <div className="admin-input admin-single">
@@ -54,7 +53,7 @@ const Users = () => {
                     <input type="text" placeholder="Нік" value={name} onChange={(e) => setName(e.target.value)}/>
                 </div>
             </div>
-            <table className="users-table">
+            <table className="statistics-table">
                 <thead>
                 <tr>
                     <th>Id</th>
@@ -67,7 +66,7 @@ const Users = () => {
                 </thead>
                 <tbody>
                 {users.map(u => {
-                    return <User key={u.id} {...u}/>
+                    return <UserStatistics key={u.id} {...u}/>
                 })}
                 </tbody>
             </table>
@@ -78,4 +77,4 @@ const Users = () => {
     )
 }
 
-export default Users;
+export default UsersStatistics;

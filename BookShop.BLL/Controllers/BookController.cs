@@ -1,6 +1,7 @@
 using BookShop.BLL.Models;
 using BookShop.BLL.Tools.Implementations;
 using BookShop.BLL.Tools.Interfaces;
+using BookShop.DAL.Implementations;
 using BookShop.DAL.Interfaces;
 using BookShop.Shared.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -151,6 +152,29 @@ namespace BookShop.BLL.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin, Owner")]
+        public async Task<IActionResult> Update(int id, [FromQuery]int count)
+        {
+            try
+            {
+                await _bookDal.UpdateCount(id, count);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return NoContent();
+        }
+
+        [HttpGet("Statistics")]
+        [Authorize(Roles = "Owner")]
+        public async Task<ActionResult<List<ViewBookDTO>>> GetAll(string? name, int pageNumber, int pageSize)
+        {
+            return await _bookDal.GetStatistics(name, pageNumber, pageSize);
         }
     }
 }

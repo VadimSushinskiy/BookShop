@@ -1,5 +1,6 @@
 ﻿using BookShop.DAL.Interfaces;
-using BookShop.DAL.Models;
+using BookShop.DAL.Models.Entities;
+using BookShop.DAL.Models.Views;
 using BookShop.DAL.Tools;
 using BookShop.Shared.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,18 @@ namespace BookShop.DAL.Implementations
                 .Where(publishing => publishing.Name == name)
                 .Select(publishing => publishing.MapToDTO())
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<ViewPublishingDTO>> GetStatistics(string name, int pageNumber, int pageSize)
+        {
+            return await _context.ViewPublishing.AsNoTracking()
+                .Where(publishing => EF.Functions.Like(publishing.Name, $"%{name}%"))
+                .OrderByDescending(publishing => publishing.TotalSold)
+                .ThenBy(publishing => publishing.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize + 1)
+                .Select(publishing => publishing.MapToDTO())
+                .ToListAsync();
         }
 
         public async Task Create(PublishingDTO publishingDto)

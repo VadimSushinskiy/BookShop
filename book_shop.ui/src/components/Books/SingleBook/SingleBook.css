@@ -108,6 +108,7 @@ h4 {
     font-size: 26px;
     color: #374375;
     font-weight: 500;
+    margin: 0;
 }
 
 .button-buy {
@@ -126,6 +127,11 @@ h4 {
 }
 
 .button-buy:disabled {
+    background-color: gray;
+    box-shadow: none;
+}
+
+.button-buy:disabled:hover {
     background-color: gray;
 }
 
@@ -236,4 +242,12 @@ a.stars-rating {
     font-size: 14px;
     color: #5d5c5c;
     cursor: pointer;
+}
+
+.count-less {
+    color: #5d5c5c;
+}
+
+.count-more {
+    color: green;
 }

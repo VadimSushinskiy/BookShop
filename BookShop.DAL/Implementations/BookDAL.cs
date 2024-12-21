@@ -1,5 +1,6 @@
 ﻿using BookShop.DAL.Interfaces;
-using BookShop.DAL.Models;
+using BookShop.DAL.Models.Entities;
+using BookShop.DAL.Models.Views;
 using BookShop.DAL.Tools;
 using BookShop.Shared.DTO;
 using Microsoft.Data.SqlClient;
@@ -39,33 +40,47 @@ namespace BookShop.DAL.Implementations
                 && book.Price >= filter.MinPrice
                 && book.Price <= filter.MaxPrice
                 && book.Rating >= filter.Rating)
-                .Include(book => book.Images.OrderByDescending(image => image.IsMain));
-                
+                .Include(book => book.Images.OrderByDescending(image => image.IsMain))
+                .OrderByDescending(book => book.Count > 0);
+
+
             List<BookDTO> result;
             switch (sort)
             {
                 case "rating":
                     {
-                        result = await books.OrderByDescending(book => book.Rating).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
+                        result = await books.ThenByDescending(book => book.Rating).ThenBy(book => book.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
                         break;
                     }
                 case "cheap":
                     {
-                        result = await books.OrderBy(book => book.Price).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
+                        result = await books.ThenBy(book => book.Price).ThenBy(book => book.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
                         break;
                     }
                 case "expensive":
                     {
-                        result = await books.OrderByDescending(book => book.Price).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
+                        result = await books.ThenByDescending(book => book.Price).ThenBy(book => book.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
                         break;
                     }
                 default:
                     {
-                        result = await books.Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
+                        result = await books.ThenBy(book => book.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
                         break;
                     }
             }
             return result;
+        }
+
+        public async Task<List<ViewBookDTO>> GetStatistics(string name, int pageNumber, int pageSize)
+        {
+            return await _context.ViewBook.AsNoTracking()
+                .Where(book => EF.Functions.Like(book.Name, $"%{name}%"))
+                .OrderByDescending(book => book.TotalSold)
+                .ThenBy(book => book.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize + 1)
+                .Select(book => book.MapToDTO())
+                .ToListAsync();
         }
 
         public async Task<List<int>> Create(BookDTO bookDto)
@@ -126,6 +141,8 @@ namespace BookShop.DAL.Implementations
                     .SetProperty(c => c.Language, bookDto.Language)
                     .SetProperty(c => c.Volume, bookDto.Volume)
                     .SetProperty(c => c.Genre, bookDto.Genre)
+                    .SetProperty(c => c.CoverType, bookDto.CoverType)
+                    .SetProperty(c => c.PublicationYear, bookDto.PublicationYear)
                     .SetProperty(c => c.AuthorId, author.Id)
                     .SetProperty(c => c.PublishingId, publishing.Id)
                     );
@@ -163,6 +180,20 @@ namespace BookShop.DAL.Implementations
             await _context.SaveChangesAsync();
 
             return ids;
+        }
+
+        public async Task UpdateCount(int bookId, int count)
+        {
+            Book? book = await _context.Books.Where(book => book.Id == bookId).FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new Exception("Book not found");
+            }
+
+            book.Count += count;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

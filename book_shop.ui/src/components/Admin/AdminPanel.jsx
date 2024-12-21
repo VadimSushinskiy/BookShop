@@ -18,7 +18,12 @@ const AdminPanel = () => {
             <title>КнигаUA | Адміністрування</title>
             <div>
                 <Link to="book/add">
-                    <button className="button">Додати книгу</button>
+                    <button className="button">Додати нову книгу</button>
+                </Link>
+            </div>
+            <div>
+                <Link to="book/add-count">
+                    <button className="button">Додати існуючу книгу</button>
                 </Link>
             </div>
             <div>
@@ -61,11 +66,28 @@ const AdminPanel = () => {
                     <button className="button">Видалити видавництво</button>
                 </Link>
             </div>
-            {user?.role === "Owner" && <div>
-                <Link to="users">
-                    <button className="button">Користувачі</button>
-                </Link>
-            </div>}
+            {user?.role === "Owner" && <>
+                <div>
+                    <Link to="stat/users">
+                        <button className="button">Користувачі</button>
+                    </Link>
+                </div>
+                <div>
+                    <Link to="stat/books">
+                        <button className="button">Книги</button>
+                    </Link>
+                </div>
+                <div>
+                    <Link to="stat/authors">
+                        <button className="button">Автори</button>
+                    </Link>
+                </div>
+                <div>
+                    <Link to="stat/publishings">
+                        <button className="button">Видавництва</button>
+                    </Link>
+                </div>
+            </>}
         </div>
     )
 }
