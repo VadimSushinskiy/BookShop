@@ -87,9 +87,9 @@ namespace BookShop.DAL
                 entity.Property(e => e.WritingDate).HasDefaultValue(new DateTime(2024, 12, 17).ToString("dd MMMM yyyy", CultureInfo.CreateSpecificCulture("uk")));
             });
 
-            modelBuilder.Entity<User>(entity =>
+            modelBuilder.Entity<Cart>(entity =>
             {
-                entity.HasOne(d => d.Cart).WithOne(p => p.User).HasForeignKey<User>(d => d.CartId);
+                entity.HasOne(d => d.User).WithOne(p => p.Cart).HasForeignKey<Cart>(d => d.UserId);
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -121,7 +121,5 @@ namespace BookShop.DAL
                 entity.ToView("Publishing_View");
             });
         }
-
-
     }
 }

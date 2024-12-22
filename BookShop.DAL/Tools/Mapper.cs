@@ -63,7 +63,7 @@ namespace BookShop.DAL.Tools
                 Email = user.Email,
                 Password = user.Password,
                 Role = user.Role,
-                CartId = user.CartId,
+                CartId = user.Cart.Id,
             };
         }
 

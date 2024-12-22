@@ -12,8 +12,6 @@ public class User
 
     public string Role { get; set; } = null!;
 
-    public string CartId { get; set; }
-
     public virtual Cart Cart { get; set; } = null!;
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();

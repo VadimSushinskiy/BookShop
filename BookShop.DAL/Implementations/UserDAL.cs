@@ -11,21 +11,19 @@ namespace BookShop.DAL.Implementations
 {
     public class UserDAL : IUserDAL
     {
-        public UserDAL(SqlServerContext context, IConfiguration configuration)
+        public UserDAL(SqlServerContext context)
         {
             _context = context;
-            _configuration = configuration;
         }
 
         private readonly SqlServerContext _context;
-
-        private readonly IConfiguration _configuration;
 
         public async Task<UserDTO?> Get(string email)
         {
             return await _context.Users
                 .AsNoTracking()
                 .Where(user => user.Email == email)
+                .Include(user => user.Cart)
                 .Select(user => user.MapToDTO())
                 .FirstOrDefaultAsync();
         }
@@ -69,7 +67,7 @@ namespace BookShop.DAL.Implementations
             await _context.SaveChangesAsync();
 
             Cart newCart = await _context.Carts
-                .Where(cart => cart.Id == newUser.CartId)
+                .Where(cart => cart.Id == newUser.Cart.Id)
                 .FirstAsync();
 
             newCart.UserId = newUser.Id;
