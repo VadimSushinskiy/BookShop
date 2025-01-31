@@ -7,6 +7,36 @@ const AdminPanel = () => {
     const {user} = useContext(UserContext);
     const navigator = useNavigate();
 
+    const adminButtonInformation = [
+        {text: "Додати нову книгу", link: "book/add"},
+        {text: "Додати існуючу книгу", link: "book/add-count"},
+        {text: "Змінити книгу", link: "book/change"},
+        {text: "Видалити книгу", link: "book/delete"},
+        {text: "Додати автора", link: "author/add"},
+        {text: "Змінити автора", link: "author/change"},
+        {text: "Видалити автора", link: "author/delete"},
+        {text: "Додати видавництво", link: "publishing/add"},
+        {text: "Змінити видавництво", link: "publishing/change"},
+        {text: "Видалити видавництво", link: "publishing/delete"}];
+
+    const ownerButtonInformation = [
+        {text: "Користувачі", link: "stat/users"},
+        {text: "Книги", link: "stat/books"},
+        {text: "Автори", link: "stat/authors"},
+        {text: "Видавництва", link: "stat/publishings"}];
+
+    const GetButtonsJSX = (buttonInformation) => {
+        return buttonInformation.map((button) => {
+            return (
+                <div>
+                    <Link to={button.link}>
+                        <button className="button">{button.text}</button>
+                    </Link>
+                </div>
+            )
+        })
+    }
+
     useEffect(() => {
         if (user?.role !== "Admin" && user?.role !== "Owner") {
             navigator("..", {relative: "path"});
@@ -16,77 +46,9 @@ const AdminPanel = () => {
     return (
         <div className="admin-panel">
             <title>КнигаUA | Адміністрування</title>
-            <div>
-                <Link to="book/add">
-                    <button className="button">Додати нову книгу</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="book/add-count">
-                    <button className="button">Додати існуючу книгу</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="book/change">
-                    <button className="button">Змінити книгу</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="book/delete">
-                    <button className="button">Видалити книгу</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="author/add">
-                    <button className="button">Додати автора</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="author/change">
-                    <button className="button">Змінити автора</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="author/delete">
-                    <button className="button">Видалити автора</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="publishing/add">
-                    <button className="button">Додати видавництво</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="publishing/change">
-                    <button className="button">Змінити видавництво</button>
-                </Link>
-            </div>
-            <div>
-                <Link to="publishing/delete">
-                    <button className="button">Видалити видавництво</button>
-                </Link>
-            </div>
+            {GetButtonsJSX(adminButtonInformation)}
             {user?.role === "Owner" && <>
-                <div>
-                    <Link to="stat/users">
-                        <button className="button">Користувачі</button>
-                    </Link>
-                </div>
-                <div>
-                    <Link to="stat/books">
-                        <button className="button">Книги</button>
-                    </Link>
-                </div>
-                <div>
-                    <Link to="stat/authors">
-                        <button className="button">Автори</button>
-                    </Link>
-                </div>
-                <div>
-                    <Link to="stat/publishings">
-                        <button className="button">Видавництва</button>
-                    </Link>
-                </div>
+                {GetButtonsJSX(ownerButtonInformation)}
             </>}
         </div>
     )
