@@ -14,21 +14,30 @@ const Register = () => {
 
     const navigator = useNavigate();
 
+    const RegisterValidation = () => {
+        if (name === "" || email === "" || password === "" || secondPassword === "") {
+            toast.error("Введіть усі дані", {autoClose: 2000});
+            return false;
+        }
+
+        if (!email.match(/.+@.+\.+/)) {
+            toast.error("Введіть пошту у правильному форматі", {autoClose: 2000});
+            return false;
+        }
+
+        if (password !== secondPassword) {
+            toast.error("Паролі не співпадають", {autoClose: 2000});
+            return false;
+        }
+
+        return true;
+    }
+
     const SubmitHandler = async (e) => {
         e.preventDefault();
         setDisabled(true);
 
-        if (name === "" || email === "" || password === "" || secondPassword === "") {
-            toast.error("Введіть усі дані", {autoClose: 2000});
-        }
-        else if (!email.match(/.+@.+\.+/)) {
-            toast.error("Введіть пошту у правильному форматі", {autoClose: 2000});
-        }
-        else if (password !== secondPassword) {
-            toast.error("Паролі не співпадають", {autoClose: 2000});
-        }
-        else {
-
+        if (RegisterValidation()) {
             try {
                 const response = await axios.post(`${config.SERVER_URL}/user/register`, {
                     name,
