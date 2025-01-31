@@ -29,6 +29,27 @@ namespace BookShop.DAL.Implementations
                 .SingleOrDefaultAsync();
         }
 
+        public IQueryable<BookDTO?> SortBooks(IOrderedQueryable<Book> books, int pageNumber, int pageSize, string? sort)
+        {
+            IOrderedQueryable<Book> result;
+            switch (sort)
+            {
+                case "rating":
+                        result = books.ThenByDescending(book => book.Rating);
+                        break;
+                case "cheap":
+                        result = books.ThenBy(book => book.Price);
+                        break;
+                case "expensive":
+                        result = books.ThenByDescending(book => book.Price);
+                        break;
+                default:
+                        result = books;
+                        break;      
+            }
+            return result.ThenBy(book => book.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO());
+        }
+
         public async Task<List<BookDTO>> GetWithFilterAndPagination(FilterDTO filter, int pageNumber, int pageSize, string? sort)
         {
             var books = _context.Books.Include(book => book.Author).Include(book => book.Publishing)
@@ -43,32 +64,7 @@ namespace BookShop.DAL.Implementations
                 .Include(book => book.Images.OrderByDescending(image => image.IsMain))
                 .OrderByDescending(book => book.Count > 0);
 
-
-            List<BookDTO> result;
-            switch (sort)
-            {
-                case "rating":
-                    {
-                        result = await books.ThenByDescending(book => book.Rating).ThenBy(book => book.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
-                        break;
-                    }
-                case "cheap":
-                    {
-                        result = await books.ThenBy(book => book.Price).ThenBy(book => book.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
-                        break;
-                    }
-                case "expensive":
-                    {
-                        result = await books.ThenByDescending(book => book.Price).ThenBy(book => book.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
-                        break;
-                    }
-                default:
-                    {
-                        result = await books.ThenBy(book => book.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize + 1).Select(book => book.MapToDTO()).ToListAsync();
-                        break;
-                    }
-            }
-            return result;
+            return await SortBooks(books, pageNumber, pageSize, sort).ToListAsync();
         }
 
         public async Task<List<ViewBookDTO>> GetStatistics(string name, int pageNumber, int pageSize)
