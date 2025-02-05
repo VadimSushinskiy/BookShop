@@ -16,17 +16,25 @@ const Login = () => {
 
     const navigator = useNavigate();
 
+    const LoginValidation = () => {
+        if (email === "" || password === "") {
+            toast.error("Введіть усі дані", {autoClose: 2000});
+            return false
+        }
+
+        if (!email.match(/.+@.+\.+/)) {
+            toast.error("Введіть пошту у правильному форматі", {autoClose: 2000});
+            return false
+        }
+
+        return true;
+    }
+
     const SubmitHandler = async (e) => {
         e.preventDefault();
         setDisabled(true);
 
-        if (email === "" || password === "") {
-            toast.error("Введіть усі дані", {autoClose: 2000});
-        }
-        else if (!email.match(/.+@.+\.+/)) {
-            toast.error("Введіть пошту у правильному форматі", {autoClose: 2000});
-        }
-        else {
+        if (LoginValidation()) {
             try {
                 const res = await axios.post(`${config.SERVER_URL}/user/login`, {
                     email,

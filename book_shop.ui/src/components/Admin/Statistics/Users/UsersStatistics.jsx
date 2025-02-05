@@ -1,27 +1,16 @@
-import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 import axios from "axios";
-import UserContext from "../../../../context/UserContext";
 import config from "../../../../../config.json"
 import UserStatistics from "./UserStatistics";
 import "../Statistics.css"
 
 const UsersStatistics = () => {
-    const {user} = useContext(UserContext);
-    const navigator = useNavigate();
-
     const [name, setName] = useState("");
     const [pageNum, setPageNum] = useState(1);
     const [users, setUsers] = useState([]);
     const [hideButton, setHideButton] = useState(false);
 
     const PAGE_SIZE = 10;
-
-    useEffect(() => {
-        if (user?.role !== "Owner") {
-            navigator("/admin");
-        }
-    }, []);
 
     useEffect(() => {
         setUsers([]);
@@ -70,8 +59,8 @@ const UsersStatistics = () => {
                 })}
                 </tbody>
             </table>
-            <button onClick={() => DownloadUsers(pageNum)} hidden={hideButton} className="button admin-button">Показати
-                ще
+            <button onClick={() => DownloadUsers(pageNum)} hidden={hideButton} className="button admin-button">
+                Показати ще
             </button>
         </div>
     )

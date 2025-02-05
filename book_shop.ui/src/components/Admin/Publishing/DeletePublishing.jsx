@@ -1,21 +1,11 @@
-import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 import axios from "axios";
-import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
 import {toast} from "react-toastify";
 
 const DeletePublishing = () => {
-    const {user} = useContext(UserContext);
-    const navigator = useNavigate();
 
     const [name, setName] = useState("");
-
-    useEffect(() => {
-        if (user?.role !== "Admin" && user?.role !== "Owner") {
-            navigator("/admin");
-        }
-    }, []);
 
     const handleDelete = async () => {
         if (name === "") {

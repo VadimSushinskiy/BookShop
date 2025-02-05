@@ -28,6 +28,7 @@ import AddCountBook from "./components/Admin/Book/AddCountBook";
 import BooksStatistics from "./components/Admin/Statistics/Books/BooksStatistics";
 import AuthorsStatistics from "./components/Admin/Statistics/Authors/AuthorsStatistics";
 import PublishingsStatistics from "./components/Admin/Statistics/Publishing/PublishingsStatistics";
+import AdminLayout from "./layouts/AdminLayout";
 
 
 function App() {
@@ -55,21 +56,25 @@ function App() {
                           <Route path="register" element={<Register/>}/>
                           <Route path="cart" element={<Cart/>}/>
                           <Route path="statuses" element={<OrderStatuses/>}/>
-                          <Route path="admin" element={<AdminPanel/>}/>
-                          <Route path="admin/book/add" element={<AddBook/>}/>
-                          <Route path="admin/book/add-count" element={<AddCountBook/>}/>
-                          <Route path="admin/book/change" element={<ChangeBook/>}/>
-                          <Route path="admin/book/delete" element={<DeleteBook/>}/>
-                          <Route path="admin/author/add" element={<AddAuthor/>}/>
-                          <Route path="admin/author/change" element={<ChangeAuthor/>}/>
-                          <Route path="admin/author/delete" element={<DeleteAuthor/>}/>
-                          <Route path="admin/publishing/add" element={<AddPublishing/>}/>
-                          <Route path="admin/publishing/change" element={<ChangePublishing/>}/>
-                          <Route path="admin/publishing/delete" element={<DeletePublishing/>}/>
-                          <Route path="admin/stat/users" element={<UsersStatistics/>}/>
-                          <Route path="admin/stat/books" element={<BooksStatistics/>}/>
-                          <Route path="admin/stat/authors" element={<AuthorsStatistics/>}/>
-                          <Route path="admin/stat/publishings" element={<PublishingsStatistics/>}/>
+                          <Route path="admin" element={<AdminLayout roleList={["Admin", "Owner"]}/>}>
+                              <Route index element={<AdminPanel/>}/>
+                              <Route path="book/add" element={<AddBook/>}/>
+                              <Route path="book/add-count" element={<AddCountBook/>}/>
+                              <Route path="book/change" element={<ChangeBook/>}/>
+                              <Route path="book/delete" element={<DeleteBook/>}/>
+                              <Route path="author/add" element={<AddAuthor/>}/>
+                              <Route path="author/change" element={<ChangeAuthor/>}/>
+                              <Route path="author/delete" element={<DeleteAuthor/>}/>
+                              <Route path="publishing/add" element={<AddPublishing/>}/>
+                              <Route path="publishing/change" element={<ChangePublishing/>}/>
+                              <Route path="publishing/delete" element={<DeletePublishing/>}/>
+                          </Route>
+                          <Route path="admin" element={<AdminLayout roleList={["Owner"]}/>}>
+                              <Route path="stat/users" element={<UsersStatistics/>}/>
+                              <Route path="stat/books" element={<BooksStatistics/>}/>
+                              <Route path="stat/authors" element={<AuthorsStatistics/>}/>
+                              <Route path="stat/publishings" element={<PublishingsStatistics/>}/>
+                          </Route>
                       </Route>
                   </Routes>
                   <ToastContainer position="top-right" autoClose="1000" closeOnClick="true"/>

@@ -1,27 +1,16 @@
-import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 import axios from "axios";
-import UserContext from "../../../../context/UserContext";
 import config from "../../../../../config.json"
 import "../Statistics.css"
 import PublishingStatistics from "./PublishingStatistics";
 
 const PublishingsStatistics = () => {
-    const {user} = useContext(UserContext);
-    const navigator = useNavigate();
-
     const [name, setName] = useState("");
     const [pageNum, setPageNum] = useState(1);
     const [publishing, setPublishing] = useState([]);
     const [hideButton, setHideButton] = useState(false);
 
     const PAGE_SIZE = 10;
-
-    useEffect(() => {
-        if (user?.role !== "Owner") {
-            navigator("/admin");
-        }
-    }, []);
 
     useEffect(() => {
         setPublishing([]);

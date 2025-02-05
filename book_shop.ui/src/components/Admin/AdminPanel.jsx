@@ -1,11 +1,10 @@
-import {useContext, useEffect} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {useContext} from "react";
+import {Link} from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import "./Admin.css"
 
 const AdminPanel = () => {
     const {user} = useContext(UserContext);
-    const navigator = useNavigate();
 
     const adminButtonInformation = [
         {text: "Додати нову книгу", link: "book/add"},
@@ -28,7 +27,7 @@ const AdminPanel = () => {
     const GetButtonsJSX = (buttonInformation) => {
         return buttonInformation.map((button) => {
             return (
-                <div>
+                <div key={button.link}>
                     <Link to={button.link}>
                         <button className="button">{button.text}</button>
                     </Link>
@@ -36,12 +35,6 @@ const AdminPanel = () => {
             )
         })
     }
-
-    useEffect(() => {
-        if (user?.role !== "Admin" && user?.role !== "Owner") {
-            navigator("..", {relative: "path"});
-        }
-    }, []);
 
     return (
         <div className="admin-panel">

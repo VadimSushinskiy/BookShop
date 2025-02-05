@@ -1,24 +1,20 @@
-import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 import axios from "axios";
-import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
 import {toast} from "react-toastify";
+import GetJsxInputRow from "../../../tools/GetJsxInputRow";
+import handleChangeInAdmin from "../../../tools/HandleChangeInAdmin";
 
 const ChangePublishing = () => {
-    const {user} = useContext(UserContext);
-    const navigator = useNavigate();
+    const defaultData = {name: "", country: ""};
 
     const [name, setName] = useState("");
-    const [newName, setNewName] = useState("");
-    const [country, setCountry] = useState("");
+    const [data, setData] = useState(defaultData);
     const [hidden, setHidden] = useState(true);
 
-    useEffect(() => {
-        if (user?.role !== "Admin" && user?.role !== "Owner") {
-            navigator("/admin");
-        }
-    }, []);
+    const inputData = [
+        [{label: "Назва видавництва", value: "name", isArea: false}, {label: "Країна видавництва", value: "country", isArea: false}]
+    ];
 
     const FindPublishing = async () => {
         setHidden(true);
@@ -30,28 +26,26 @@ const ChangePublishing = () => {
             try {
                 const response = await axios.get(`${config.SERVER_URL}/publishing/${name}`);
                 if (response.status === 200) {
-                    setNewName(response.data.name);
-                    setCountry(response.data.country);
+                    setData({name: response.data.name, country: response.data.country});
                     setHidden(false);
                 }
             }
             catch {
                 toast.error("Видавництва з такою назвою не знайдено", {autoClose: 2000});
-                setCountry("");
-                setNewName("");
+                setData(defaultData);
             }
         }
     }
 
     const ChangePublishing = async () => {
-        if (name === "" || country === "") {
+        if (data.name === "" || data.country === "") {
             toast.error("Введіть дані в усі поля", {autoClose: 2000});
         }
         else {
             try {
                 const response = await axios.put(`${config.SERVER_URL}/publishing/${name}`, {
-                    name: newName,
-                    country
+                    name: data.name,
+                    country: data.country
                 }, {
                     withCredentials: true
                 });
@@ -66,8 +60,6 @@ const ChangePublishing = () => {
                 toast.error("Видавництва з такою назвою не знайдено", {autoClose: 2000});
             }
         }
-
-
     }
 
     return (
@@ -82,18 +74,7 @@ const ChangePublishing = () => {
             </div>
             <button onClick={FindPublishing} className="button admin-button">Знайти</button>
             {!hidden && <>
-                <div className="admin-input-row">
-                    <div className="admin-input">
-                        <div className="admin-label">Нова назва</div>
-                        <input type="text" placeholder="Нова назва" value={newName}
-                               onChange={(e) => setNewName(e.target.value)}/>
-                    </div>
-                    <div className="admin-input">
-                        <div className="admin-label">Країна автора</div>
-                        <input type="text" placeholder="Країна видавництва" value={country}
-                               onChange={(e) => setCountry(e.target.value)}/>
-                    </div>
-                </div>
+                {inputData.map((input) => GetJsxInputRow(input, handleChangeInAdmin, data, setData))}
                 <div>
                     <button onClick={ChangePublishing} className="button admin-button">Редагувати</button>
                 </div>

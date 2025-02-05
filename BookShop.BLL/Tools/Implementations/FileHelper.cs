@@ -36,7 +36,14 @@ namespace BookShop.BLL.Tools.Implementations
 
             string res = await Task.Run(() =>
             {
-                return Directory.GetFiles(path, $"{hexId[12..]}.*")[0];
+                try
+                {
+                    return Directory.GetFiles(path, $"{hexId[12..]}.*")[0];
+                }
+                catch
+                {
+                    return "";
+                }
             });
 
             return res.Replace(_webHostEnvironment.WebRootPath, "");

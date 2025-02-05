@@ -1,22 +1,22 @@
-import {useContext, useEffect, useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import UserContext from "../../../context/UserContext";
 import config from "../../../../config.json"
 import {toast} from "react-toastify";
+import GetJsxInputRow from "../../../tools/GetJsxInputRow";
+import handleChangeInAdmin from "../../../tools/HandleChangeInAdmin";
 
 const AddAuthor = () => {
-    const {user} = useContext(UserContext);
     const navigator = useNavigate();
 
-    const [name, setName] = useState("");
-    const [country, setCountry] = useState("");
+    const [data, setData] = useState({
+        name: "",
+        country: "",
+    });
 
-    useEffect(() => {
-        if (user?.role !== "Admin" && user?.role !== "Owner") {
-            navigator("/admin");
-        }
-    }, []);
+    const inputData = [
+        [{label: "Повне ім'я", value: "name", isArea: false}, {label: "Країна автора", value: "country", isArea: false}]
+    ];
 
     const AddHandler = async () => {
         if (name === "" || country === "") {
@@ -25,8 +25,8 @@ const AddAuthor = () => {
         else {
             try {
                 const response = await axios.post(`${config.SERVER_URL}/author`, {
-                    fullname: name,
-                    country
+                    fullname: data.name,
+                    country: data.country
                 }, {
                     withCredentials: true
                 });
@@ -45,17 +45,7 @@ const AddAuthor = () => {
     return (
         <div className="box-container admin-container">
             <title>КнигаUA | Адміністрування</title>
-            <div className="admin-input-row">
-                <div className="admin-input">
-                    <div className="admin-label">Повне ім'я</div>
-                    <input type="text" placeholder="Повне ім'я" value={name} onChange={(e) => setName(e.target.value)}/>
-                </div>
-                <div className="admin-input">
-                    <div className="admin-label">Країна автора</div>
-                    <input type="text" placeholder="Країна автора" value={country}
-                           onChange={(e) => setCountry(e.target.value)}/>
-                </div>
-            </div>
+            {inputData.map((input) => GetJsxInputRow(input, handleChangeInAdmin, data, setData))}
             <button onClick={AddHandler} className="button admin-button">Додати автора</button>
         </div>
     )
